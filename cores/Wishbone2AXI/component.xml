@@ -4616,12 +4616,6 @@
   </spirit:model>
   <spirit:choices>
     <spirit:choice>
-      <spirit:name>choice_list_29845261</spirit:name>
-      <spirit:enumeration>Wishbone</spirit:enumeration>
-      <spirit:enumeration>AXI4-Lite</spirit:enumeration>
-      <spirit:enumeration>AXI4</spirit:enumeration>
-    </spirit:choice>
-    <spirit:choice>
       <spirit:name>choice_list_6fc15197</spirit:name>
       <spirit:enumeration>32</spirit:enumeration>
     </spirit:choice>
@@ -4646,6 +4640,12 @@
       <spirit:enumeration>1024</spirit:enumeration>
       <spirit:enumeration>2048</spirit:enumeration>
       <spirit:enumeration>4096</spirit:enumeration>
+    </spirit:choice>
+    <spirit:choice>
+      <spirit:name>choice_list_c5d918d0</spirit:name>
+      <spirit:enumeration>Wishbone</spirit:enumeration>
+      <spirit:enumeration>AXI4-Lite</spirit:enumeration>
+      <spirit:enumeration>AXI4</spirit:enumeration>
     </spirit:choice>
     <spirit:choice>
       <spirit:name>choice_pairs_ce1226b1</spirit:name>
@@ -5022,12 +5022,12 @@
     <spirit:parameter>
       <spirit:name>C_MASTER_TYPE</spirit:name>
       <spirit:displayName>C Master Type</spirit:displayName>
-      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.C_MASTER_TYPE" spirit:choiceRef="choice_list_29845261">Wishbone</spirit:value>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.C_MASTER_TYPE" spirit:choiceRef="choice_list_c5d918d0">Wishbone</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>C_SLAVE_TYPE</spirit:name>
       <spirit:displayName>C Slave Type</spirit:displayName>
-      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.C_SLAVE_TYPE" spirit:choiceRef="choice_list_29845261">AXI4-Lite</spirit:value>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.C_SLAVE_TYPE" spirit:choiceRef="choice_list_c5d918d0">AXI4-Lite</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>C_M_WB_ADR_WIDTH</spirit:name>
@@ -5063,7 +5063,23 @@
   <spirit:vendorExtensions>
     <xilinx:coreExtensions>
       <xilinx:supportedFamilies>
+        <xilinx:family xilinx:lifeCycle="Pre-Production">virtex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Pre-Production">qvirtex7</xilinx:family>
         <xilinx:family xilinx:lifeCycle="Pre-Production">kintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Pre-Production">kintex7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Pre-Production">qkintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Pre-Production">qkintex7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Pre-Production">artix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Pre-Production">artix7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Pre-Production">aartix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Pre-Production">qartix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Pre-Production">zynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Pre-Production">qzynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Pre-Production">azynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Pre-Production">virtexu</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Pre-Production">kintexuplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Pre-Production">zynquplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Pre-Production">kintexu</xilinx:family>
       </xilinx:supportedFamilies>
       <xilinx:taxonomies>
         <xilinx:taxonomy>/AXI_Infrastructure</xilinx:taxonomy>
@@ -5072,20 +5088,20 @@
       </xilinx:taxonomies>
       <xilinx:displayName>Wishbone AXI bridge</xilinx:displayName>
       <xilinx:vendorURL>https://github.com/qermit/WishboneAXI</xilinx:vendorURL>
-      <xilinx:coreRevision>2</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2016-05-13T11:49:37Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>3</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2016-05-13T11:57:42Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
-        <xilinx:tag xilinx:name="gsi.de:user:WishboneAXI:0.1_ARCHIVE_LOCATION">D:/Devel/xilinx/ip_repo/WishboneAXI/cores/Wishbone2AXI/WishboneAXI_0.1</xilinx:tag>
+        <xilinx:tag xilinx:name="gsi.de:user:WishboneAXI:0.1_ARCHIVE_LOCATION">D:/Devel/xilinx/ip_repo/WishboneAXI/cores/Wishbone2AXI</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2015.4</xilinx:xilinxVersion>
-      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="d00e3653"/>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="a8c9bf81"/>
       <xilinx:checksum xilinx:scope="addressSpaces" xilinx:value="d44a2edb"/>
       <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="e482b9a2"/>
       <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="b9d2e531"/>
-      <xilinx:checksum xilinx:scope="ports" xilinx:value="e6970d59"/>
-      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="016e9794"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="c8e87bbd"/>
+      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="a3d50244"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="1b602b71"/>
     </xilinx:packagingInfo>
   </spirit:vendorExtensions>
