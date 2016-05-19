@@ -5,7 +5,13 @@ use ieee.numeric_std.all;
 entity WishboneAXI_v0_1 is
   generic (
     -- Users to add parameters here
+    C_AXI_PROT : string := "AXI4LITE";
 
+    C_S_WB_ADR_WIDTH : integer := 32;
+    C_S_WB_DAT_WIDTH : integer := 32;
+
+    C_M_WB_ADR_WIDTH : integer := 32;
+    C_M_WB_DAT_WIDTH : integer := 32;
     -- User parameters ends
     -- Do not modify the parameters beyond this line
 
@@ -40,29 +46,20 @@ entity WishboneAXI_v0_1 is
     C_M_AXI4_ARUSER_WIDTH           : integer          := 0;
     C_M_AXI4_WUSER_WIDTH            : integer          := 0;
     C_M_AXI4_RUSER_WIDTH            : integer          := 0;
-    C_M_AXI4_BUSER_WIDTH            : integer          := 0;
-
-
-    C_S_WB_ADR_WIDTH  : integer := 32;
-    C_S_WB_DATW_WIDTH : integer := 32;
-    C_S_WB_DATR_WIDTH : integer := 32;
-
-    C_M_WB_ADR_WIDTH  : integer := 32;
-    C_M_WB_DATW_WIDTH : integer := 32;
-    C_M_WB_DATR_WIDTH : integer := 32
+    C_M_AXI4_BUSER_WIDTH            : integer          := 0
     );
   port (
     -- Users to add ports here
     s_wb_aclk    : in  std_logic;
     s_wb_aresetn : in  std_logic;
     s_wb_adr     : in  std_logic_vector(C_S_WB_ADR_WIDTH-1 downto 0);
-    s_wb_dat_w   : in  std_logic_vector(C_S_WB_DATW_WIDTH-1 downto 0);
+    s_wb_dat_w   : in  std_logic_vector(C_S_WB_DAT_WIDTH-1 downto 0);
     s_wb_cyc     : in  std_logic;
     s_wb_stb     : in  std_logic;
     s_wb_lock    : in  std_logic;
-    s_wb_sel     : in  std_logic_vector(3 downto 0);
+    s_wb_sel     : in  std_logic_vector(C_S_WB_DAT_WIDTH/8-1 downto 0);
     s_wb_we      : in  std_logic;
-    s_wb_dat_r   : out std_logic_vector(C_S_WB_DATR_WIDTH-1 downto 0);
+    s_wb_dat_r   : out std_logic_vector(C_S_WB_DAT_WIDTH-1 downto 0);
     s_wb_stall   : out std_logic;
     s_wb_err     : out std_logic;
     s_wb_rty     : out std_logic;
@@ -71,13 +68,13 @@ entity WishboneAXI_v0_1 is
     m_wb_aclk    : in  std_logic;
     m_wb_aresetn : in  std_logic;
     m_wb_adr     : out std_logic_vector(C_M_WB_ADR_WIDTH-1 downto 0);
-    m_wb_dat_w   : out std_logic_vector(C_M_WB_DATW_WIDTH-1 downto 0);
+    m_wb_dat_w   : out std_logic_vector(C_M_WB_DAT_WIDTH-1 downto 0);
     m_wb_cyc     : out std_logic;
     m_wb_stb     : out std_logic;
     m_wb_lock    : out std_logic;
-    m_wb_sel     : out std_logic_vector(3 downto 0);
+    m_wb_sel     : out std_logic_vector(C_M_WB_DAT_WIDTH/8-1 downto 0);
     m_wb_we      : out std_logic;
-    m_wb_dat_r   : in  std_logic_vector(C_M_WB_DATR_WIDTH-1 downto 0);
+    m_wb_dat_r   : in  std_logic_vector(C_M_WB_DAT_WIDTH-1 downto 0);
     m_wb_stall   : in  std_logic;
     m_wb_err     : in  std_logic;
     m_wb_rty     : in  std_logic;
@@ -616,6 +613,31 @@ begin
       );
 
   -- Add user logic here
+  assert (C_AXI_PROT = AXI4LITE)
+    report "This core supports only AXI4 Lite protocol for now"
+    severity failure;
+
+  assert (C_S_AXI4_ID_WIDTH <= 1)
+    report "AXI slave interface doesn't support multiple ID transactions. " & lf &
+    "C_S_AXI4_ID_WIDTH = " integer'image(C_S_AXI4_ID_WIDTH)
+    severity failure;
+
+  assert (C_M_AXI4_ID_WIDTH <= 1)
+    report "AXI master interface doesn't support multiple ID transactions. " & lf &
+    "C_M_AXI4_ID_WIDTH = " integer'image(C_M_AXI4_ID_WIDTH)
+    severity failure;
+
+  assert (C_AXI_PROT = AXI4LITE) and (C_S_AXI4_DATA_WIDTH = C_M_WB_DAT_WIDTH)
+    report "AXI-Lite->Wishbone bridge doesn't support data width conversion. " & lf &
+    "C_S_AXI4_DATA_WIDTH = " & integer'image(C_S_AXI4_DATA_WIDTH) &
+    " C_M_WB_DAT_WIDTH = " & integer'image(C_M_WB_DAT_WIDTH)
+    severity failure;
+
+  assert (C_AXI_PROT = AXI4LITE) and (C_M_AXI4_DATA_WIDTH = C_S_WB_DAT_WIDTH)
+    report "Wishbone->AXI-Lite bridge doesn't support data width conversion. " & lf &
+    "C_M_AXI4_DATA_WIDTH = " & integer'image(C_M_AXI4_DATA_WIDTH) &
+    " C_S_WB_DAT_WIDTH = " & integer'image(C_S_WB_DAT_WIDTH)
+    severity failure;
 
   -- User logic ends
 
