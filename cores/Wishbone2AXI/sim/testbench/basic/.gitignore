@@ -1,0 +1,5 @@
+output/
+*.o
+*.ghw
+*.vcd*
+tb_basic
