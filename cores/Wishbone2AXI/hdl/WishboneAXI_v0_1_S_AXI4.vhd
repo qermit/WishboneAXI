@@ -188,11 +188,11 @@ architecture arch_imp of WishboneAXI_v0_1_S_AXI4 is
   -- aw_wrap_size is the size of the write transfer, the
   -- write address wraps to a lower address if upper address
   -- limit is reached
-  signal aw_wrap_size     : integer;
+  signal aw_wrap_size     : natural;
   -- ar_wrap_size is the size of the read transfer, the
   -- read address wraps to a lower address if upper address
   -- limit is reached
-  signal ar_wrap_size     : integer;
+  signal ar_wrap_size     : natural;
   -- The axi_awv_awr_flag flag marks the presence of write address valid
   signal axi_awv_awr_flag : std_logic;
   --The axi_arv_arr_flag flag marks the presence of read address valid
@@ -209,11 +209,11 @@ architecture arch_imp of WishboneAXI_v0_1_S_AXI4 is
   constant ADDR_LSB          : integer                                            := (C_S_AXI_DATA_WIDTH/32)+ 1;
   constant OPT_MEM_ADDR_BITS : integer                                            := 3;
   constant USER_NUM_MEM      : integer                                            := 1;
-  constant low               : std_logic_vector (C_S_AXI_ADDR_WIDTH - 1 downto 0) := "000000";
+  constant low               : std_logic_vector (C_S_AXI_ADDR_WIDTH - 1 downto 0) := (others => '0');
   ------------------------------------------------
   ---- Signals for user logic memory space example
   --------------------------------------------------
-  signal mem_address         : std_logic_vector(OPT_MEM_ADDR_BITS downto 0);
+  signal mem_address         : std_logic_vector(OPT_MEM_ADDR_BITS downto 0) := (others => '0');
   signal mem_select          : std_logic_vector(USER_NUM_MEM-1 downto 0);
   type word_array is array (0 to USER_NUM_MEM-1) of std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
   signal mem_data_out        : word_array;

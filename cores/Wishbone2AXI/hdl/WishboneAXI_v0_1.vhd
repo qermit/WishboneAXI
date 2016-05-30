@@ -419,6 +419,13 @@ architecture arch_imp of WishboneAXI_v0_1 is
       );
   end component WishboneAXI_v0_1_M_AXI4;
 
+  signal m_axi4_lite_init_axi_txn : std_logic;
+  signal m_axi4_lite_error : std_logic;
+  signal m_axi4_lite_txn_done : std_logic;
+  signal m_axi4_init_axi_txn : std_logic;
+  signal m_axi4_txn_done : std_logic;
+  signal m_axi4_error : std_logic;
+
 begin
 
 -- Instantiation of Axi Bus Interface S_AXI4_LITE
@@ -613,29 +620,29 @@ begin
       );
 
   -- Add user logic here
-  assert (C_AXI_PROT = AXI4LITE)
+  assert (C_AXI_PROT = "AXI4LITE")
     report "This core supports only AXI4 Lite protocol for now"
     severity failure;
 
   assert (C_S_AXI4_ID_WIDTH <= 1)
     report "AXI slave interface doesn't support multiple ID transactions. " & lf &
-    "C_S_AXI4_ID_WIDTH = " integer'image(C_S_AXI4_ID_WIDTH)
+    "C_S_AXI4_ID_WIDTH = " & integer'image(C_S_AXI4_ID_WIDTH)
     severity failure;
 
   assert (C_M_AXI4_ID_WIDTH <= 1)
     report "AXI master interface doesn't support multiple ID transactions. " & lf &
-    "C_M_AXI4_ID_WIDTH = " integer'image(C_M_AXI4_ID_WIDTH)
+    "C_M_AXI4_ID_WIDTH = " & integer'image(C_M_AXI4_ID_WIDTH)
     severity failure;
 
-  assert (C_AXI_PROT = AXI4LITE) and (C_S_AXI4_DATA_WIDTH = C_M_WB_DAT_WIDTH)
+  assert (C_AXI_PROT = "AXI4LITE") and (C_S_AXI4_LITE_DATA_WIDTH = C_M_WB_DAT_WIDTH)
     report "AXI-Lite->Wishbone bridge doesn't support data width conversion. " & lf &
-    "C_S_AXI4_DATA_WIDTH = " & integer'image(C_S_AXI4_DATA_WIDTH) &
+    "C_S_AXI4_LITE_DATA_WIDTH = " & integer'image(C_S_AXI4_LITE_DATA_WIDTH) &
     " C_M_WB_DAT_WIDTH = " & integer'image(C_M_WB_DAT_WIDTH)
     severity failure;
 
-  assert (C_AXI_PROT = AXI4LITE) and (C_M_AXI4_DATA_WIDTH = C_S_WB_DAT_WIDTH)
+  assert (C_AXI_PROT = "AXI4LITE") and (C_M_AXI4_LITE_DATA_WIDTH = C_S_WB_DAT_WIDTH)
     report "Wishbone->AXI-Lite bridge doesn't support data width conversion. " & lf &
-    "C_M_AXI4_DATA_WIDTH = " & integer'image(C_M_AXI4_DATA_WIDTH) &
+    "C_M_AXI4_LITE_DATA_WIDTH = " & integer'image(C_M_AXI4_LITE_DATA_WIDTH) &
     " C_S_WB_DAT_WIDTH = " & integer'image(C_S_WB_DAT_WIDTH)
     severity failure;
 
