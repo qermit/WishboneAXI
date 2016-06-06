@@ -28,20 +28,20 @@ entity WishboneAXI_v0_1_M_AXI4_LITE is
     );
   port (
     -- Users to add ports here
-    s_wb_aclk    : in  std_logic;
-    s_wb_aresetn : in  std_logic;
-    s_wb_adr     : in  std_logic_vector(C_WB_ADR_WIDTH-1 downto 0);
-    s_wb_dat_w   : in  std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
-    s_wb_cyc     : in  std_logic;
-    s_wb_stb     : in  std_logic;
-    s_wb_lock    : in  std_logic;
-    s_wb_sel     : in  std_logic_vector(C_WB_DAT_WIDTH/8-1 downto 0);
-    s_wb_we      : in  std_logic;
-    s_wb_dat_r   : out std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
-    s_wb_stall   : out std_logic;
-    s_wb_err     : out std_logic;
-    s_wb_rty     : out std_logic;
-    s_wb_ack     : out std_logic;
+    s_wb_aclk   : in  std_logic;
+    s_wb_areset : in  std_logic;
+    s_wb_adr    : in  std_logic_vector(C_WB_ADR_WIDTH-1 downto 0);
+    s_wb_dat_w  : in  std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
+    s_wb_cyc    : in  std_logic;
+    s_wb_stb    : in  std_logic;
+    s_wb_lock   : in  std_logic;
+    s_wb_sel    : in  std_logic_vector(C_WB_DAT_WIDTH/8-1 downto 0);
+    s_wb_we     : in  std_logic;
+    s_wb_dat_r  : out std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
+    s_wb_stall  : out std_logic;
+    s_wb_err    : out std_logic;
+    s_wb_rty    : out std_logic;
+    s_wb_ack    : out std_logic;
     -- User ports ends
     -- Do not modify the ports beyond this line
 

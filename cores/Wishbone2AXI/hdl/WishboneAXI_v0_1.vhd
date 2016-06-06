@@ -51,35 +51,35 @@ entity WishboneAXI_v0_1 is
     );
   port (
     -- Users to add ports here
-    s_wb_aclk    : in  std_logic;
-    s_wb_aresetn : in  std_logic;
-    s_wb_adr     : in  std_logic_vector(C_S_WB_ADR_WIDTH-1 downto 0);
-    s_wb_dat_w   : in  std_logic_vector(C_S_WB_DAT_WIDTH-1 downto 0);
-    s_wb_cyc     : in  std_logic;
-    s_wb_stb     : in  std_logic;
-    s_wb_lock    : in  std_logic;
-    s_wb_sel     : in  std_logic_vector(C_S_WB_DAT_WIDTH/8-1 downto 0);
-    s_wb_we      : in  std_logic;
-    s_wb_dat_r   : out std_logic_vector(C_S_WB_DAT_WIDTH-1 downto 0);
-    s_wb_stall   : out std_logic;
-    s_wb_err     : out std_logic;
-    s_wb_rty     : out std_logic;
-    s_wb_ack     : out std_logic;
+    s_wb_aclk   : in  std_logic;
+    s_wb_areset : in  std_logic;
+    s_wb_adr    : in  std_logic_vector(C_S_WB_ADR_WIDTH-1 downto 0);
+    s_wb_dat_w  : in  std_logic_vector(C_S_WB_DAT_WIDTH-1 downto 0);
+    s_wb_cyc    : in  std_logic;
+    s_wb_stb    : in  std_logic;
+    s_wb_lock   : in  std_logic;
+    s_wb_sel    : in  std_logic_vector(C_S_WB_DAT_WIDTH/8-1 downto 0);
+    s_wb_we     : in  std_logic;
+    s_wb_dat_r  : out std_logic_vector(C_S_WB_DAT_WIDTH-1 downto 0);
+    s_wb_stall  : out std_logic;
+    s_wb_err    : out std_logic;
+    s_wb_rty    : out std_logic;
+    s_wb_ack    : out std_logic;
 
-    m_wb_aclk    : in  std_logic;
-    m_wb_aresetn : in  std_logic;
-    m_wb_adr     : out std_logic_vector(C_M_WB_ADR_WIDTH-1 downto 0);
-    m_wb_dat_w   : out std_logic_vector(C_M_WB_DAT_WIDTH-1 downto 0);
-    m_wb_cyc     : out std_logic;
-    m_wb_stb     : out std_logic;
-    m_wb_lock    : out std_logic;
-    m_wb_sel     : out std_logic_vector(C_M_WB_DAT_WIDTH/8-1 downto 0);
-    m_wb_we      : out std_logic;
-    m_wb_dat_r   : in  std_logic_vector(C_M_WB_DAT_WIDTH-1 downto 0);
-    m_wb_stall   : in  std_logic;
-    m_wb_err     : in  std_logic;
-    m_wb_rty     : in  std_logic;
-    m_wb_ack     : in  std_logic;
+    m_wb_aclk   : in  std_logic;
+    m_wb_areset : in  std_logic;
+    m_wb_adr    : out std_logic_vector(C_M_WB_ADR_WIDTH-1 downto 0);
+    m_wb_dat_w  : out std_logic_vector(C_M_WB_DAT_WIDTH-1 downto 0);
+    m_wb_cyc    : out std_logic;
+    m_wb_stb    : out std_logic;
+    m_wb_lock   : out std_logic;
+    m_wb_sel    : out std_logic_vector(C_M_WB_DAT_WIDTH/8-1 downto 0);
+    m_wb_we     : out std_logic;
+    m_wb_dat_r  : in  std_logic_vector(C_M_WB_DAT_WIDTH-1 downto 0);
+    m_wb_stall  : in  std_logic;
+    m_wb_err    : in  std_logic;
+    m_wb_rty    : in  std_logic;
+    m_wb_ack    : in  std_logic;
     -- User ports ends
     -- Do not modify the ports beyond this line
 
@@ -261,20 +261,20 @@ architecture arch_imp of WishboneAXI_v0_1 is
       S_AXI_RVALID  : out std_logic;
       S_AXI_RREADY  : in  std_logic;
       --
-      m_wb_aclk    : in  std_logic;
-      m_wb_aresetn : in  std_logic;
-      m_wb_adr     : out std_logic_vector(C_WB_ADR_WIDTH-1 downto 0);
-      m_wb_dat_w   : out std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
-      m_wb_cyc     : out std_logic;
-      m_wb_stb     : out std_logic;
-      m_wb_lock    : out std_logic;
-      m_wb_sel     : out std_logic_vector(C_WB_DAT_WIDTH/8-1 downto 0);
-      m_wb_we      : out std_logic;
-      m_wb_dat_r   : in  std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
-      m_wb_stall   : in  std_logic;
-      m_wb_err     : in  std_logic;
-      m_wb_rty     : in  std_logic;
-      m_wb_ack     : in  std_logic
+      m_wb_aclk   : in  std_logic;
+      m_wb_areset : in  std_logic;
+      m_wb_adr    : out std_logic_vector(C_WB_ADR_WIDTH-1 downto 0);
+      m_wb_dat_w  : out std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
+      m_wb_cyc    : out std_logic;
+      m_wb_stb    : out std_logic;
+      m_wb_lock   : out std_logic;
+      m_wb_sel    : out std_logic_vector(C_WB_DAT_WIDTH/8-1 downto 0);
+      m_wb_we     : out std_logic;
+      m_wb_dat_r  : in  std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
+      m_wb_stall  : in  std_logic;
+      m_wb_err    : in  std_logic;
+      m_wb_rty    : in  std_logic;
+      m_wb_ack    : in  std_logic
       );
   end component WishboneAXI_v0_1_S_AXI4_LITE;
 
@@ -341,20 +341,20 @@ architecture arch_imp of WishboneAXI_v0_1 is
       S_AXI_RVALID   : out std_logic;
       S_AXI_RREADY   : in  std_logic;
       --
-      m_wb_aclk    : in  std_logic;
-      m_wb_aresetn : in  std_logic;
-      m_wb_adr     : out std_logic_vector(C_WB_ADR_WIDTH-1 downto 0);
-      m_wb_dat_w   : out std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
-      m_wb_cyc     : out std_logic;
-      m_wb_stb     : out std_logic;
-      m_wb_lock    : out std_logic;
-      m_wb_sel     : out std_logic_vector(C_WB_DAT_WIDTH/8-1 downto 0);
-      m_wb_we      : out std_logic;
-      m_wb_dat_r   : in  std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
-      m_wb_stall   : in  std_logic;
-      m_wb_err     : in  std_logic;
-      m_wb_rty     : in  std_logic;
-      m_wb_ack     : in  std_logic
+      m_wb_aclk   : in  std_logic;
+      m_wb_areset : in  std_logic;
+      m_wb_adr    : out std_logic_vector(C_WB_ADR_WIDTH-1 downto 0);
+      m_wb_dat_w  : out std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
+      m_wb_cyc    : out std_logic;
+      m_wb_stb    : out std_logic;
+      m_wb_lock   : out std_logic;
+      m_wb_sel    : out std_logic_vector(C_WB_DAT_WIDTH/8-1 downto 0);
+      m_wb_we     : out std_logic;
+      m_wb_dat_r  : in  std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
+      m_wb_stall  : in  std_logic;
+      m_wb_err    : in  std_logic;
+      m_wb_rty    : in  std_logic;
+      m_wb_ack    : in  std_logic
       );
   end component WishboneAXI_v0_1_S_AXI4;
 
@@ -396,20 +396,20 @@ architecture arch_imp of WishboneAXI_v0_1 is
       M_AXI_RVALID  : in  std_logic;
       M_AXI_RREADY  : out std_logic;
       --
-      s_wb_aclk    : in  std_logic;
-      s_wb_aresetn : in  std_logic;
-      s_wb_adr     : in  std_logic_vector(C_WB_ADR_WIDTH-1 downto 0);
-      s_wb_dat_w   : in  std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
-      s_wb_cyc     : in  std_logic;
-      s_wb_stb     : in  std_logic;
-      s_wb_lock    : in  std_logic;
-      s_wb_sel     : in  std_logic_vector(C_WB_DAT_WIDTH/8-1 downto 0);
-      s_wb_we      : in  std_logic;
-      s_wb_dat_r   : out std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
-      s_wb_stall   : out std_logic;
-      s_wb_err     : out std_logic;
-      s_wb_rty     : out std_logic;
-      s_wb_ack     : out std_logic
+      s_wb_aclk   : in  std_logic;
+      s_wb_areset : in  std_logic;
+      s_wb_adr    : in  std_logic_vector(C_WB_ADR_WIDTH-1 downto 0);
+      s_wb_dat_w  : in  std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
+      s_wb_cyc    : in  std_logic;
+      s_wb_stb    : in  std_logic;
+      s_wb_lock   : in  std_logic;
+      s_wb_sel    : in  std_logic_vector(C_WB_DAT_WIDTH/8-1 downto 0);
+      s_wb_we     : in  std_logic;
+      s_wb_dat_r  : out std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
+      s_wb_stall  : out std_logic;
+      s_wb_err    : out std_logic;
+      s_wb_rty    : out std_logic;
+      s_wb_ack    : out std_logic
       );
   end component WishboneAXI_v0_1_M_AXI4_LITE;
 
@@ -479,20 +479,20 @@ architecture arch_imp of WishboneAXI_v0_1 is
       M_AXI_RVALID  : in  std_logic;
       M_AXI_RREADY  : out std_logic;
       --
-      s_wb_aclk    : in  std_logic;
-      s_wb_aresetn : in  std_logic;
-      s_wb_adr     : in  std_logic_vector(C_WB_ADR_WIDTH-1 downto 0);
-      s_wb_dat_w   : in  std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
-      s_wb_cyc     : in  std_logic;
-      s_wb_stb     : in  std_logic;
-      s_wb_lock    : in  std_logic;
-      s_wb_sel     : in  std_logic_vector(C_WB_DAT_WIDTH/8-1 downto 0);
-      s_wb_we      : in  std_logic;
-      s_wb_dat_r   : out std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
-      s_wb_stall   : out std_logic;
-      s_wb_err     : out std_logic;
-      s_wb_rty     : out std_logic;
-      s_wb_ack     : out std_logic
+      s_wb_aclk   : in  std_logic;
+      s_wb_areset : in  std_logic;
+      s_wb_adr    : in  std_logic_vector(C_WB_ADR_WIDTH-1 downto 0);
+      s_wb_dat_w  : in  std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
+      s_wb_cyc    : in  std_logic;
+      s_wb_stb    : in  std_logic;
+      s_wb_lock   : in  std_logic;
+      s_wb_sel    : in  std_logic_vector(C_WB_DAT_WIDTH/8-1 downto 0);
+      s_wb_we     : in  std_logic;
+      s_wb_dat_r  : out std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
+      s_wb_stall  : out std_logic;
+      s_wb_err    : out std_logic;
+      s_wb_rty    : out std_logic;
+      s_wb_ack    : out std_logic
       );
   end component WishboneAXI_v0_1_M_AXI4;
 
@@ -538,20 +538,20 @@ begin
         S_AXI_RVALID  => s_axi4_lite_rvalid,
         S_AXI_RREADY  => s_axi4_lite_rready,
         --
-        m_wb_aclk    => m_wb_aclk,
-        m_wb_aresetn => m_wb_aresetn,
-        m_wb_adr     => m_wb_adr,
-        m_wb_dat_w   => m_wb_dat_w,
-        m_wb_cyc     => m_wb_cyc,
-        m_wb_stb     => m_wb_stb,
-        m_wb_lock    => m_wb_lock,
-        m_wb_sel     => m_wb_sel,
-        m_wb_we      => m_wb_we,
-        m_wb_dat_r   => m_wb_dat_r,
-        m_wb_stall   => m_wb_stall,
-        m_wb_err     => m_wb_err,
-        m_wb_rty     => m_wb_rty,
-        m_wb_ack     => m_wb_ack
+        m_wb_aclk   => m_wb_aclk,
+        m_wb_areset => m_wb_areset,
+        m_wb_adr    => m_wb_adr,
+        m_wb_dat_w  => m_wb_dat_w,
+        m_wb_cyc    => m_wb_cyc,
+        m_wb_stb    => m_wb_stb,
+        m_wb_lock   => m_wb_lock,
+        m_wb_sel    => m_wb_sel,
+        m_wb_we     => m_wb_we,
+        m_wb_dat_r  => m_wb_dat_r,
+        m_wb_stall  => m_wb_stall,
+        m_wb_err    => m_wb_err,
+        m_wb_rty    => m_wb_rty,
+        m_wb_ack    => m_wb_ack
         );
   end generate;
 
@@ -619,20 +619,20 @@ begin
         S_AXI_RVALID   => s_axi4_rvalid,
         S_AXI_RREADY   => s_axi4_rready,
         --
-        m_wb_aclk    => m_wb_aclk,
-        m_wb_aresetn => m_wb_aresetn,
-        m_wb_adr     => m_wb_adr,
-        m_wb_dat_w   => m_wb_dat_w,
-        m_wb_cyc     => m_wb_cyc,
-        m_wb_stb     => m_wb_stb,
-        m_wb_lock    => m_wb_lock,
-        m_wb_sel     => m_wb_sel,
-        m_wb_we      => m_wb_we,
-        m_wb_dat_r   => m_wb_dat_r,
-        m_wb_stall   => m_wb_stall,
-        m_wb_err     => m_wb_err,
-        m_wb_rty     => m_wb_rty,
-        m_wb_ack     => m_wb_ack
+        m_wb_aclk   => m_wb_aclk,
+        m_wb_areset => m_wb_areset,
+        m_wb_adr    => m_wb_adr,
+        m_wb_dat_w  => m_wb_dat_w,
+        m_wb_cyc    => m_wb_cyc,
+        m_wb_stb    => m_wb_stb,
+        m_wb_lock   => m_wb_lock,
+        m_wb_sel    => m_wb_sel,
+        m_wb_we     => m_wb_we,
+        m_wb_dat_r  => m_wb_dat_r,
+        m_wb_stall  => m_wb_stall,
+        m_wb_err    => m_wb_err,
+        m_wb_rty    => m_wb_rty,
+        m_wb_ack    => m_wb_ack
         );
   end generate;
 
@@ -675,20 +675,20 @@ begin
         M_AXI_RVALID  => m_axi4_lite_rvalid,
         M_AXI_RREADY  => m_axi4_lite_rready,
         --
-        s_wb_aclk    => s_wb_aclk,
-        s_wb_aresetn => s_wb_aresetn,
-        s_wb_adr     => s_wb_adr,
-        s_wb_dat_w   => s_wb_dat_w,
-        s_wb_cyc     => s_wb_cyc,
-        s_wb_stb     => s_wb_stb,
-        s_wb_lock    => s_wb_lock,
-        s_wb_sel     => s_wb_sel,
-        s_wb_we      => s_wb_we,
-        s_wb_dat_r   => s_wb_dat_r,
-        s_wb_stall   => s_wb_stall,
-        s_wb_err     => s_wb_err,
-        s_wb_rty     => s_wb_rty,
-        s_wb_ack     => s_wb_ack
+        s_wb_aclk   => s_wb_aclk,
+        s_wb_areset => s_wb_areset,
+        s_wb_adr    => s_wb_adr,
+        s_wb_dat_w  => s_wb_dat_w,
+        s_wb_cyc    => s_wb_cyc,
+        s_wb_stb    => s_wb_stb,
+        s_wb_lock   => s_wb_lock,
+        s_wb_sel    => s_wb_sel,
+        s_wb_we     => s_wb_we,
+        s_wb_dat_r  => s_wb_dat_r,
+        s_wb_stall  => s_wb_stall,
+        s_wb_err    => s_wb_err,
+        s_wb_rty    => s_wb_rty,
+        s_wb_ack    => s_wb_ack
         );
   end generate;
 
@@ -759,20 +759,20 @@ begin
         M_AXI_RVALID  => m_axi4_rvalid,
         M_AXI_RREADY  => m_axi4_rready,
         --
-        s_wb_aclk    => s_wb_aclk,
-        s_wb_aresetn => s_wb_aresetn,
-        s_wb_adr     => s_wb_adr,
-        s_wb_dat_w   => s_wb_dat_w,
-        s_wb_cyc     => s_wb_cyc,
-        s_wb_stb     => s_wb_stb,
-        s_wb_lock    => s_wb_lock,
-        s_wb_sel     => s_wb_sel,
-        s_wb_we      => s_wb_we,
-        s_wb_dat_r   => s_wb_dat_r,
-        s_wb_stall   => s_wb_stall,
-        s_wb_err     => s_wb_err,
-        s_wb_rty     => s_wb_rty,
-        s_wb_ack     => s_wb_ack
+        s_wb_aclk   => s_wb_aclk,
+        s_wb_areset => s_wb_areset,
+        s_wb_adr    => s_wb_adr,
+        s_wb_dat_w  => s_wb_dat_w,
+        s_wb_cyc    => s_wb_cyc,
+        s_wb_stb    => s_wb_stb,
+        s_wb_lock   => s_wb_lock,
+        s_wb_sel    => s_wb_sel,
+        s_wb_we     => s_wb_we,
+        s_wb_dat_r  => s_wb_dat_r,
+        s_wb_stall  => s_wb_stall,
+        s_wb_err    => s_wb_err,
+        s_wb_rty    => s_wb_rty,
+        s_wb_ack    => s_wb_ack
         );
   end generate;
 

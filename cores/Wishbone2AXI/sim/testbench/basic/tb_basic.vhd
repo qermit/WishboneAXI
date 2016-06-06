@@ -34,7 +34,7 @@ architecture bench of tb_basic is
   constant C_M_AXI4_BURST_LEN       : natural := 4;
 
   signal s_wb_aclk           : std_logic;
-  signal s_wb_aresetn        : std_logic;
+  signal s_wb_areset         : std_logic;
   signal s_wb_adr            : std_logic_vector(C_S_WB_ADR_WIDTH-1 downto 0);
   signal s_wb_dat_w          : std_logic_vector(C_S_WB_DAT_WIDTH-1 downto 0);
   signal s_wb_cyc            : std_logic;
@@ -48,7 +48,7 @@ architecture bench of tb_basic is
   signal s_wb_rty            : std_logic;
   signal s_wb_ack            : std_logic;
   signal m_wb_aclk           : std_logic;
-  signal m_wb_aresetn        : std_logic;
+  signal m_wb_areset         : std_logic;
   signal m_wb_adr            : std_logic_vector(C_M_WB_ADR_WIDTH-1 downto 0);
   signal m_wb_dat_w          : std_logic_vector(C_M_WB_DAT_WIDTH-1 downto 0);
   signal m_wb_cyc            : std_logic;
@@ -230,7 +230,7 @@ begin
     C_M_AXI4_BUSER_WIDTH                 => C_M_AXI4_BUSER_WIDTH)
     port map (
       s_wb_aclk           => s_wb_aclk,
-      s_wb_aresetn        => s_wb_aresetn,
+      s_wb_areset         => s_wb_areset,
       s_wb_adr            => s_wb_adr,
       s_wb_dat_w          => s_wb_dat_w,
       s_wb_cyc            => s_wb_cyc,
@@ -244,7 +244,7 @@ begin
       s_wb_rty            => s_wb_rty,
       s_wb_ack            => s_wb_ack,
       m_wb_aclk           => m_wb_aclk,
-      m_wb_aresetn        => m_wb_aresetn,
+      m_wb_areset         => m_wb_areset,
       m_wb_adr            => m_wb_adr,
       m_wb_dat_w          => m_wb_dat_w,
       m_wb_cyc            => m_wb_cyc,
@@ -405,15 +405,15 @@ begin
     s_axi4_aresetn      <= '0';
     m_axi4_lite_aresetn <= '0';
     s_axi4_lite_aresetn <= '0';
-    m_wb_aresetn        <= '0';
-    s_wb_aresetn        <= '0';
+    m_wb_areset         <= '1';
+    s_wb_areset         <= '1';
     wait for 100 ns;
     m_axi4_aresetn      <= '1';
     s_axi4_aresetn      <= '1';
     m_axi4_lite_aresetn <= '1';
     s_axi4_lite_aresetn <= '1';
-    m_wb_aresetn        <= '1';
-    s_wb_aresetn        <= '1';
+    m_wb_areset         <= '0';
+    s_wb_areset         <= '0';
     wait;
   end process;
 
