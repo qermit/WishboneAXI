@@ -34,7 +34,6 @@ entity WishboneAXI_v0_1_M_AXI4 is
     );
   port (
     -- Users to add ports here
-    s_wb_aclk   : in  std_logic;
     s_wb_areset : in  std_logic;
     s_wb_adr    : in  std_logic_vector(C_WB_ADR_WIDTH-1 downto 0);
     s_wb_dat_w  : in  std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
@@ -898,8 +897,19 @@ begin
     end if;
   end process;
 
-  -- Add user logic here
+  process(M_AXI_ACLK) is
+  begin
+    if rising_edge(M_AXI_ACLK) then
+      if s_wb_areset = '1' then
+        s_wb_dat_r <= (others => '0');
+        s_wb_stall <= '0';
+        s_wb_err   <= '0';
+        s_wb_rty   <= '0';
+        s_wb_ack   <= '0';
+      else
 
-  -- User logic ends
+      end if;
+    end if;
+  end process;
 
 end implementation;
