@@ -149,7 +149,7 @@ architecture bench of tb_basic is
   signal m_axi4_lite_rresp   : std_logic_vector(1 downto 0);
   signal m_axi4_lite_rvalid  : std_logic;
   signal m_axi4_lite_rready  : std_logic;
-  signal m_axi4_aclk         : std_logic;
+  signal m_axi4_aclk         : std_logic := '0';
   signal m_axi4_aresetn      : std_logic;
   signal m_axi4_awid         : std_logic_vector(C_M_AXI4_ID_WIDTH-1 downto 0);
   signal m_axi4_awaddr       : std_logic_vector(C_M_AXI4_ADDR_WIDTH-1 downto 0);
@@ -197,7 +197,8 @@ architecture bench of tb_basic is
 begin
 
   uut : entity work.WishboneAXI_v0_1 generic map (
-    C_AXI_PROT                           => "AXI4LITE",
+    C_AXI_MODE                           => "AXI4LITE",
+    C_WB_MODE                            => "CLASSIC",
     C_S_WB_ADR_WIDTH                     => C_S_WB_ADR_WIDTH,
     C_S_WB_DAT_WIDTH                     => C_S_WB_DAT_WIDTH,
     C_M_WB_ADR_WIDTH                     => C_M_WB_ADR_WIDTH,
@@ -389,6 +390,39 @@ begin
       m_axi4_rvalid       => m_axi4_rvalid,
       m_axi4_rready       => m_axi4_rready
       );
+
+  clk_gen : process
+  begin
+    m_axi4_aclk <= '0';
+    wait for 10 ns;
+    m_axi4_aclk <= '1';
+    wait for 10 ns;
+  end process;
+
+  rst_gen : process
+  begin
+    m_axi4_aresetn      <= '0';
+    s_axi4_aresetn      <= '0';
+    m_axi4_lite_aresetn <= '0';
+    s_axi4_lite_aresetn <= '0';
+    m_wb_aresetn        <= '0';
+    s_wb_aresetn        <= '0';
+    wait for 100 ns;
+    m_axi4_aresetn      <= '1';
+    s_axi4_aresetn      <= '1';
+    m_axi4_lite_aresetn <= '1';
+    s_axi4_lite_aresetn <= '1';
+    m_wb_aresetn        <= '1';
+    s_wb_aresetn        <= '1';
+    wait;
+  end process;
+
+  s_axi4_aclk      <= m_axi4_aclk;
+  m_axi4_lite_aclk <= m_axi4_aclk;
+  s_axi4_lite_aclk <= m_axi4_aclk;
+  s_wb_aclk        <= m_axi4_aclk;
+  m_wb_aclk        <= m_axi4_aclk;
+
 
   stimulus : process
   begin

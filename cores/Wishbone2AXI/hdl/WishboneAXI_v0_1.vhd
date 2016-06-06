@@ -5,7 +5,8 @@ use ieee.numeric_std.all;
 entity WishboneAXI_v0_1 is
   generic (
     -- Users to add parameters here
-    C_AXI_PROT : string := "AXI4LITE";
+    C_AXI_MODE : string := "AXI4LITE"; --AXI4, AXI4LITE
+    C_WB_MODE  : string := "CLASSIC"; --CLASSIC, PIPELINED
 
     C_S_WB_ADR_WIDTH : integer := 32;
     C_S_WB_DAT_WIDTH : integer := 32;
@@ -231,7 +232,11 @@ architecture arch_imp of WishboneAXI_v0_1 is
   component WishboneAXI_v0_1_S_AXI4_LITE is
     generic (
       C_S_AXI_DATA_WIDTH : integer := 32;
-      C_S_AXI_ADDR_WIDTH : integer := 4
+      C_S_AXI_ADDR_WIDTH : integer := 4;
+      --
+      C_WB_ADR_WIDTH : integer;
+      C_WB_DAT_WIDTH : integer;
+      C_WB_MODE      : string
       );
     port (
       S_AXI_ACLK    : in  std_logic;
@@ -254,7 +259,22 @@ architecture arch_imp of WishboneAXI_v0_1 is
       S_AXI_RDATA   : out std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
       S_AXI_RRESP   : out std_logic_vector(1 downto 0);
       S_AXI_RVALID  : out std_logic;
-      S_AXI_RREADY  : in  std_logic
+      S_AXI_RREADY  : in  std_logic;
+      --
+      m_wb_aclk    : in  std_logic;
+      m_wb_aresetn : in  std_logic;
+      m_wb_adr     : out std_logic_vector(C_WB_ADR_WIDTH-1 downto 0);
+      m_wb_dat_w   : out std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
+      m_wb_cyc     : out std_logic;
+      m_wb_stb     : out std_logic;
+      m_wb_lock    : out std_logic;
+      m_wb_sel     : out std_logic_vector(C_WB_DAT_WIDTH/8-1 downto 0);
+      m_wb_we      : out std_logic;
+      m_wb_dat_r   : in  std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
+      m_wb_stall   : in  std_logic;
+      m_wb_err     : in  std_logic;
+      m_wb_rty     : in  std_logic;
+      m_wb_ack     : in  std_logic
       );
   end component WishboneAXI_v0_1_S_AXI4_LITE;
 
@@ -267,7 +287,11 @@ architecture arch_imp of WishboneAXI_v0_1 is
       C_S_AXI_ARUSER_WIDTH : integer := 0;
       C_S_AXI_WUSER_WIDTH  : integer := 0;
       C_S_AXI_RUSER_WIDTH  : integer := 0;
-      C_S_AXI_BUSER_WIDTH  : integer := 0
+      C_S_AXI_BUSER_WIDTH  : integer := 0;
+      --
+      C_WB_ADR_WIDTH : integer;
+      C_WB_DAT_WIDTH : integer;
+      C_WB_MODE      : string
       );
     port (
       S_AXI_ACLK     : in  std_logic;
@@ -315,7 +339,22 @@ architecture arch_imp of WishboneAXI_v0_1 is
       S_AXI_RLAST    : out std_logic;
       S_AXI_RUSER    : out std_logic_vector(C_S_AXI_RUSER_WIDTH-1 downto 0);
       S_AXI_RVALID   : out std_logic;
-      S_AXI_RREADY   : in  std_logic
+      S_AXI_RREADY   : in  std_logic;
+      --
+      m_wb_aclk    : in  std_logic;
+      m_wb_aresetn : in  std_logic;
+      m_wb_adr     : out std_logic_vector(C_WB_ADR_WIDTH-1 downto 0);
+      m_wb_dat_w   : out std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
+      m_wb_cyc     : out std_logic;
+      m_wb_stb     : out std_logic;
+      m_wb_lock    : out std_logic;
+      m_wb_sel     : out std_logic_vector(C_WB_DAT_WIDTH/8-1 downto 0);
+      m_wb_we      : out std_logic;
+      m_wb_dat_r   : in  std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
+      m_wb_stall   : in  std_logic;
+      m_wb_err     : in  std_logic;
+      m_wb_rty     : in  std_logic;
+      m_wb_ack     : in  std_logic
       );
   end component WishboneAXI_v0_1_S_AXI4;
 
@@ -325,7 +364,11 @@ architecture arch_imp of WishboneAXI_v0_1 is
       C_M_TARGET_SLAVE_BASE_ADDR : std_logic_vector := x"40000000";
       C_M_AXI_ADDR_WIDTH         : integer          := 32;
       C_M_AXI_DATA_WIDTH         : integer          := 32;
-      C_M_TRANSACTIONS_NUM       : integer          := 4
+      C_M_TRANSACTIONS_NUM       : integer          := 4;
+      --
+      C_WB_ADR_WIDTH : integer;
+      C_WB_DAT_WIDTH : integer;
+      C_WB_MODE      : string
       );
     port (
       INIT_AXI_TXN  : in  std_logic;
@@ -351,7 +394,22 @@ architecture arch_imp of WishboneAXI_v0_1 is
       M_AXI_RDATA   : in  std_logic_vector(C_M_AXI_DATA_WIDTH-1 downto 0);
       M_AXI_RRESP   : in  std_logic_vector(1 downto 0);
       M_AXI_RVALID  : in  std_logic;
-      M_AXI_RREADY  : out std_logic
+      M_AXI_RREADY  : out std_logic;
+      --
+      s_wb_aclk    : in  std_logic;
+      s_wb_aresetn : in  std_logic;
+      s_wb_adr     : in  std_logic_vector(C_WB_ADR_WIDTH-1 downto 0);
+      s_wb_dat_w   : in  std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
+      s_wb_cyc     : in  std_logic;
+      s_wb_stb     : in  std_logic;
+      s_wb_lock    : in  std_logic;
+      s_wb_sel     : in  std_logic_vector(C_WB_DAT_WIDTH/8-1 downto 0);
+      s_wb_we      : in  std_logic;
+      s_wb_dat_r   : out std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
+      s_wb_stall   : out std_logic;
+      s_wb_err     : out std_logic;
+      s_wb_rty     : out std_logic;
+      s_wb_ack     : out std_logic
       );
   end component WishboneAXI_v0_1_M_AXI4_LITE;
 
@@ -366,7 +424,11 @@ architecture arch_imp of WishboneAXI_v0_1 is
       C_M_AXI_ARUSER_WIDTH       : integer          := 0;
       C_M_AXI_WUSER_WIDTH        : integer          := 0;
       C_M_AXI_RUSER_WIDTH        : integer          := 0;
-      C_M_AXI_BUSER_WIDTH        : integer          := 0
+      C_M_AXI_BUSER_WIDTH        : integer          := 0;
+      --
+      C_WB_ADR_WIDTH : integer;
+      C_WB_DAT_WIDTH : integer;
+      C_WB_MODE      : string
       );
     port (
       INIT_AXI_TXN  : in  std_logic;
@@ -415,7 +477,22 @@ architecture arch_imp of WishboneAXI_v0_1 is
       M_AXI_RLAST   : in  std_logic;
       M_AXI_RUSER   : in  std_logic_vector(C_M_AXI_RUSER_WIDTH-1 downto 0);
       M_AXI_RVALID  : in  std_logic;
-      M_AXI_RREADY  : out std_logic
+      M_AXI_RREADY  : out std_logic;
+      --
+      s_wb_aclk    : in  std_logic;
+      s_wb_aresetn : in  std_logic;
+      s_wb_adr     : in  std_logic_vector(C_WB_ADR_WIDTH-1 downto 0);
+      s_wb_dat_w   : in  std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
+      s_wb_cyc     : in  std_logic;
+      s_wb_stb     : in  std_logic;
+      s_wb_lock    : in  std_logic;
+      s_wb_sel     : in  std_logic_vector(C_WB_DAT_WIDTH/8-1 downto 0);
+      s_wb_we      : in  std_logic;
+      s_wb_dat_r   : out std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
+      s_wb_stall   : out std_logic;
+      s_wb_err     : out std_logic;
+      s_wb_rty     : out std_logic;
+      s_wb_ack     : out std_logic
       );
   end component WishboneAXI_v0_1_M_AXI4;
 
@@ -429,198 +506,278 @@ architecture arch_imp of WishboneAXI_v0_1 is
 begin
 
 -- Instantiation of Axi Bus Interface S_AXI4_LITE
-  WishboneAXI_v0_1_S_AXI4_LITE_inst : WishboneAXI_v0_1_S_AXI4_LITE
-    generic map (
-      C_S_AXI_DATA_WIDTH => C_S_AXI4_LITE_DATA_WIDTH,
-      C_S_AXI_ADDR_WIDTH => C_S_AXI4_LITE_ADDR_WIDTH
-      )
-    port map (
-      S_AXI_ACLK    => s_axi4_lite_aclk,
-      S_AXI_ARESETN => s_axi4_lite_aresetn,
-      S_AXI_AWADDR  => s_axi4_lite_awaddr,
-      S_AXI_AWPROT  => s_axi4_lite_awprot,
-      S_AXI_AWVALID => s_axi4_lite_awvalid,
-      S_AXI_AWREADY => s_axi4_lite_awready,
-      S_AXI_WDATA   => s_axi4_lite_wdata,
-      S_AXI_WSTRB   => s_axi4_lite_wstrb,
-      S_AXI_WVALID  => s_axi4_lite_wvalid,
-      S_AXI_WREADY  => s_axi4_lite_wready,
-      S_AXI_BRESP   => s_axi4_lite_bresp,
-      S_AXI_BVALID  => s_axi4_lite_bvalid,
-      S_AXI_BREADY  => s_axi4_lite_bready,
-      S_AXI_ARADDR  => s_axi4_lite_araddr,
-      S_AXI_ARPROT  => s_axi4_lite_arprot,
-      S_AXI_ARVALID => s_axi4_lite_arvalid,
-      S_AXI_ARREADY => s_axi4_lite_arready,
-      S_AXI_RDATA   => s_axi4_lite_rdata,
-      S_AXI_RRESP   => s_axi4_lite_rresp,
-      S_AXI_RVALID  => s_axi4_lite_rvalid,
-      S_AXI_RREADY  => s_axi4_lite_rready
-      );
+  axilite2wb: if C_AXI_MODE = "AXI4LITE" generate
+    WishboneAXI_v0_1_S_AXI4_LITE_inst : WishboneAXI_v0_1_S_AXI4_LITE
+      generic map (
+        C_S_AXI_DATA_WIDTH => C_S_AXI4_LITE_DATA_WIDTH,
+        C_S_AXI_ADDR_WIDTH => C_S_AXI4_LITE_ADDR_WIDTH,
+        C_WB_ADR_WIDTH     => C_M_WB_ADR_WIDTH,
+        C_WB_DAT_WIDTH     => C_M_WB_DAT_WIDTH,
+        C_WB_MODE          => C_WB_MODE
+        )
+      port map (
+        S_AXI_ACLK    => s_axi4_lite_aclk,
+        S_AXI_ARESETN => s_axi4_lite_aresetn,
+        S_AXI_AWADDR  => s_axi4_lite_awaddr,
+        S_AXI_AWPROT  => s_axi4_lite_awprot,
+        S_AXI_AWVALID => s_axi4_lite_awvalid,
+        S_AXI_AWREADY => s_axi4_lite_awready,
+        S_AXI_WDATA   => s_axi4_lite_wdata,
+        S_AXI_WSTRB   => s_axi4_lite_wstrb,
+        S_AXI_WVALID  => s_axi4_lite_wvalid,
+        S_AXI_WREADY  => s_axi4_lite_wready,
+        S_AXI_BRESP   => s_axi4_lite_bresp,
+        S_AXI_BVALID  => s_axi4_lite_bvalid,
+        S_AXI_BREADY  => s_axi4_lite_bready,
+        S_AXI_ARADDR  => s_axi4_lite_araddr,
+        S_AXI_ARPROT  => s_axi4_lite_arprot,
+        S_AXI_ARVALID => s_axi4_lite_arvalid,
+        S_AXI_ARREADY => s_axi4_lite_arready,
+        S_AXI_RDATA   => s_axi4_lite_rdata,
+        S_AXI_RRESP   => s_axi4_lite_rresp,
+        S_AXI_RVALID  => s_axi4_lite_rvalid,
+        S_AXI_RREADY  => s_axi4_lite_rready,
+        --
+        m_wb_aclk    => m_wb_aclk,
+        m_wb_aresetn => m_wb_aresetn,
+        m_wb_adr     => m_wb_adr,
+        m_wb_dat_w   => m_wb_dat_w,
+        m_wb_cyc     => m_wb_cyc,
+        m_wb_stb     => m_wb_stb,
+        m_wb_lock    => m_wb_lock,
+        m_wb_sel     => m_wb_sel,
+        m_wb_we      => m_wb_we,
+        m_wb_dat_r   => m_wb_dat_r,
+        m_wb_stall   => m_wb_stall,
+        m_wb_err     => m_wb_err,
+        m_wb_rty     => m_wb_rty,
+        m_wb_ack     => m_wb_ack
+        );
+  end generate;
 
 -- Instantiation of Axi Bus Interface S_AXI4
-  WishboneAXI_v0_1_S_AXI4_inst : WishboneAXI_v0_1_S_AXI4
-    generic map (
-      C_S_AXI_ID_WIDTH     => C_S_AXI4_ID_WIDTH,
-      C_S_AXI_DATA_WIDTH   => C_S_AXI4_DATA_WIDTH,
-      C_S_AXI_ADDR_WIDTH   => C_S_AXI4_ADDR_WIDTH,
-      C_S_AXI_AWUSER_WIDTH => C_S_AXI4_AWUSER_WIDTH,
-      C_S_AXI_ARUSER_WIDTH => C_S_AXI4_ARUSER_WIDTH,
-      C_S_AXI_WUSER_WIDTH  => C_S_AXI4_WUSER_WIDTH,
-      C_S_AXI_RUSER_WIDTH  => C_S_AXI4_RUSER_WIDTH,
-      C_S_AXI_BUSER_WIDTH  => C_S_AXI4_BUSER_WIDTH
-      )
-    port map (
-      S_AXI_ACLK     => s_axi4_aclk,
-      S_AXI_ARESETN  => s_axi4_aresetn,
-      S_AXI_AWID     => s_axi4_awid,
-      S_AXI_AWADDR   => s_axi4_awaddr,
-      S_AXI_AWLEN    => s_axi4_awlen,
-      S_AXI_AWSIZE   => s_axi4_awsize,
-      S_AXI_AWBURST  => s_axi4_awburst,
-      S_AXI_AWLOCK   => s_axi4_awlock,
-      S_AXI_AWCACHE  => s_axi4_awcache,
-      S_AXI_AWPROT   => s_axi4_awprot,
-      S_AXI_AWQOS    => s_axi4_awqos,
-      S_AXI_AWREGION => s_axi4_awregion,
-      S_AXI_AWUSER   => s_axi4_awuser,
-      S_AXI_AWVALID  => s_axi4_awvalid,
-      S_AXI_AWREADY  => s_axi4_awready,
-      S_AXI_WDATA    => s_axi4_wdata,
-      S_AXI_WSTRB    => s_axi4_wstrb,
-      S_AXI_WLAST    => s_axi4_wlast,
-      S_AXI_WUSER    => s_axi4_wuser,
-      S_AXI_WVALID   => s_axi4_wvalid,
-      S_AXI_WREADY   => s_axi4_wready,
-      S_AXI_BID      => s_axi4_bid,
-      S_AXI_BRESP    => s_axi4_bresp,
-      S_AXI_BUSER    => s_axi4_buser,
-      S_AXI_BVALID   => s_axi4_bvalid,
-      S_AXI_BREADY   => s_axi4_bready,
-      S_AXI_ARID     => s_axi4_arid,
-      S_AXI_ARADDR   => s_axi4_araddr,
-      S_AXI_ARLEN    => s_axi4_arlen,
-      S_AXI_ARSIZE   => s_axi4_arsize,
-      S_AXI_ARBURST  => s_axi4_arburst,
-      S_AXI_ARLOCK   => s_axi4_arlock,
-      S_AXI_ARCACHE  => s_axi4_arcache,
-      S_AXI_ARPROT   => s_axi4_arprot,
-      S_AXI_ARQOS    => s_axi4_arqos,
-      S_AXI_ARREGION => s_axi4_arregion,
-      S_AXI_ARUSER   => s_axi4_aruser,
-      S_AXI_ARVALID  => s_axi4_arvalid,
-      S_AXI_ARREADY  => s_axi4_arready,
-      S_AXI_RID      => s_axi4_rid,
-      S_AXI_RDATA    => s_axi4_rdata,
-      S_AXI_RRESP    => s_axi4_rresp,
-      S_AXI_RLAST    => s_axi4_rlast,
-      S_AXI_RUSER    => s_axi4_ruser,
-      S_AXI_RVALID   => s_axi4_rvalid,
-      S_AXI_RREADY   => s_axi4_rready
-      );
+  axi2wb: if C_AXI_MODE = "AXI4" generate
+    WishboneAXI_v0_1_S_AXI4_inst : WishboneAXI_v0_1_S_AXI4
+      generic map (
+        C_S_AXI_ID_WIDTH     => C_S_AXI4_ID_WIDTH,
+        C_S_AXI_DATA_WIDTH   => C_S_AXI4_DATA_WIDTH,
+        C_S_AXI_ADDR_WIDTH   => C_S_AXI4_ADDR_WIDTH,
+        C_S_AXI_AWUSER_WIDTH => C_S_AXI4_AWUSER_WIDTH,
+        C_S_AXI_ARUSER_WIDTH => C_S_AXI4_ARUSER_WIDTH,
+        C_S_AXI_WUSER_WIDTH  => C_S_AXI4_WUSER_WIDTH,
+        C_S_AXI_RUSER_WIDTH  => C_S_AXI4_RUSER_WIDTH,
+        C_S_AXI_BUSER_WIDTH  => C_S_AXI4_BUSER_WIDTH,
+        C_WB_ADR_WIDTH       => C_M_WB_ADR_WIDTH,
+        C_WB_DAT_WIDTH       => C_M_WB_DAT_WIDTH,
+        C_WB_MODE            => C_WB_MODE
+        )
+      port map (
+        S_AXI_ACLK     => s_axi4_aclk,
+        S_AXI_ARESETN  => s_axi4_aresetn,
+        S_AXI_AWID     => s_axi4_awid,
+        S_AXI_AWADDR   => s_axi4_awaddr,
+        S_AXI_AWLEN    => s_axi4_awlen,
+        S_AXI_AWSIZE   => s_axi4_awsize,
+        S_AXI_AWBURST  => s_axi4_awburst,
+        S_AXI_AWLOCK   => s_axi4_awlock,
+        S_AXI_AWCACHE  => s_axi4_awcache,
+        S_AXI_AWPROT   => s_axi4_awprot,
+        S_AXI_AWQOS    => s_axi4_awqos,
+        S_AXI_AWREGION => s_axi4_awregion,
+        S_AXI_AWUSER   => s_axi4_awuser,
+        S_AXI_AWVALID  => s_axi4_awvalid,
+        S_AXI_AWREADY  => s_axi4_awready,
+        S_AXI_WDATA    => s_axi4_wdata,
+        S_AXI_WSTRB    => s_axi4_wstrb,
+        S_AXI_WLAST    => s_axi4_wlast,
+        S_AXI_WUSER    => s_axi4_wuser,
+        S_AXI_WVALID   => s_axi4_wvalid,
+        S_AXI_WREADY   => s_axi4_wready,
+        S_AXI_BID      => s_axi4_bid,
+        S_AXI_BRESP    => s_axi4_bresp,
+        S_AXI_BUSER    => s_axi4_buser,
+        S_AXI_BVALID   => s_axi4_bvalid,
+        S_AXI_BREADY   => s_axi4_bready,
+        S_AXI_ARID     => s_axi4_arid,
+        S_AXI_ARADDR   => s_axi4_araddr,
+        S_AXI_ARLEN    => s_axi4_arlen,
+        S_AXI_ARSIZE   => s_axi4_arsize,
+        S_AXI_ARBURST  => s_axi4_arburst,
+        S_AXI_ARLOCK   => s_axi4_arlock,
+        S_AXI_ARCACHE  => s_axi4_arcache,
+        S_AXI_ARPROT   => s_axi4_arprot,
+        S_AXI_ARQOS    => s_axi4_arqos,
+        S_AXI_ARREGION => s_axi4_arregion,
+        S_AXI_ARUSER   => s_axi4_aruser,
+        S_AXI_ARVALID  => s_axi4_arvalid,
+        S_AXI_ARREADY  => s_axi4_arready,
+        S_AXI_RID      => s_axi4_rid,
+        S_AXI_RDATA    => s_axi4_rdata,
+        S_AXI_RRESP    => s_axi4_rresp,
+        S_AXI_RLAST    => s_axi4_rlast,
+        S_AXI_RUSER    => s_axi4_ruser,
+        S_AXI_RVALID   => s_axi4_rvalid,
+        S_AXI_RREADY   => s_axi4_rready,
+        --
+        m_wb_aclk    => m_wb_aclk,
+        m_wb_aresetn => m_wb_aresetn,
+        m_wb_adr     => m_wb_adr,
+        m_wb_dat_w   => m_wb_dat_w,
+        m_wb_cyc     => m_wb_cyc,
+        m_wb_stb     => m_wb_stb,
+        m_wb_lock    => m_wb_lock,
+        m_wb_sel     => m_wb_sel,
+        m_wb_we      => m_wb_we,
+        m_wb_dat_r   => m_wb_dat_r,
+        m_wb_stall   => m_wb_stall,
+        m_wb_err     => m_wb_err,
+        m_wb_rty     => m_wb_rty,
+        m_wb_ack     => m_wb_ack
+        );
+  end generate;
 
--- Instantiation of Axi Bus Interface M_AXI4_LITE
-  WishboneAXI_v0_1_M_AXI4_LITE_inst : WishboneAXI_v0_1_M_AXI4_LITE
-    generic map (
-      C_M_START_DATA_VALUE       => C_M_AXI4_LITE_START_DATA_VALUE,
-      C_M_TARGET_SLAVE_BASE_ADDR => C_M_AXI4_LITE_TARGET_SLAVE_BASE_ADDR,
-      C_M_AXI_ADDR_WIDTH         => C_M_AXI4_LITE_ADDR_WIDTH,
-      C_M_AXI_DATA_WIDTH         => C_M_AXI4_LITE_DATA_WIDTH,
-      C_M_TRANSACTIONS_NUM       => C_M_AXI4_LITE_TRANSACTIONS_NUM
-      )
-    port map (
-      INIT_AXI_TXN  => m_axi4_lite_init_axi_txn,
-      error         => m_axi4_lite_error,
-      TXN_DONE      => m_axi4_lite_txn_done,
-      M_AXI_ACLK    => m_axi4_lite_aclk,
-      M_AXI_ARESETN => m_axi4_lite_aresetn,
-      M_AXI_AWADDR  => m_axi4_lite_awaddr,
-      M_AXI_AWPROT  => m_axi4_lite_awprot,
-      M_AXI_AWVALID => m_axi4_lite_awvalid,
-      M_AXI_AWREADY => m_axi4_lite_awready,
-      M_AXI_WDATA   => m_axi4_lite_wdata,
-      M_AXI_WSTRB   => m_axi4_lite_wstrb,
-      M_AXI_WVALID  => m_axi4_lite_wvalid,
-      M_AXI_WREADY  => m_axi4_lite_wready,
-      M_AXI_BRESP   => m_axi4_lite_bresp,
-      M_AXI_BVALID  => m_axi4_lite_bvalid,
-      M_AXI_BREADY  => m_axi4_lite_bready,
-      M_AXI_ARADDR  => m_axi4_lite_araddr,
-      M_AXI_ARPROT  => m_axi4_lite_arprot,
-      M_AXI_ARVALID => m_axi4_lite_arvalid,
-      M_AXI_ARREADY => m_axi4_lite_arready,
-      M_AXI_RDATA   => m_axi4_lite_rdata,
-      M_AXI_RRESP   => m_axi4_lite_rresp,
-      M_AXI_RVALID  => m_axi4_lite_rvalid,
-      M_AXI_RREADY  => m_axi4_lite_rready
-      );
+  -- Instantiation of Axi Bus Interface M_AXI4_LITE
+  wb2axilite: if C_AXI_MODE = "AXI4LITE" generate
+    WishboneAXI_v0_1_M_AXI4_LITE_inst : WishboneAXI_v0_1_M_AXI4_LITE
+      generic map (
+        C_M_START_DATA_VALUE       => C_M_AXI4_LITE_START_DATA_VALUE,
+        C_M_TARGET_SLAVE_BASE_ADDR => C_M_AXI4_LITE_TARGET_SLAVE_BASE_ADDR,
+        C_M_AXI_ADDR_WIDTH         => C_M_AXI4_LITE_ADDR_WIDTH,
+        C_M_AXI_DATA_WIDTH         => C_M_AXI4_LITE_DATA_WIDTH,
+        C_M_TRANSACTIONS_NUM       => C_M_AXI4_LITE_TRANSACTIONS_NUM,
+        C_WB_ADR_WIDTH             => C_S_WB_ADR_WIDTH,
+        C_WB_DAT_WIDTH             => C_S_WB_DAT_WIDTH,
+        C_WB_MODE                  => C_WB_MODE
+        )
+      port map (
+        INIT_AXI_TXN  => m_axi4_lite_init_axi_txn,
+        error         => m_axi4_lite_error,
+        TXN_DONE      => m_axi4_lite_txn_done,
+        M_AXI_ACLK    => m_axi4_lite_aclk,
+        M_AXI_ARESETN => m_axi4_lite_aresetn,
+        M_AXI_AWADDR  => m_axi4_lite_awaddr,
+        M_AXI_AWPROT  => m_axi4_lite_awprot,
+        M_AXI_AWVALID => m_axi4_lite_awvalid,
+        M_AXI_AWREADY => m_axi4_lite_awready,
+        M_AXI_WDATA   => m_axi4_lite_wdata,
+        M_AXI_WSTRB   => m_axi4_lite_wstrb,
+        M_AXI_WVALID  => m_axi4_lite_wvalid,
+        M_AXI_WREADY  => m_axi4_lite_wready,
+        M_AXI_BRESP   => m_axi4_lite_bresp,
+        M_AXI_BVALID  => m_axi4_lite_bvalid,
+        M_AXI_BREADY  => m_axi4_lite_bready,
+        M_AXI_ARADDR  => m_axi4_lite_araddr,
+        M_AXI_ARPROT  => m_axi4_lite_arprot,
+        M_AXI_ARVALID => m_axi4_lite_arvalid,
+        M_AXI_ARREADY => m_axi4_lite_arready,
+        M_AXI_RDATA   => m_axi4_lite_rdata,
+        M_AXI_RRESP   => m_axi4_lite_rresp,
+        M_AXI_RVALID  => m_axi4_lite_rvalid,
+        M_AXI_RREADY  => m_axi4_lite_rready,
+        --
+        s_wb_aclk    => s_wb_aclk,
+        s_wb_aresetn => s_wb_aresetn,
+        s_wb_adr     => s_wb_adr,
+        s_wb_dat_w   => s_wb_dat_w,
+        s_wb_cyc     => s_wb_cyc,
+        s_wb_stb     => s_wb_stb,
+        s_wb_lock    => s_wb_lock,
+        s_wb_sel     => s_wb_sel,
+        s_wb_we      => s_wb_we,
+        s_wb_dat_r   => s_wb_dat_r,
+        s_wb_stall   => s_wb_stall,
+        s_wb_err     => s_wb_err,
+        s_wb_rty     => s_wb_rty,
+        s_wb_ack     => s_wb_ack
+        );
+  end generate;
 
 -- Instantiation of Axi Bus Interface M_AXI4
-  WishboneAXI_v0_1_M_AXI4_inst : WishboneAXI_v0_1_M_AXI4
-    generic map (
-      C_M_TARGET_SLAVE_BASE_ADDR => C_M_AXI4_TARGET_SLAVE_BASE_ADDR,
-      C_M_AXI_BURST_LEN          => C_M_AXI4_BURST_LEN,
-      C_M_AXI_ID_WIDTH           => C_M_AXI4_ID_WIDTH,
-      C_M_AXI_ADDR_WIDTH         => C_M_AXI4_ADDR_WIDTH,
-      C_M_AXI_DATA_WIDTH         => C_M_AXI4_DATA_WIDTH,
-      C_M_AXI_AWUSER_WIDTH       => C_M_AXI4_AWUSER_WIDTH,
-      C_M_AXI_ARUSER_WIDTH       => C_M_AXI4_ARUSER_WIDTH,
-      C_M_AXI_WUSER_WIDTH        => C_M_AXI4_WUSER_WIDTH,
-      C_M_AXI_RUSER_WIDTH        => C_M_AXI4_RUSER_WIDTH,
-      C_M_AXI_BUSER_WIDTH        => C_M_AXI4_BUSER_WIDTH
-      )
-    port map (
-      INIT_AXI_TXN  => m_axi4_init_axi_txn,
-      TXN_DONE      => m_axi4_txn_done,
-      error         => m_axi4_error,
-      M_AXI_ACLK    => m_axi4_aclk,
-      M_AXI_ARESETN => m_axi4_aresetn,
-      M_AXI_AWID    => m_axi4_awid,
-      M_AXI_AWADDR  => m_axi4_awaddr,
-      M_AXI_AWLEN   => m_axi4_awlen,
-      M_AXI_AWSIZE  => m_axi4_awsize,
-      M_AXI_AWBURST => m_axi4_awburst,
-      M_AXI_AWLOCK  => m_axi4_awlock,
-      M_AXI_AWCACHE => m_axi4_awcache,
-      M_AXI_AWPROT  => m_axi4_awprot,
-      M_AXI_AWQOS   => m_axi4_awqos,
-      M_AXI_AWUSER  => m_axi4_awuser,
-      M_AXI_AWVALID => m_axi4_awvalid,
-      M_AXI_AWREADY => m_axi4_awready,
-      M_AXI_WDATA   => m_axi4_wdata,
-      M_AXI_WSTRB   => m_axi4_wstrb,
-      M_AXI_WLAST   => m_axi4_wlast,
-      M_AXI_WUSER   => m_axi4_wuser,
-      M_AXI_WVALID  => m_axi4_wvalid,
-      M_AXI_WREADY  => m_axi4_wready,
-      M_AXI_BID     => m_axi4_bid,
-      M_AXI_BRESP   => m_axi4_bresp,
-      M_AXI_BUSER   => m_axi4_buser,
-      M_AXI_BVALID  => m_axi4_bvalid,
-      M_AXI_BREADY  => m_axi4_bready,
-      M_AXI_ARID    => m_axi4_arid,
-      M_AXI_ARADDR  => m_axi4_araddr,
-      M_AXI_ARLEN   => m_axi4_arlen,
-      M_AXI_ARSIZE  => m_axi4_arsize,
-      M_AXI_ARBURST => m_axi4_arburst,
-      M_AXI_ARLOCK  => m_axi4_arlock,
-      M_AXI_ARCACHE => m_axi4_arcache,
-      M_AXI_ARPROT  => m_axi4_arprot,
-      M_AXI_ARQOS   => m_axi4_arqos,
-      M_AXI_ARUSER  => m_axi4_aruser,
-      M_AXI_ARVALID => m_axi4_arvalid,
-      M_AXI_ARREADY => m_axi4_arready,
-      M_AXI_RID     => m_axi4_rid,
-      M_AXI_RDATA   => m_axi4_rdata,
-      M_AXI_RRESP   => m_axi4_rresp,
-      M_AXI_RLAST   => m_axi4_rlast,
-      M_AXI_RUSER   => m_axi4_ruser,
-      M_AXI_RVALID  => m_axi4_rvalid,
-      M_AXI_RREADY  => m_axi4_rready
-      );
+  wb2axi: if C_AXI_MODE = "AXI4" generate
+    WishboneAXI_v0_1_M_AXI4_inst : WishboneAXI_v0_1_M_AXI4
+      generic map (
+        C_M_TARGET_SLAVE_BASE_ADDR => C_M_AXI4_TARGET_SLAVE_BASE_ADDR,
+        C_M_AXI_BURST_LEN          => C_M_AXI4_BURST_LEN,
+        C_M_AXI_ID_WIDTH           => C_M_AXI4_ID_WIDTH,
+        C_M_AXI_ADDR_WIDTH         => C_M_AXI4_ADDR_WIDTH,
+        C_M_AXI_DATA_WIDTH         => C_M_AXI4_DATA_WIDTH,
+        C_M_AXI_AWUSER_WIDTH       => C_M_AXI4_AWUSER_WIDTH,
+        C_M_AXI_ARUSER_WIDTH       => C_M_AXI4_ARUSER_WIDTH,
+        C_M_AXI_WUSER_WIDTH        => C_M_AXI4_WUSER_WIDTH,
+        C_M_AXI_RUSER_WIDTH        => C_M_AXI4_RUSER_WIDTH,
+        C_M_AXI_BUSER_WIDTH        => C_M_AXI4_BUSER_WIDTH,
+        C_WB_ADR_WIDTH             => C_S_WB_ADR_WIDTH,
+        C_WB_DAT_WIDTH             => C_S_WB_DAT_WIDTH,
+        C_WB_MODE                  => C_WB_MODE
+        )
+      port map (
+        INIT_AXI_TXN  => m_axi4_init_axi_txn,
+        TXN_DONE      => m_axi4_txn_done,
+        error         => m_axi4_error,
+        M_AXI_ACLK    => m_axi4_aclk,
+        M_AXI_ARESETN => m_axi4_aresetn,
+        M_AXI_AWID    => m_axi4_awid,
+        M_AXI_AWADDR  => m_axi4_awaddr,
+        M_AXI_AWLEN   => m_axi4_awlen,
+        M_AXI_AWSIZE  => m_axi4_awsize,
+        M_AXI_AWBURST => m_axi4_awburst,
+        M_AXI_AWLOCK  => m_axi4_awlock,
+        M_AXI_AWCACHE => m_axi4_awcache,
+        M_AXI_AWPROT  => m_axi4_awprot,
+        M_AXI_AWQOS   => m_axi4_awqos,
+        M_AXI_AWUSER  => m_axi4_awuser,
+        M_AXI_AWVALID => m_axi4_awvalid,
+        M_AXI_AWREADY => m_axi4_awready,
+        M_AXI_WDATA   => m_axi4_wdata,
+        M_AXI_WSTRB   => m_axi4_wstrb,
+        M_AXI_WLAST   => m_axi4_wlast,
+        M_AXI_WUSER   => m_axi4_wuser,
+        M_AXI_WVALID  => m_axi4_wvalid,
+        M_AXI_WREADY  => m_axi4_wready,
+        M_AXI_BID     => m_axi4_bid,
+        M_AXI_BRESP   => m_axi4_bresp,
+        M_AXI_BUSER   => m_axi4_buser,
+        M_AXI_BVALID  => m_axi4_bvalid,
+        M_AXI_BREADY  => m_axi4_bready,
+        M_AXI_ARID    => m_axi4_arid,
+        M_AXI_ARADDR  => m_axi4_araddr,
+        M_AXI_ARLEN   => m_axi4_arlen,
+        M_AXI_ARSIZE  => m_axi4_arsize,
+        M_AXI_ARBURST => m_axi4_arburst,
+        M_AXI_ARLOCK  => m_axi4_arlock,
+        M_AXI_ARCACHE => m_axi4_arcache,
+        M_AXI_ARPROT  => m_axi4_arprot,
+        M_AXI_ARQOS   => m_axi4_arqos,
+        M_AXI_ARUSER  => m_axi4_aruser,
+        M_AXI_ARVALID => m_axi4_arvalid,
+        M_AXI_ARREADY => m_axi4_arready,
+        M_AXI_RID     => m_axi4_rid,
+        M_AXI_RDATA   => m_axi4_rdata,
+        M_AXI_RRESP   => m_axi4_rresp,
+        M_AXI_RLAST   => m_axi4_rlast,
+        M_AXI_RUSER   => m_axi4_ruser,
+        M_AXI_RVALID  => m_axi4_rvalid,
+        M_AXI_RREADY  => m_axi4_rready,
+        --
+        s_wb_aclk    => s_wb_aclk,
+        s_wb_aresetn => s_wb_aresetn,
+        s_wb_adr     => s_wb_adr,
+        s_wb_dat_w   => s_wb_dat_w,
+        s_wb_cyc     => s_wb_cyc,
+        s_wb_stb     => s_wb_stb,
+        s_wb_lock    => s_wb_lock,
+        s_wb_sel     => s_wb_sel,
+        s_wb_we      => s_wb_we,
+        s_wb_dat_r   => s_wb_dat_r,
+        s_wb_stall   => s_wb_stall,
+        s_wb_err     => s_wb_err,
+        s_wb_rty     => s_wb_rty,
+        s_wb_ack     => s_wb_ack
+        );
+  end generate;
 
   -- Add user logic here
-  assert (C_AXI_PROT = "AXI4LITE")
+  assert (C_AXI_MODE = "AXI4LITE")
     report "This core supports only AXI4 Lite protocol for now"
     severity failure;
 
@@ -634,13 +791,13 @@ begin
     "C_M_AXI4_ID_WIDTH = " & integer'image(C_M_AXI4_ID_WIDTH)
     severity failure;
 
-  assert (C_AXI_PROT = "AXI4LITE") and (C_S_AXI4_LITE_DATA_WIDTH = C_M_WB_DAT_WIDTH)
+  assert (C_AXI_MODE = "AXI4LITE") and (C_S_AXI4_LITE_DATA_WIDTH = C_M_WB_DAT_WIDTH)
     report "AXI-Lite->Wishbone bridge doesn't support data width conversion. " & lf &
     "C_S_AXI4_LITE_DATA_WIDTH = " & integer'image(C_S_AXI4_LITE_DATA_WIDTH) &
     " C_M_WB_DAT_WIDTH = " & integer'image(C_M_WB_DAT_WIDTH)
     severity failure;
 
-  assert (C_AXI_PROT = "AXI4LITE") and (C_M_AXI4_LITE_DATA_WIDTH = C_S_WB_DAT_WIDTH)
+  assert (C_AXI_MODE = "AXI4LITE") and (C_M_AXI4_LITE_DATA_WIDTH = C_S_WB_DAT_WIDTH)
     report "Wishbone->AXI-Lite bridge doesn't support data width conversion. " & lf &
     "C_M_AXI4_LITE_DATA_WIDTH = " & integer'image(C_M_AXI4_LITE_DATA_WIDTH) &
     " C_S_WB_DAT_WIDTH = " & integer'image(C_S_WB_DAT_WIDTH)
