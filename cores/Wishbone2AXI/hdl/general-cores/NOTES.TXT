@@ -1,0 +1,7 @@
+This is a partial copy of OHWR general-cores project.
+
+Only generic RAM/FIFO part was selected.
+This project uses a fork of original project which supports Xilinx 7 series FPGAs.
+Fork was done by Lucas Russo and is available at:
+https://github.com/lnls-dig/general-cores.git
+
