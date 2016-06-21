@@ -1,6 +1,9 @@
  
 # vhdl files
 SRC_FILES = ../../../hdl/*.vhd
+SRC_FILES += ../../../hdl/general-cores/genrams/*.vhd
+SRC_FILES += ../../../hdl/general-cores/genrams/xilinx/*.vhd
+SRC_FILES += ../../../hdl/general-cores/genrams/generic/*.vhd
 TB_FILES = *.vhd
 
 # testbench
@@ -8,9 +11,9 @@ TESTBENCH = tb_basic
 
 #GHDL CONFIG
 GHDL_CMD = ghdl
-GHDL_FLAGS  = --ieee=synopsys --warn-no-vital-generic
+GHDL_FLAGS  = --ieee=synopsys --warn-no-vital-generic -g
 
-WORKDIR = output
+WORKDIR = ghdl_output
 # Simulation break condition
 GHDL_SIM_OPT = --stop-time=500ns
 

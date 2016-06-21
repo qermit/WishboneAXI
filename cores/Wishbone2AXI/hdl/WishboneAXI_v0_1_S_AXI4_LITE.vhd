@@ -1,13 +1,48 @@
+-------------------------------------------------------------------------------
+-- Title      :
+-- Project    : Wishbone2AXI
+-------------------------------------------------------------------------------
+-- File       : WishboneAXI_v0_1_S_AXI4_LITE.vhd
+-- Authors    : Adrian Byszuk <adrian.byszuk@gmail.com>
+--            : Piotr Miedzik (Qermit)
+-- Company    :
+-- Created    : 2016-06-06
+-- Last update: 2016-06-21
+-- License    : This is a PUBLIC DOMAIN code, published under
+--              Creative Commons CC0 license
+-- Platform   :
+-- Standard   : VHDL'93/02
+-------------------------------------------------------------------------------
+-- Description: AXI Lite -> WB bridge
+-------------------------------------------------------------------------------
+-- Copyright (c) 2016
+-------------------------------------------------------------------------------
+-- Revisions  :
+-- Date        Version  Author  Description
+-- 2016-05-13  1.0      abyszuk    Created
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+-- Implementation details
+-------------------------------------------------------------------------------
+-- In the AXI bus the read and write accesses may be handled independently
+-- but in Wishbone they can't, therefore we must provide an arbitration scheme.
+-- We assume "Write before read"
+-- To ease bridging, both AXI and WB use byte addressing. WB uses byte select.
+
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+
+use work.genram_pkg.all;
 
 entity WishboneAXI_v0_1_S_AXI4_LITE is
   generic (
     -- Users to add parameters here
     C_WB_ADR_WIDTH : integer;
     C_WB_DAT_WIDTH : integer;
-    C_WB_MODE      : string;
+    C_WB_MODE      : string;            --"CLASSIC", "PIPELINED"
     -- User parameters ends
     -- Do not modify the parameters beyond this line
 
@@ -99,21 +134,265 @@ end WishboneAXI_v0_1_S_AXI4_LITE;
 
 architecture arch_imp of WishboneAXI_v0_1_S_AXI4_LITE is
 
+  type t_trans_state is (IDLE, AW_LATCH, W_LATCH, W_SEND, W_RESP, R_SEND, R_RESP);
+  signal trans_state : t_trans_state := IDLE;
+
   -- AXI4LITE signals
-  signal axi_awaddr  : std_logic_vector(C_S_AXI_ADDR_WIDTH-1 downto 0);
-  signal axi_awready : std_logic;
-  signal axi_wready  : std_logic;
-  signal axi_bresp   : std_logic_vector(1 downto 0);
-  signal axi_bvalid  : std_logic;
-  signal axi_araddr  : std_logic_vector(C_S_AXI_ADDR_WIDTH-1 downto 0);
-  signal axi_arready : std_logic;
-  signal axi_rdata   : std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
-  signal axi_rresp   : std_logic_vector(1 downto 0);
-  signal axi_rvalid  : std_logic;
+  signal axi_awready              : std_logic;
+  signal axi_wready               : std_logic;
+  signal axi_wdata                : std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
+  signal axi_bresp, axi_bresp_a   : std_logic_vector(1 downto 0);
+  signal axi_bvalid, axi_bvalid_a : std_logic;
+  signal axi_arready              : std_logic;
+  signal axi_rdata, axi_rdata_a   : std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
+  signal axi_rresp, axi_rresp_a   : std_logic_vector(1 downto 0);
+  signal axi_rvalid, axi_rvalid_a : std_logic;
+  signal axi_araddr               : std_logic_vector(C_S_AXI_ADDR_WIDTH-1 downto 0);
+  signal axi_araddr_read          : std_logic;
+  signal axi_araddr_empty         : std_logic;
+
+  signal wb_adr   : std_logic_vector(C_WB_ADR_WIDTH-1 downto 0);
+  signal wb_dat_w : std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
+  signal wb_cyc   : std_logic;
+  signal wb_stb   : std_logic;
+  signal wb_lock  : std_logic;
+  signal wb_sel   : std_logic_vector(C_WB_DAT_WIDTH/8-1 downto 0);
+  signal wb_we    : std_logic;
 
 begin
-  -- I/O Connections assignments
 
+  translate : process (S_AXI_ACLK) is
+  begin
+    if rising_edge(S_AXI_ACLK) then
+      if S_AXI_ARESETN = '0' or m_wb_areset = '1' then
+        axi_awready     <= '0';
+        axi_wready      <= '0';
+        axi_bresp       <= "00";
+        axi_bvalid      <= '0';
+        axi_rdata       <= (others => '0');
+        axi_rresp       <= "00";
+        axi_rvalid      <= '0';
+        axi_araddr_read <= '0';
+        wb_adr          <= (others => '0');
+        wb_dat_w        <= (others => '0');
+        wb_cyc          <= '0';
+        wb_stb          <= '0';
+        wb_lock         <= '0';
+        wb_sel          <= (others => '0');
+        wb_we           <= '0';
+        trans_state     <= IDLE;
+      else
+        case trans_state is
+          when IDLE =>
+            --keep [awready, wready] high to avoid wasting clock cycles
+            axi_awready     <= '1';
+            axi_wready      <= '1';
+            axi_bvalid      <= '0';
+            axi_rvalid      <= '0';
+            axi_araddr_read <= '0';
+            wb_cyc          <= '0';
+            -- stb not necessary by spec., but lack of this probably will wreak havoc amongst badly implemented slaves
+            wb_stb          <= '0';
+
+            if (axi_awready and S_AXI_AWVALID) = '1' and (axi_wready and S_AXI_WVALID) = '0' then
+              axi_awready <= '0';
+              wb_adr      <= S_AXI_AWADDR;
+              trans_state <= AW_LATCH;
+            elsif (axi_awready and S_AXI_AWVALID) = '0' and (axi_wready and S_AXI_WVALID) = '1' then
+              axi_wready  <= '0';
+              wb_dat_w    <= S_AXI_WDATA;
+              wb_sel      <= S_AXI_WSTRB;
+              trans_state <= W_LATCH;
+            elsif (axi_awready and S_AXI_AWVALID) = '1' and (axi_wready and S_AXI_WVALID) = '1' then
+              axi_awready <= '0';
+              axi_wready  <= '0';
+              wb_cyc      <= '1'; --push cycle to WB as soon as possible
+              wb_stb      <= '1';
+              wb_we       <= '1';
+              wb_adr      <= S_AXI_AWADDR;
+              wb_dat_w    <= S_AXI_WDATA;
+              wb_sel      <= S_AXI_WSTRB;
+              trans_state <= W_SEND;
+            elsif axi_araddr_empty = '0' then
+              axi_araddr_read <= '1';
+              wb_adr          <= axi_araddr;
+              wb_cyc          <= '1';
+              wb_stb          <= '1';
+              wb_we           <= '0';
+            end if;
+          --AXI specification explicitly says that no relationship between input channels is defined (A3.3)
+          --It means that write data can appear before write address and vice versa. It is slave's responsibility
+          --to align channels if that's necessary for proper slave operation.
+          when AW_LATCH =>
+            axi_awready <= '0';
+            if (axi_wready and S_AXI_WVALID) = '1' then
+              axi_wready  <= '0';
+              wb_cyc      <= '1';
+              wb_stb      <= '1';
+              wb_we       <= '1';
+              wb_dat_w    <= S_AXI_WDATA;
+              wb_sel      <= S_AXI_WSTRB;
+              trans_state <= W_SEND;
+            end if;
+
+          when W_LATCH =>
+            axi_wready <= '0';
+            if (axi_awready and S_AXI_AWVALID) = '1' then
+              axi_awready <= '0';
+              wb_cyc      <= '1';
+              wb_stb      <= '1';
+              wb_we       <= '1';
+              wb_adr      <= S_AXI_AWADDR;
+              trans_state <= W_SEND;
+            end if;
+
+          --W_SEND state is quite complicated and delicate. We want to support back-to-back transactions when it's
+          --possible. But to do that Classic WB slave must support asynchronous cycle termination and AXI-LITE master
+          --has to push aligned transfers on AW and W channels AND have response channel ready.
+          when W_SEND =>
+            axi_awready <= '0';
+            axi_wready  <= '0';
+            axi_bresp   <= "00";
+            axi_bvalid  <= '0';
+            wb_cyc      <= '1';
+            wb_stb      <= '1';
+            wb_we       <= '1';
+            if C_WB_MODE = "CLASSIC" then
+              if (m_wb_ack or m_wb_err or m_wb_rty) = '1' then
+                axi_bresp(1) <= not(m_wb_ack);  --if it's not ACK, then it must be slave error
+                axi_bvalid   <= '1';
+                wb_stb       <= '0';  --only strobe, keep cycle high in hope of new data
+                if S_AXI_BREADY = '0' then
+                  trans_state <= W_RESP;
+                elsif (S_AXI_AWVALID and S_AXI_WVALID) = '1' then
+                  axi_awready <= '1';
+                  axi_wready  <= '1';  --toogle ready signals to latch axi data
+                  wb_stb      <= '1';
+                  wb_adr      <= S_AXI_AWADDR;
+                  wb_dat_w    <= S_AXI_WDATA;
+                  wb_sel      <= S_AXI_WSTRB;
+                else
+                  axi_awready <= '1';
+                  axi_wready  <= '1';  --prepare early for next cycle
+                  wb_cyc      <= '0';
+                  trans_state <= IDLE;
+                end if;
+              end if;
+            end if;
+
+          when W_RESP =>
+            axi_awready <= '0';
+            axi_wready  <= '0';
+            axi_bresp   <= axi_bresp;
+            axi_bvalid  <= '1';
+            wb_stb      <= '0';
+            if C_WB_MODE = "CLASSIC" then
+              if S_AXI_BREADY = '1' then
+                axi_bvalid <= '0';
+                if (S_AXI_AWVALID and S_AXI_WVALID) = '1' then
+                  axi_awready <= '1';
+                  axi_wready  <= '1';  --toogle ready signals to latch axi data
+                  wb_cyc      <= '1';
+                  wb_stb      <= '1';
+                  wb_we       <= '1';
+                  wb_adr      <= S_AXI_AWADDR;
+                  wb_dat_w    <= S_AXI_WDATA;
+                  wb_sel      <= S_AXI_WSTRB;
+                  trans_state <= W_SEND;
+                else
+                  axi_awready <= '1';
+                  axi_wready  <= '1';   --prepare early for next cycle
+                  wb_cyc      <= '0';
+                  trans_state <= IDLE;
+                end if;
+              end if;
+            end if;
+
+          when R_SEND =>
+            axi_araddr_read <= '0';
+            axi_rresp       <= "00";
+            axi_rvalid      <= '0';
+            wb_cyc          <= '1';
+            wb_stb          <= '1';
+            wb_we           <= '0';
+            if C_WB_MODE = "CLASSIC" then
+              if (m_wb_ack or m_wb_err or m_wb_rty) = '1' then
+                axi_rdata    <= m_wb_dat_r;
+                axi_rresp(1) <= not(m_wb_ack);
+                axi_rvalid   <= '1';
+                wb_stb       <= '0';
+                if S_AXI_RREADY = '0' then
+                  trans_state <= R_RESP;
+                elsif axi_araddr_empty = '0' then  --start next read asap to support b2b reads
+                  axi_araddr_read <= '1';
+                  wb_adr          <= axi_araddr;
+                  wb_stb          <= '1';
+                else
+                  wb_cyc      <= '0';
+                  trans_state <= IDLE;
+                end if;
+              end if;
+            end if;
+
+          when R_RESP =>
+            axi_araddr_read <= '0';
+            axi_rresp       <= axi_rresp;
+            axi_rvalid      <= '1';
+            wb_stb          <= '0';
+            if C_WB_MODE = "CLASSIC" then
+              if S_AXI_RREADY = '1' then
+                axi_rvalid <= '0';
+                if axi_araddr_empty = '0' then
+                  axi_araddr_read <= '1';
+                  wb_adr          <= axi_araddr;
+                  wb_stb          <= '1';
+                  trans_state     <= R_SEND;
+                else
+                  wb_cyc      <= '0';
+                  trans_state <= IDLE;
+                end if;
+              end if;
+            end if;
+
+          when others =>
+            axi_awready <= '0';
+            axi_wready  <= '0';
+            axi_bvalid  <= '0';
+            axi_rvalid  <= '0';
+            wb_cyc      <= '0';
+            wb_stb      <= '0';
+            trans_state <= IDLE;
+
+        end case;
+      end if;
+    end if;
+  end process;
+
+  --To avoid wasted cycles put read requests on a queue. Combined with Wishbone's asynchronous cycle
+  --termination or pipelined mode will prove very useful for achieving high bus throughput.
+  ar_queue : inferred_sync_fifo
+    generic map (
+      g_data_width        => C_S_AXI_ADDR_WIDTH,
+      g_size              => 4,
+      g_show_ahead        => true,
+      g_with_empty        => true,
+      g_with_full         => true,
+      g_with_almost_empty => false,
+      g_with_almost_full  => false,
+      g_with_count        => false
+      )
+    port map (
+      rst_n_i => S_AXI_ARESETN,
+      clk_i   => S_AXI_ACLK,
+      d_i     => S_AXI_ARADDR,
+      we_i    => S_AXI_ARVALID,
+      q_o     => axi_araddr,
+      rd_i    => axi_araddr_read,
+      empty_o => axi_araddr_empty,
+      full_o  => axi_arready
+      );
+
+  -- I/O Connections assignments
   S_AXI_AWREADY <= axi_awready;
   S_AXI_WREADY  <= axi_wready;
   S_AXI_BRESP   <= axi_bresp;
@@ -122,181 +401,24 @@ begin
   S_AXI_RDATA   <= axi_rdata;
   S_AXI_RRESP   <= axi_rresp;
   S_AXI_RVALID  <= axi_rvalid;
-  -- Implement axi_awready generation
-  -- axi_awready is asserted for one S_AXI_ACLK clock cycle when both
-  -- S_AXI_AWVALID and S_AXI_WVALID are asserted. axi_awready is
-  -- de-asserted when reset is low.
 
-  process (S_AXI_ACLK)
-  begin
-    if rising_edge(S_AXI_ACLK) then
-      if S_AXI_ARESETN = '0' then
-        axi_awready <= '0';
-      else
-        if (axi_awready = '0' and S_AXI_AWVALID = '1' and S_AXI_WVALID = '1') then
-          -- slave is ready to accept write address when
-          -- there is a valid write address and write data
-          -- on the write address and data bus. This design 
-          -- expects no outstanding transactions. 
-          axi_awready <= '1';
-        else
-          axi_awready <= '0';
-        end if;
-      end if;
-    end if;
-  end process;
+  m_wb_adr   <= wb_adr;
+  m_wb_dat_w <= wb_dat_w;
+  m_wb_cyc   <= wb_cyc;
+  m_wb_stb   <= wb_stb;
+  m_wb_lock  <= wb_lock;
+  m_wb_sel   <= wb_sel;
+  m_wb_we    <= wb_we;
 
-  -- Implement axi_awaddr latching
-  -- This process is used to latch the address when both 
-  -- S_AXI_AWVALID and S_AXI_WVALID are valid. 
 
-  process (S_AXI_ACLK)
-  begin
-    if rising_edge(S_AXI_ACLK) then
-      if S_AXI_ARESETN = '0' then
-        axi_awaddr <= (others => '0');
-      else
-        if (axi_awready = '0' and S_AXI_AWVALID = '1' and S_AXI_WVALID = '1') then
-          -- Write Address latching
-          axi_awaddr <= S_AXI_AWADDR;
-        end if;
-      end if;
-    end if;
-  end process;
+  assert (C_S_AXI_DATA_WIDTH = C_WB_DAT_WIDTH)
+    report "AXI-Lite->Wishbone bridge doesn't support data width conversion. " & lf &
+    "C_S_AXI_DATA_WIDTH=" & integer'image(C_S_AXI_DATA_WIDTH) &
+    " C_WB_DAT_WIDTH=" & integer'image(C_WB_DAT_WIDTH)
+    severity failure;
 
-  -- Implement axi_wready generation
-  -- axi_wready is asserted for one S_AXI_ACLK clock cycle when both
-  -- S_AXI_AWVALID and S_AXI_WVALID are asserted. axi_wready is 
-  -- de-asserted when reset is low. 
-
-  process (S_AXI_ACLK)
-  begin
-    if rising_edge(S_AXI_ACLK) then
-      if S_AXI_ARESETN = '0' then
-        axi_wready <= '0';
-      else
-        if (axi_wready = '0' and S_AXI_WVALID = '1' and S_AXI_AWVALID = '1') then
-          -- slave is ready to accept write data when 
-          -- there is a valid write address and write data
-          -- on the write address and data bus. This design 
-          -- expects no outstanding transactions.           
-          axi_wready <= '1';
-        else
-          axi_wready <= '0';
-        end if;
-      end if;
-    end if;
-  end process;
-
-  -- Implement write response logic generation
-  -- The write response and response valid signals are asserted by the slave 
-  -- when axi_wready, S_AXI_WVALID, axi_wready and S_AXI_WVALID are asserted.  
-  -- This marks the acceptance of address and indicates the status of 
-  -- write transaction.
-
-  process (S_AXI_ACLK)
-  begin
-    if rising_edge(S_AXI_ACLK) then
-      if S_AXI_ARESETN = '0' then
-        axi_bvalid <= '0';
-        axi_bresp  <= "00";             --need to work more on the responses
-      else
-        if (axi_awready = '1' and S_AXI_AWVALID = '1' and axi_wready = '1' and S_AXI_WVALID = '1' and axi_bvalid = '0') then
-          axi_bvalid <= '1';
-          axi_bresp  <= "00";
-        elsif (S_AXI_BREADY = '1' and axi_bvalid = '1') then  --check if bready is asserted while bvalid is high)
-          axi_bvalid <= '0';  -- (there is a possibility that bready is always asserted high)
-        end if;
-      end if;
-    end if;
-  end process;
-
-  -- Implement axi_arready generation
-  -- axi_arready is asserted for one S_AXI_ACLK clock cycle when
-  -- S_AXI_ARVALID is asserted. axi_awready is 
-  -- de-asserted when reset (active low) is asserted. 
-  -- The read address is also latched when S_AXI_ARVALID is 
-  -- asserted. axi_araddr is reset to zero on reset assertion.
-
-  process (S_AXI_ACLK)
-  begin
-    if rising_edge(S_AXI_ACLK) then
-      if S_AXI_ARESETN = '0' then
-        axi_arready <= '0';
-        axi_araddr  <= (others => '1');
-      else
-        if (axi_arready = '0' and S_AXI_ARVALID = '1') then
-          -- indicates that the slave has acceped the valid read address
-          axi_arready <= '1';
-          -- Read Address latching 
-          axi_araddr  <= S_AXI_ARADDR;
-        else
-          axi_arready <= '0';
-        end if;
-      end if;
-    end if;
-  end process;
-
-  -- Implement axi_arvalid generation
-  -- axi_rvalid is asserted for one S_AXI_ACLK clock cycle when both 
-  -- S_AXI_ARVALID and axi_arready are asserted. The slave registers 
-  -- data are available on the axi_rdata bus at this instance. The 
-  -- assertion of axi_rvalid marks the validity of read data on the 
-  -- bus and axi_rresp indicates the status of read transaction.axi_rvalid 
-  -- is deasserted on reset (active low). axi_rresp and axi_rdata are 
-  -- cleared to zero on reset (active low).  
-  process (S_AXI_ACLK)
-  begin
-    if rising_edge(S_AXI_ACLK) then
-      if S_AXI_ARESETN = '0' then
-        axi_rvalid <= '0';
-        axi_rresp  <= "00";
-      else
-        if (axi_arready = '1' and S_AXI_ARVALID = '1' and axi_rvalid = '0') then
-          -- Valid read data is available at the read data bus
-          axi_rvalid <= '1';
-          axi_rresp  <= "00";           -- 'OKAY' response
-        elsif (axi_rvalid = '1' and S_AXI_RREADY = '1') then
-          -- Read data is accepted by the master
-          axi_rvalid <= '0';
-        end if;
-      end if;
-    end if;
-  end process;
-
-  -- Output register or memory read data
-  process(S_AXI_ACLK) is
-  begin
-    if (rising_edge (S_AXI_ACLK)) then
-      if (S_AXI_ARESETN = '0') then
-        axi_rdata <= (others => '0');
-      else
-        --if (slv_reg_rden = '1') then
-          -- When there is a valid read address (S_AXI_ARVALID) with 
-          -- acceptance of read address by the slave (axi_arready), 
-          -- output the read dada 
-          -- Read address mux
-       --   axi_rdata <= reg_data_out;    -- register read data
-       -- end if;
-      end if;
-    end if;
-  end process;
-
-  process(S_AXI_ACLK) is
-  begin
-    if rising_edge(S_AXI_ACLK) then
-      if m_wb_areset = '1' then
-        m_wb_adr   <= (others => '0');
-        m_wb_dat_w <= (others => '0');
-        m_wb_cyc   <= '0';
-        m_wb_stb   <= '0';
-        m_wb_lock  <= '0';
-        m_wb_sel   <= (others => '0');
-        m_wb_we    <= '0';
-      else
-
-      end if;
-    end if;
-  end process;
+  assert (C_WB_MODE = "CLASSIC" or C_WB_MODE = "PIPELINED")
+    report "Incorrect C_WB_MODE: " & C_WB_MODE
+    severity failure;
 
 end arch_imp;

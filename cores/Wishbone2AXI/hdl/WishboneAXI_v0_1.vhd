@@ -493,16 +493,16 @@ architecture arch_imp of WishboneAXI_v0_1 is
   end component WishboneAXI_v0_1_M_AXI4;
 
   signal m_axi4_lite_init_axi_txn : std_logic;
-  signal m_axi4_lite_error : std_logic;
-  signal m_axi4_lite_txn_done : std_logic;
-  signal m_axi4_init_axi_txn : std_logic;
-  signal m_axi4_txn_done : std_logic;
-  signal m_axi4_error : std_logic;
+  signal m_axi4_lite_error        : std_logic;
+  signal m_axi4_lite_txn_done     : std_logic;
+  signal m_axi4_init_axi_txn      : std_logic;
+  signal m_axi4_txn_done          : std_logic;
+  signal m_axi4_error             : std_logic;
 
 begin
 
 -- Instantiation of Axi Bus Interface S_AXI4_LITE
-  axilite2wb: if C_AXI_MODE = "AXI4LITE" generate
+  axilite2wb : if C_AXI_MODE = "AXI4LITE" generate
     WishboneAXI_v0_1_S_AXI4_LITE_inst : WishboneAXI_v0_1_S_AXI4_LITE
       generic map (
         C_S_AXI_DATA_WIDTH => C_S_AXI4_LITE_DATA_WIDTH,
@@ -548,10 +548,25 @@ begin
         m_wb_rty    => m_wb_rty,
         m_wb_ack    => m_wb_ack
         );
+
+    --initial values for unused AXI4 signals
+    s_axi4_awready <= '0';
+    s_axi4_wready  <= '0';
+    s_axi4_bid     <= (others => '0');
+    s_axi4_bresp   <= "00";
+    s_axi4_buser   <= (others => '0');
+    s_axi4_bvalid  <= '0';
+    s_axi4_arready <= '0';
+    s_axi4_rid     <= (others => '0');
+    s_axi4_rdata   <= (others => '0');
+    s_axi4_rresp   <= "00";
+    s_axi4_rlast   <= '0';
+    s_axi4_ruser   <= (others => '0');
+    s_axi4_rvalid  <= '0';
   end generate;
 
 -- Instantiation of Axi Bus Interface S_AXI4
-  axi2wb: if C_AXI_MODE = "AXI4" generate
+  axi2wb : if C_AXI_MODE = "AXI4" generate
     WishboneAXI_v0_1_S_AXI4_inst : WishboneAXI_v0_1_S_AXI4
       generic map (
         C_S_AXI_ID_WIDTH     => C_S_AXI4_ID_WIDTH,
@@ -631,7 +646,7 @@ begin
   end generate;
 
   -- Instantiation of Axi Bus Interface M_AXI4_LITE
-  wb2axilite: if C_AXI_MODE = "AXI4LITE" generate
+  wb2axilite : if C_AXI_MODE = "AXI4LITE" generate
     WishboneAXI_v0_1_M_AXI4_LITE_inst : WishboneAXI_v0_1_M_AXI4_LITE
       generic map (
         C_M_START_DATA_VALUE       => C_M_AXI4_LITE_START_DATA_VALUE,
@@ -683,10 +698,41 @@ begin
         s_wb_rty    => s_wb_rty,
         s_wb_ack    => s_wb_ack
         );
+
+    --unused AXI4 master signals
+    m_axi4_awid    <= (others => '0');
+    m_axi4_awaddr  <= (others => '0');
+    m_axi4_awlen   <= (others => '0');
+    m_axi4_awsize  <= "000";
+    m_axi4_awburst <= "00";
+    m_axi4_awlock  <= '0';
+    m_axi4_awcache <= "0000";
+    m_axi4_awprot  <= "000";
+    m_axi4_awqos   <= "0000";
+    m_axi4_awuser  <= (others => '0');
+    m_axi4_awvalid <= '0';
+    m_axi4_wdata   <= (others => '0');
+    m_axi4_wstrb   <= (others => '0');
+    m_axi4_wlast   <= '0';
+    m_axi4_wuser   <= (others => '0');
+    m_axi4_wvalid  <= '0';
+    m_axi4_bready  <= '0';
+    m_axi4_arid    <= (others => '0');
+    m_axi4_araddr  <= (others => '0');
+    m_axi4_arlen   <= (others => '0');
+    m_axi4_arsize  <= "000";
+    m_axi4_arburst <= "00";
+    m_axi4_arlock  <= '0';
+    m_axi4_arcache <= "0000";
+    m_axi4_arprot  <= "000";
+    m_axi4_arqos   <= "0000";
+    m_axi4_aruser  <= (others => '0');
+    m_axi4_arvalid <= '0';
+    m_axi4_rready  <= '0';
   end generate;
 
 -- Instantiation of Axi Bus Interface M_AXI4
-  wb2axi: if C_AXI_MODE = "AXI4" generate
+  wb2axi : if C_AXI_MODE = "AXI4" generate
     WishboneAXI_v0_1_M_AXI4_inst : WishboneAXI_v0_1_M_AXI4
       generic map (
         C_M_TARGET_SLAVE_BASE_ADDR => C_M_AXI4_TARGET_SLAVE_BASE_ADDR,
