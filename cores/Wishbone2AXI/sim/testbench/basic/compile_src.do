@@ -13,7 +13,7 @@ quietly set lib_name "work"
 quietly set gencores_path "../../../hdl/general-cores/genrams"
 quietly set src_path "../../../hdl/"
 
-set compdirectives "-work $lib_name"
+set compdirectives "+acc=full -work $lib_name"
 
 eval vcom  $compdirectives  $gencores_path/genram_pkg.vhd
 eval vcom  $compdirectives  $gencores_path/memory_loader_pkg.vhd
