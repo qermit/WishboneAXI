@@ -7,7 +7,7 @@
 --            : Piotr Miedzik (Qermit)
 -- Company    :
 -- Created    : 2016-06-06
--- Last update: 2016-06-21
+-- Last update: 2016-06-23
 -- License    : This is a PUBLIC DOMAIN code, published under
 --              Creative Commons CC0 license
 -- Platform   :
@@ -138,18 +138,19 @@ architecture arch_imp of WishboneAXI_v0_1_S_AXI4_LITE is
   signal trans_state : t_trans_state := IDLE;
 
   -- AXI4LITE signals
-  signal axi_awready              : std_logic;
-  signal axi_wready               : std_logic;
-  signal axi_wdata                : std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
-  signal axi_bresp, axi_bresp_a   : std_logic_vector(1 downto 0);
-  signal axi_bvalid, axi_bvalid_a : std_logic;
-  signal axi_arready              : std_logic;
-  signal axi_rdata, axi_rdata_a   : std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
-  signal axi_rresp, axi_rresp_a   : std_logic_vector(1 downto 0);
-  signal axi_rvalid, axi_rvalid_a : std_logic;
-  signal axi_araddr               : std_logic_vector(C_S_AXI_ADDR_WIDTH-1 downto 0);
-  signal axi_araddr_read          : std_logic;
-  signal axi_araddr_empty         : std_logic;
+  signal axi_awready      : std_logic;
+  signal axi_wready       : std_logic;
+  signal axi_wdata        : std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
+  signal axi_bresp        : std_logic_vector(1 downto 0);
+  signal axi_bvalid       : std_logic;
+  signal axi_arready      : std_logic;
+  signal axi_rdata        : std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
+  signal axi_rresp        : std_logic_vector(1 downto 0);
+  signal axi_rvalid       : std_logic;
+  signal axi_araddr       : std_logic_vector(C_S_AXI_ADDR_WIDTH-1 downto 0);
+  signal axi_araddr_read  : std_logic := '0';
+  signal axi_araddr_empty : std_logic;
+  signal axi_araddr_full  : std_logic;
 
   signal wb_adr   : std_logic_vector(C_WB_ADR_WIDTH-1 downto 0);
   signal wb_dat_w : std_logic_vector(C_WB_DAT_WIDTH-1 downto 0);
@@ -165,34 +166,32 @@ begin
   begin
     if rising_edge(S_AXI_ACLK) then
       if S_AXI_ARESETN = '0' or m_wb_areset = '1' then
-        axi_awready     <= '0';
-        axi_wready      <= '0';
-        axi_bresp       <= "00";
-        axi_bvalid      <= '0';
-        axi_rdata       <= (others => '0');
-        axi_rresp       <= "00";
-        axi_rvalid      <= '0';
-        axi_araddr_read <= '0';
-        wb_adr          <= (others => '0');
-        wb_dat_w        <= (others => '0');
-        wb_cyc          <= '0';
-        wb_stb          <= '0';
-        wb_lock         <= '0';
-        wb_sel          <= (others => '0');
-        wb_we           <= '0';
-        trans_state     <= IDLE;
+        axi_awready <= '0';
+        axi_wready  <= '0';
+        axi_bresp   <= "00";
+        axi_bvalid  <= '0';
+        axi_rdata   <= (others => '0');
+        axi_rresp   <= "00";
+        axi_rvalid  <= '0';
+        wb_adr      <= (others => '0');
+        wb_dat_w    <= (others => '0');
+        wb_cyc      <= '0';
+        wb_stb      <= '0';
+        wb_lock     <= '0';
+        wb_sel      <= (others => '0');
+        wb_we       <= '0';
+        trans_state <= IDLE;
       else
         case trans_state is
           when IDLE =>
             --keep [awready, wready] high to avoid wasting clock cycles
-            axi_awready     <= '1';
-            axi_wready      <= '1';
-            axi_bvalid      <= '0';
-            axi_rvalid      <= '0';
-            axi_araddr_read <= '0';
-            wb_cyc          <= '0';
+            axi_awready <= '1';
+            axi_wready  <= '1';
+            axi_bvalid  <= '0';
+            axi_rvalid  <= '0';
+            wb_cyc      <= '0';
             -- stb not necessary by spec., but lack of this probably will wreak havoc amongst badly implemented slaves
-            wb_stb          <= '0';
+            wb_stb      <= '0';
 
             if (axi_awready and S_AXI_AWVALID) = '1' and (axi_wready and S_AXI_WVALID) = '0' then
               axi_awready <= '0';
@@ -214,11 +213,11 @@ begin
               wb_sel      <= S_AXI_WSTRB;
               trans_state <= W_SEND;
             elsif axi_araddr_empty = '0' then
-              axi_araddr_read <= '1';
-              wb_adr          <= axi_araddr;
-              wb_cyc          <= '1';
-              wb_stb          <= '1';
-              wb_we           <= '0';
+              wb_adr      <= axi_araddr;
+              wb_cyc      <= '1';
+              wb_stb      <= '1';
+              wb_we       <= '0';
+              trans_state <= R_SEND;
             end if;
           --AXI specification explicitly says that no relationship between input channels is defined (A3.3)
           --It means that write data can appear before write address and vice versa. It is slave's responsibility
@@ -309,12 +308,11 @@ begin
             end if;
 
           when R_SEND =>
-            axi_araddr_read <= '0';
-            axi_rresp       <= "00";
-            axi_rvalid      <= '0';
-            wb_cyc          <= '1';
-            wb_stb          <= '1';
-            wb_we           <= '0';
+            axi_rresp  <= "00";
+            axi_rvalid <= '0';
+            wb_cyc     <= '1';
+            wb_stb     <= '1';
+            wb_we      <= '0';
             if C_WB_MODE = "CLASSIC" then
               if (m_wb_ack or m_wb_err or m_wb_rty) = '1' then
                 axi_rdata    <= m_wb_dat_r;
@@ -323,30 +321,27 @@ begin
                 wb_stb       <= '0';
                 if S_AXI_RREADY = '0' then
                   trans_state <= R_RESP;
-                elsif axi_araddr_empty = '0' then  --start next read asap to support b2b reads
-                  axi_araddr_read <= '1';
-                  wb_adr          <= axi_araddr;
-                  wb_stb          <= '1';
+                elsif axi_araddr_empty = '0' then
+                  wb_adr <= axi_araddr;
+                  wb_stb <= '1';
                 else
                   wb_cyc      <= '0';
-                  trans_state <= IDLE;
+                  trans_state <= R_RESP;
                 end if;
               end if;
             end if;
 
           when R_RESP =>
-            axi_araddr_read <= '0';
-            axi_rresp       <= axi_rresp;
-            axi_rvalid      <= '1';
-            wb_stb          <= '0';
+            axi_rresp  <= axi_rresp;
+            axi_rvalid <= '1';
+            wb_stb     <= '0';
             if C_WB_MODE = "CLASSIC" then
               if S_AXI_RREADY = '1' then
                 axi_rvalid <= '0';
                 if axi_araddr_empty = '0' then
-                  axi_araddr_read <= '1';
-                  wb_adr          <= axi_araddr;
-                  wb_stb          <= '1';
-                  trans_state     <= R_SEND;
+                  wb_adr      <= axi_araddr;
+                  wb_stb      <= '1';
+                  trans_state <= R_SEND;
                 else
                   wb_cyc      <= '0';
                   trans_state <= IDLE;
@@ -366,6 +361,41 @@ begin
         end case;
       end if;
     end if;
+  end process;
+
+  --used to drive some specific signals which need to change state in the same clock cycle
+  translate_comb : process(trans_state, S_AXI_RREADY, axi_araddr_empty, m_wb_ack, m_wb_err, m_wb_rty)
+  begin
+    case trans_state is
+      when IDLE =>
+        axi_araddr_read <= '0';
+        if axi_araddr_empty = '0' then
+          axi_araddr_read <= '1';
+        end if;
+
+      when R_SEND =>
+        axi_araddr_read <= '0';
+        if C_WB_MODE = "CLASSIC" then
+          if (m_wb_ack or m_wb_err or m_wb_rty) = '1' then
+            if axi_araddr_empty = '0' and S_AXI_RREADY = '1' then  --start next read asap to support b2b reads
+              axi_araddr_read <= '1';
+            end if;
+          end if;
+        end if;
+      when R_RESP =>
+        axi_araddr_read <= '0';
+        if C_WB_MODE = "CLASSIC" then
+          if S_AXI_RREADY = '1' then
+            if axi_araddr_empty = '0' then
+              axi_araddr_read <= '1';
+            end if;
+          end if;
+        end if;
+
+      when others =>
+        axi_araddr_read <= '0';
+
+    end case;
   end process;
 
   --To avoid wasted cycles put read requests on a queue. Combined with Wishbone's asynchronous cycle
@@ -389,9 +419,10 @@ begin
       q_o     => axi_araddr,
       rd_i    => axi_araddr_read,
       empty_o => axi_araddr_empty,
-      full_o  => axi_arready
+      full_o  => axi_araddr_full
       );
 
+  axi_arready <= '0' when S_AXI_ARESETN = '0' else not(axi_araddr_full); --to comply with spec under reset
   -- I/O Connections assignments
   S_AXI_AWREADY <= axi_awready;
   S_AXI_WREADY  <= axi_wready;

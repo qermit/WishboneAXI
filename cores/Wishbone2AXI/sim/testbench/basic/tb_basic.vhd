@@ -487,11 +487,105 @@ begin
     wait until rising_edge(m_axi4_aclk);
     m_wb_rty <= '1' after 1 ns;
     wait until rising_edge(m_axi4_aclk);
-    m_wb_rty <= '0' after 1 ns;
+    wait for 1 ns;
+    m_wb_rty <= '0';
+
+    report "Read: one read request" severity note;
+    s_axi4_lite_araddr  <= x"10203040";
+    s_axi4_lite_arvalid <= '1';
+    s_axi4_lite_rready  <= '1';
+    if s_axi4_lite_arready = '0' then
+      wait until s_axi4_lite_arready = '1';
+    else
+      wait until rising_edge(s_axi4_aclk);
+    end if;
+    wait for 1 ns;
+    s_axi4_lite_arvalid <= '0';
+    if m_wb_stb = '0' then
+      wait until m_wb_stb = '1';
+    end if;
+    wait until rising_edge(s_axi4_aclk);
+    wait for 1 ns;
+    report "WB response: sync RTY" severity note;
+    m_wb_rty            <= '1';
+    wait until rising_edge(s_axi4_aclk);
+    wait for 1 ns;
+    m_wb_rty            <= '0';
+    wait until rising_edge(s_axi4_aclk);
+    wait for 1 ns;
+    report "Read: batch of 6 read requests, start with RREADY de-asserted" severity note;
+    s_axi4_lite_araddr  <= x"10203041";
+    s_axi4_lite_arvalid <= '1';
+    s_axi4_lite_rready  <= '0';
+    if s_axi4_lite_arready = '0' then
+      wait until s_axi4_lite_arready = '1';
+    else
+      wait until rising_edge(s_axi4_aclk);
+    end if;
+    wait for 1 ns;
+    s_axi4_lite_araddr  <= x"10203042";
+    s_axi4_lite_arvalid <= '1';
+    if s_axi4_lite_arready = '0' then
+      wait until s_axi4_lite_arready = '1';
+    else
+      wait until rising_edge(s_axi4_aclk);
+    end if;
+    wait for 1 ns;
+    s_axi4_lite_araddr  <= x"10203043";
+    s_axi4_lite_arvalid <= '1';
+    if s_axi4_lite_arready = '0' then
+      wait until s_axi4_lite_arready = '1';
+    else
+      wait until rising_edge(s_axi4_aclk);
+    end if;
+    wait for 1 ns;
+    s_axi4_lite_araddr  <= x"10203044";
+    s_axi4_lite_arvalid <= '1';
+    if s_axi4_lite_arready = '0' then
+      wait until s_axi4_lite_arready = '1';
+    else
+      wait until rising_edge(s_axi4_aclk);
+    end if;
+    wait for 1 ns;
+    report "WB response: async ACK" severity note;
+    m_wb_ack            <= '1';
+    s_axi4_lite_araddr  <= x"10203045";
+    s_axi4_lite_arvalid <= '1';
+    wait until rising_edge(s_axi4_aclk);
+    wait for 1 ns;
+    report "Read: assert RREADY" severity note;
+    s_axi4_lite_rready  <= '1';
+    if s_axi4_lite_arready = '0' then
+      wait until s_axi4_lite_arready = '1';
+    else
+      wait until rising_edge(s_axi4_aclk);
+    end if;
+    wait for 1 ns;
+    s_axi4_lite_araddr  <= x"10203046";
+    s_axi4_lite_arvalid <= '1';
+    if s_axi4_lite_arready = '0' then
+      wait until s_axi4_lite_arready = '1';
+    else
+      wait until rising_edge(s_axi4_aclk);
+    end if;
+    wait for 1 ns;
+    report "Read: end read requests, deassert arvalid" severity note;
+    s_axi4_lite_arvalid <= '0';
 
     wait;
   end process;
 
+  wb_read_gen : process
+  begin
+    m_wb_dat_r <= x"aabbccd0";
+    loop
+      wait until rising_edge(s_axi4_aclk);
+      wait for 1 ns;
+      if (m_wb_stb and m_wb_ack) = '1' then
+        m_wb_dat_r <= std_logic_vector(unsigned(m_wb_dat_r) + 1);
+      end if;
+    end loop;
+  end process;
 
 end;
 
