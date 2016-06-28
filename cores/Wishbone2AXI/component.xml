@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <spirit:component xmlns:xilinx="http://www.xilinx.com" xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <spirit:vendor>gsi.de</spirit:vendor>
+  <spirit:vendor>CTI</spirit:vendor>
   <spirit:library>user</spirit:library>
   <spirit:name>WishboneAXI</spirit:name>
-  <spirit:version>0.1</spirit:version>
+  <spirit:version>0.2</spirit:version>
   <spirit:busInterfaces>
     <spirit:busInterface>
       <spirit:name>S_AXI4_LITE</spirit:name>
@@ -183,7 +183,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_AXI4_LITE" xilinx:dependency="$C_SLAVE_TYPE = &quot;AXI4-Lite&quot;">true</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_AXI4_LITE" xilinx:dependency="$C_AXI_MODE = &quot;AXI4LITE&quot;">true</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -195,7 +195,6 @@
       <spirit:slave>
         <spirit:memoryMapRef spirit:memoryMapRef="S_AXI4"/>
       </spirit:slave>
-      <spirit:connectionRequired>true</spirit:connectionRequired>
       <spirit:portMaps>
         <spirit:portMap>
           <spirit:logicalPort>
@@ -567,7 +566,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_AXI4" xilinx:dependency="$C_SLAVE_TYPE = &quot;AXI4&quot;">false</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_AXI4" xilinx:dependency="$C_AXI_MODE = &quot;AXI4&quot;">false</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -747,7 +746,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_AXI4_LITE" xilinx:dependency="$C_MASTER_TYPE = &quot;AXI4-Lite&quot;">false</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_AXI4_LITE" xilinx:dependency="$C_AXI_MODE = &quot;AXI4LITE&quot; and $BRIDGE_TYPE = &quot;Wishbone->AXI&quot;">false</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -759,7 +758,6 @@
       <spirit:master>
         <spirit:addressSpaceRef spirit:addressSpaceRef="M_AXI4"/>
       </spirit:master>
-      <spirit:connectionRequired>true</spirit:connectionRequired>
       <spirit:portMaps>
         <spirit:portMap>
           <spirit:logicalPort>
@@ -1111,7 +1109,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_AXI4" xilinx:dependency="$C_MASTER_TYPE = &quot;AXI4&quot;">false</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_AXI4" xilinx:dependency="$C_AXI_MODE = &quot;AXI4&quot; and $BRIDGE_TYPE = &quot;Wishbone->AXI&quot;">false</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1140,7 +1138,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_AXI4_RST" xilinx:dependency="$C_MASTER_TYPE = &quot;AXI4&quot;">false</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_AXI4_RST" xilinx:dependency="$BRIDGE_TYPE = &quot;Wishbone->AXI&quot; and $C_AXI_MODE = &quot;AXI4&quot;">false</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1173,7 +1171,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_AXI4_CLK" xilinx:dependency="$C_MASTER_TYPE = &quot;AXI4&quot;">false</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_AXI4_CLK" xilinx:dependency="$BRIDGE_TYPE = &quot;Wishbone->AXI&quot; and $C_AXI_MODE = &quot;AXI4&quot;">false</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1202,7 +1200,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_AXI4_LITE_RST" xilinx:dependency="$C_SLAVE_TYPE = &quot;AXI4-Lite&quot;">true</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_AXI4_LITE_RST" xilinx:dependency="$BRIDGE_TYPE = &quot;AXI->Wishbone&quot; and $C_AXI_MODE = &quot;AXI4LITE&quot;">true</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1235,7 +1233,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_AXI4_LITE_CLK" xilinx:dependency="$C_SLAVE_TYPE = &quot;AXI4-Lite&quot;">true</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_AXI4_LITE_CLK" xilinx:dependency="$BRIDGE_TYPE = &quot;AXI->Wishbone&quot; and $C_AXI_MODE = &quot;AXI4LITE&quot;">true</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1264,7 +1262,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_AXI4_RST" xilinx:dependency="$C_SLAVE_TYPE = &quot;AXI4&quot;">false</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_AXI4_RST" xilinx:dependency="$BRIDGE_TYPE = &quot;AXI->Wishbone&quot; and $C_AXI_MODE = &quot;AXI4&quot;">false</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1297,7 +1295,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_AXI4_CLK" xilinx:dependency="$C_SLAVE_TYPE = &quot;AXI4&quot;">false</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_AXI4_CLK" xilinx:dependency="$BRIDGE_TYPE = &quot;AXI->Wishbone&quot; and $C_AXI_MODE = &quot;AXI4&quot;">false</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1326,7 +1324,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_AXI4_LITE_RST" xilinx:dependency="$C_MASTER_TYPE = &quot;AXI4-Lite&quot;">false</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_AXI4_LITE_RST" xilinx:dependency="$BRIDGE_TYPE = &quot;Wishbone->AXI&quot; and $C_AXI_MODE = &quot;AXI4LITE&quot;">false</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1359,7 +1357,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_AXI4_LITE_CLK" xilinx:dependency="$C_MASTER_TYPE = &quot;AXI4-Lite&quot;">false</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_AXI4_LITE_CLK" xilinx:dependency="$BRIDGE_TYPE = &quot;Wishbone->AXI&quot; and $C_AXI_MODE = &quot;AXI4LITE&quot;">false</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1470,7 +1468,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_WB" xilinx:dependency="$C_MASTER_TYPE = &quot;Wishbone&quot;">true</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_WB" xilinx:dependency="$BRIDGE_TYPE = &quot;AXI->Wishbone&quot;">true</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1581,7 +1579,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_WB" xilinx:dependency="$C_SLAVE_TYPE = &quot;Wishbone&quot;">false</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_WB" xilinx:dependency="$BRIDGE_TYPE = &quot;Wishbone->AXI&quot;">false</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1591,7 +1589,6 @@
       <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock" spirit:version="1.0"/>
       <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock_rtl" spirit:version="1.0"/>
       <spirit:slave/>
-      <spirit:connectionRequired>true</spirit:connectionRequired>
       <spirit:portMaps>
         <spirit:portMap>
           <spirit:logicalPort>
@@ -1611,7 +1608,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_WB_CLK" xilinx:dependency="$C_MASTER_TYPE = &quot;Wishbone&quot;">true</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_WB_CLK" xilinx:dependency="$BRIDGE_TYPE = &quot;AXI->Wishbone&quot;">true</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1621,6 +1618,7 @@
       <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock" spirit:version="1.0"/>
       <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock_rtl" spirit:version="1.0"/>
       <spirit:slave/>
+      <spirit:connectionRequired>true</spirit:connectionRequired>
       <spirit:portMaps>
         <spirit:portMap>
           <spirit:logicalPort>
@@ -1640,7 +1638,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_WB_CLK" xilinx:dependency="$C_SLAVE_TYPE = &quot;Wishbone&quot;">false</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_WB_CLK" xilinx:dependency="$BRIDGE_TYPE = &quot;Wishbone->AXI&quot;">false</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1656,14 +1654,14 @@
             <spirit:name>RST</spirit:name>
           </spirit:logicalPort>
           <spirit:physicalPort>
-            <spirit:name>s_wb_aresetn</spirit:name>
+            <spirit:name>s_wb_areset</spirit:name>
           </spirit:physicalPort>
         </spirit:portMap>
       </spirit:portMaps>
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_WB_RST" xilinx:dependency="$C_SLAVE_TYPE = &quot;Wishbone&quot;">false</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_WB_RST" xilinx:dependency="$BRIDGE_TYPE = &quot;Wishbone->AXI&quot;">false</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1679,14 +1677,14 @@
             <spirit:name>RST</spirit:name>
           </spirit:logicalPort>
           <spirit:physicalPort>
-            <spirit:name>m_wb_aresetn</spirit:name>
+            <spirit:name>m_wb_areset</spirit:name>
           </spirit:physicalPort>
         </spirit:portMap>
       </spirit:portMaps>
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_WB_RST" xilinx:dependency="$C_MASTER_TYPE = &quot;Wishbone&quot;">true</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_WB_RST" xilinx:dependency="$BRIDGE_TYPE = &quot;AXI->Wishbone&quot;">true</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1760,7 +1758,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>d1dac67b</spirit:value>
+            <spirit:value>8918fc0f</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1776,7 +1774,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>d1dac67b</spirit:value>
+            <spirit:value>8918fc0f</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1790,7 +1788,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>e0984fff</spirit:value>
+            <spirit:value>10df1cfe</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1804,7 +1802,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>f3de9bac</spirit:value>
+            <spirit:value>55ad51cb</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1818,7 +1816,37 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>73846586</spirit:value>
+            <spirit:value>4a0bfada</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_vhdltestbench</spirit:name>
+        <spirit:displayName>VHDL Test Bench</spirit:displayName>
+        <spirit:envIdentifier>vhdlSource:vivado.xilinx.com:simulation.testbench</spirit:envIdentifier>
+        <spirit:language>vhdl</spirit:language>
+        <spirit:modelName>WishboneAXI_v0_1</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_vhdltestbench_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>4ee3e4e1</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_utilityxitfiles</spirit:name>
+        <spirit:displayName>Utility XIT/TTCL</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:xit.util</spirit:envIdentifier>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_utilityxitfiles_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>c81d8a71</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1846,7 +1874,7 @@
         <spirit:vendorExtensions>
           <xilinx:portInfo>
             <xilinx:enablement>
-              <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="PORT_ENABLEMENT.m_axi4_awid" xilinx:dependency="spirit:decode(id(&apos;MODELPARAM_VALUE.C_M_AXI4_ID_WIDTH&apos;)) >0">true</xilinx:isEnabled>
+              <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="PORT_ENABLEMENT.m_axi4_awid" xilinx:dependency="spirit:decode(id(&apos;MODELPARAM_VALUE.C_M_AXI4_ID_WIDTH&apos;)) >0">false</xilinx:isEnabled>
             </xilinx:enablement>
           </xilinx:portInfo>
         </spirit:vendorExtensions>
@@ -2158,7 +2186,7 @@
         <spirit:vendorExtensions>
           <xilinx:portInfo>
             <xilinx:enablement>
-              <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="PORT_ENABLEMENT.m_axi4_bid" xilinx:dependency="spirit:decode(id(&apos;MODELPARAM_VALUE.C_M_AXI4_ID_WIDTH&apos;)) >0">true</xilinx:isEnabled>
+              <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="PORT_ENABLEMENT.m_axi4_bid" xilinx:dependency="spirit:decode(id(&apos;MODELPARAM_VALUE.C_M_AXI4_ID_WIDTH&apos;)) >0">false</xilinx:isEnabled>
             </xilinx:enablement>
           </xilinx:portInfo>
         </spirit:vendorExtensions>
@@ -2255,7 +2283,7 @@
         <spirit:vendorExtensions>
           <xilinx:portInfo>
             <xilinx:enablement>
-              <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="PORT_ENABLEMENT.m_axi4_arid" xilinx:dependency="spirit:decode(id(&apos;MODELPARAM_VALUE.C_M_AXI4_ID_WIDTH&apos;)) >0">true</xilinx:isEnabled>
+              <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="PORT_ENABLEMENT.m_axi4_arid" xilinx:dependency="spirit:decode(id(&apos;MODELPARAM_VALUE.C_M_AXI4_ID_WIDTH&apos;)) >0">false</xilinx:isEnabled>
             </xilinx:enablement>
           </xilinx:portInfo>
         </spirit:vendorExtensions>
@@ -2467,7 +2495,7 @@
         <spirit:vendorExtensions>
           <xilinx:portInfo>
             <xilinx:enablement>
-              <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="PORT_ENABLEMENT.m_axi4_rid" xilinx:dependency="spirit:decode(id(&apos;MODELPARAM_VALUE.C_M_AXI4_ID_WIDTH&apos;)) >0">true</xilinx:isEnabled>
+              <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="PORT_ENABLEMENT.m_axi4_rid" xilinx:dependency="spirit:decode(id(&apos;MODELPARAM_VALUE.C_M_AXI4_ID_WIDTH&apos;)) >0">false</xilinx:isEnabled>
             </xilinx:enablement>
           </xilinx:portInfo>
         </spirit:vendorExtensions>
@@ -2586,7 +2614,7 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
-        <spirit:name>s_wb_aresetn</spirit:name>
+        <spirit:name>s_wb_areset</spirit:name>
         <spirit:wire>
           <spirit:direction>in</spirit:direction>
           <spirit:wireTypeDefs>
@@ -2620,7 +2648,7 @@
         <spirit:wire>
           <spirit:direction>in</spirit:direction>
           <spirit:vector>
-            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_WB_DATW_WIDTH&apos;)) - 1)">31</spirit:left>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_WB_DAT_WIDTH&apos;)) - 1)">31</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
           <spirit:wireTypeDefs>
@@ -2676,7 +2704,7 @@
         <spirit:wire>
           <spirit:direction>in</spirit:direction>
           <spirit:vector>
-            <spirit:left spirit:format="long">3</spirit:left>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="((spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_WB_DAT_WIDTH&apos;)) / 8) - 1)">3</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
           <spirit:wireTypeDefs>
@@ -2706,7 +2734,7 @@
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
           <spirit:vector>
-            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_WB_DATR_WIDTH&apos;)) - 1)">31</spirit:left>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_WB_DAT_WIDTH&apos;)) - 1)">31</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
           <spirit:wireTypeDefs>
@@ -2779,7 +2807,7 @@
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
           <spirit:vector>
-            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_M_WB_DATW_WIDTH&apos;)) - 1)">31</spirit:left>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_M_WB_DAT_WIDTH&apos;)) - 1)">31</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
           <spirit:wireTypeDefs>
@@ -2835,7 +2863,7 @@
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
           <spirit:vector>
-            <spirit:left spirit:format="long">3</spirit:left>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="((spirit:decode(id(&apos;MODELPARAM_VALUE.C_M_WB_DAT_WIDTH&apos;)) / 8) - 1)">3</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
           <spirit:wireTypeDefs>
@@ -2865,7 +2893,7 @@
         <spirit:wire>
           <spirit:direction>in</spirit:direction>
           <spirit:vector>
-            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_M_WB_DATR_WIDTH&apos;)) - 1)">31</spirit:left>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_M_WB_DAT_WIDTH&apos;)) - 1)">31</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
           <spirit:wireTypeDefs>
@@ -2943,7 +2971,7 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
-        <spirit:name>m_wb_aresetn</spirit:name>
+        <spirit:name>m_wb_areset</spirit:name>
         <spirit:wire>
           <spirit:direction>in</spirit:direction>
           <spirit:wireTypeDefs>
@@ -2999,7 +3027,7 @@
         <spirit:wire>
           <spirit:direction>in</spirit:direction>
           <spirit:vector>
-            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXI4_LITE_ADDR_WIDTH&apos;)) - 1)">3</spirit:left>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXI4_LITE_ADDR_WIDTH&apos;)) - 1)">31</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
           <spirit:wireTypeDefs>
@@ -3162,7 +3190,7 @@
         <spirit:wire>
           <spirit:direction>in</spirit:direction>
           <spirit:vector>
-            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXI4_LITE_ADDR_WIDTH&apos;)) - 1)">3</spirit:left>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXI4_LITE_ADDR_WIDTH&apos;)) - 1)">31</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
           <spirit:wireTypeDefs>
@@ -3325,7 +3353,7 @@
         <spirit:vendorExtensions>
           <xilinx:portInfo>
             <xilinx:enablement>
-              <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="PORT_ENABLEMENT.s_axi4_awid" xilinx:dependency="spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXI4_ID_WIDTH&apos;)) >0">true</xilinx:isEnabled>
+              <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="PORT_ENABLEMENT.s_axi4_awid" xilinx:dependency="spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXI4_ID_WIDTH&apos;)) >0">false</xilinx:isEnabled>
             </xilinx:enablement>
           </xilinx:portInfo>
         </spirit:vendorExtensions>
@@ -3657,7 +3685,7 @@
         <spirit:vendorExtensions>
           <xilinx:portInfo>
             <xilinx:enablement>
-              <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="PORT_ENABLEMENT.s_axi4_bid" xilinx:dependency="spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXI4_ID_WIDTH&apos;)) >0">true</xilinx:isEnabled>
+              <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="PORT_ENABLEMENT.s_axi4_bid" xilinx:dependency="spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXI4_ID_WIDTH&apos;)) >0">false</xilinx:isEnabled>
             </xilinx:enablement>
           </xilinx:portInfo>
         </spirit:vendorExtensions>
@@ -3754,7 +3782,7 @@
         <spirit:vendorExtensions>
           <xilinx:portInfo>
             <xilinx:enablement>
-              <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="PORT_ENABLEMENT.s_axi4_arid" xilinx:dependency="spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXI4_ID_WIDTH&apos;)) >0">true</xilinx:isEnabled>
+              <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="PORT_ENABLEMENT.s_axi4_arid" xilinx:dependency="spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXI4_ID_WIDTH&apos;)) >0">false</xilinx:isEnabled>
             </xilinx:enablement>
           </xilinx:portInfo>
         </spirit:vendorExtensions>
@@ -3986,7 +4014,7 @@
         <spirit:vendorExtensions>
           <xilinx:portInfo>
             <xilinx:enablement>
-              <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="PORT_ENABLEMENT.s_axi4_rid" xilinx:dependency="spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXI4_ID_WIDTH&apos;)) >0">true</xilinx:isEnabled>
+              <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="PORT_ENABLEMENT.s_axi4_rid" xilinx:dependency="spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXI4_ID_WIDTH&apos;)) >0">false</xilinx:isEnabled>
             </xilinx:enablement>
           </xilinx:portInfo>
         </spirit:vendorExtensions>
@@ -4428,174 +4456,15 @@
       </spirit:port>
     </spirit:ports>
     <spirit:modelParameters>
-      <spirit:modelParameter xsi:type="spirit:nameValueTypeType" spirit:dataType="std_logic_vector">
-        <spirit:name>C_M_AXI4_TARGET_SLAVE_BASE_ADDR</spirit:name>
-        <spirit:displayName>C M AXI4 TARGET SLAVE BASE ADDR</spirit:displayName>
-        <spirit:description>Base address of targeted slave</spirit:description>
-        <spirit:value spirit:format="bitString" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_TARGET_SLAVE_BASE_ADDR" spirit:order="3" spirit:bitStringLength="32">0x40000000</spirit:value>
+      <spirit:modelParameter xsi:type="spirit:nameValueTypeType" spirit:dataType="string">
+        <spirit:name>C_AXI_MODE</spirit:name>
+        <spirit:displayName>C Axi Mode</spirit:displayName>
+        <spirit:value spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_AXI_MODE">AXI4LITE</spirit:value>
       </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>C_M_AXI4_BURST_LEN</spirit:name>
-        <spirit:displayName>C M AXI4 BURST LEN</spirit:displayName>
-        <spirit:description>Burst Length. Supports 1, 2, 4, 8, 16, 32, 64, 128, 256 burst lengths</spirit:description>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_BURST_LEN" spirit:choiceRef="choice_list_85010fde" spirit:order="4">16</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>C_M_AXI4_ID_WIDTH</spirit:name>
-        <spirit:displayName>C M AXI4 ID WIDTH</spirit:displayName>
-        <spirit:description>Thread ID Width</spirit:description>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_ID_WIDTH" spirit:dependency="((spirit:decode(id(&apos;PARAM_VALUE.C_M_AXI4_ID_WIDTH&apos;)) &lt;= 0 ) + (spirit:decode(id(&apos;PARAM_VALUE.C_M_AXI4_ID_WIDTH&apos;))))" spirit:order="5" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">1</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>C_M_AXI4_ADDR_WIDTH</spirit:name>
-        <spirit:displayName>C M AXI4 ADDR WIDTH</spirit:displayName>
-        <spirit:description>Width of Address Bus</spirit:description>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_ADDR_WIDTH" spirit:order="6" spirit:rangeType="long">32</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>C_M_AXI4_DATA_WIDTH</spirit:name>
-        <spirit:displayName>C M AXI4 DATA WIDTH</spirit:displayName>
-        <spirit:description>Width of Data Bus</spirit:description>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_DATA_WIDTH" spirit:order="7" spirit:rangeType="long">32</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>C_M_AXI4_AWUSER_WIDTH</spirit:name>
-        <spirit:displayName>C M AXI4 AWUSER WIDTH</spirit:displayName>
-        <spirit:description>Width of User Write Address Bus</spirit:description>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_AWUSER_WIDTH" spirit:dependency="((spirit:decode(id(&apos;PARAM_VALUE.C_M_AXI4_AWUSER_WIDTH&apos;)) &lt;= 0 ) + (spirit:decode(id(&apos;PARAM_VALUE.C_M_AXI4_AWUSER_WIDTH&apos;))))" spirit:order="8" spirit:minimum="0" spirit:maximum="1024" spirit:rangeType="long">1</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>C_M_AXI4_ARUSER_WIDTH</spirit:name>
-        <spirit:displayName>C M AXI4 ARUSER WIDTH</spirit:displayName>
-        <spirit:description>Width of User Read Address Bus</spirit:description>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_ARUSER_WIDTH" spirit:dependency="((spirit:decode(id(&apos;PARAM_VALUE.C_M_AXI4_ARUSER_WIDTH&apos;)) &lt;= 0 ) + (spirit:decode(id(&apos;PARAM_VALUE.C_M_AXI4_ARUSER_WIDTH&apos;))))" spirit:order="9" spirit:minimum="0" spirit:maximum="1024" spirit:rangeType="long">1</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>C_M_AXI4_WUSER_WIDTH</spirit:name>
-        <spirit:displayName>C M AXI4 WUSER WIDTH</spirit:displayName>
-        <spirit:description>Width of User Write Data Bus</spirit:description>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_WUSER_WIDTH" spirit:dependency="((spirit:decode(id(&apos;PARAM_VALUE.C_M_AXI4_WUSER_WIDTH&apos;)) &lt;= 0 ) + (spirit:decode(id(&apos;PARAM_VALUE.C_M_AXI4_WUSER_WIDTH&apos;))))" spirit:order="10" spirit:minimum="0" spirit:maximum="1024" spirit:rangeType="long">1</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>C_M_AXI4_RUSER_WIDTH</spirit:name>
-        <spirit:displayName>C M AXI4 RUSER WIDTH</spirit:displayName>
-        <spirit:description>Width of User Read Data Bus</spirit:description>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_RUSER_WIDTH" spirit:dependency="((spirit:decode(id(&apos;PARAM_VALUE.C_M_AXI4_RUSER_WIDTH&apos;)) &lt;= 0 ) + (spirit:decode(id(&apos;PARAM_VALUE.C_M_AXI4_RUSER_WIDTH&apos;))))" spirit:order="11" spirit:minimum="0" spirit:maximum="1024" spirit:rangeType="long">1</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>C_M_AXI4_BUSER_WIDTH</spirit:name>
-        <spirit:displayName>C M AXI4 BUSER WIDTH</spirit:displayName>
-        <spirit:description>Width of User Response Bus</spirit:description>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_BUSER_WIDTH" spirit:dependency="((spirit:decode(id(&apos;PARAM_VALUE.C_M_AXI4_BUSER_WIDTH&apos;)) &lt;= 0 ) + (spirit:decode(id(&apos;PARAM_VALUE.C_M_AXI4_BUSER_WIDTH&apos;))))" spirit:order="12" spirit:minimum="0" spirit:maximum="1024" spirit:rangeType="long">1</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>C_S_AXI4_LITE_DATA_WIDTH</spirit:name>
-        <spirit:displayName>C S AXI4 LITE DATA WIDTH</spirit:displayName>
-        <spirit:description>Width of S_AXI data bus</spirit:description>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_AXI4_LITE_DATA_WIDTH" spirit:order="13" spirit:rangeType="long">32</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>C_S_AXI4_LITE_ADDR_WIDTH</spirit:name>
-        <spirit:displayName>C S AXI4 LITE ADDR WIDTH</spirit:displayName>
-        <spirit:description>Width of S_AXI address bus</spirit:description>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_AXI4_LITE_ADDR_WIDTH" spirit:order="14" spirit:rangeType="long">4</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>C_S_AXI4_ID_WIDTH</spirit:name>
-        <spirit:displayName>C S AXI4 ID WIDTH</spirit:displayName>
-        <spirit:description>Width of ID for for write address, write data, read address and read data</spirit:description>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_AXI4_ID_WIDTH" spirit:dependency="((spirit:decode(id(&apos;PARAM_VALUE.C_S_AXI4_ID_WIDTH&apos;)) &lt;= 0 ) + (spirit:decode(id(&apos;PARAM_VALUE.C_S_AXI4_ID_WIDTH&apos;))))" spirit:order="17" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">1</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>C_S_AXI4_DATA_WIDTH</spirit:name>
-        <spirit:displayName>C S AXI4 DATA WIDTH</spirit:displayName>
-        <spirit:description>Width of S_AXI data bus</spirit:description>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_AXI4_DATA_WIDTH" spirit:order="18" spirit:rangeType="long">32</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>C_S_AXI4_ADDR_WIDTH</spirit:name>
-        <spirit:displayName>C S AXI4 ADDR WIDTH</spirit:displayName>
-        <spirit:description>Width of S_AXI address bus</spirit:description>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_AXI4_ADDR_WIDTH" spirit:order="19" spirit:rangeType="long">6</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>C_S_AXI4_AWUSER_WIDTH</spirit:name>
-        <spirit:displayName>C S AXI4 AWUSER WIDTH</spirit:displayName>
-        <spirit:description>Width of optional user defined signal in write address channel</spirit:description>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_AXI4_AWUSER_WIDTH" spirit:dependency="((spirit:decode(id(&apos;PARAM_VALUE.C_S_AXI4_AWUSER_WIDTH&apos;)) &lt;= 0 ) + (spirit:decode(id(&apos;PARAM_VALUE.C_S_AXI4_AWUSER_WIDTH&apos;))))" spirit:order="20" spirit:minimum="0" spirit:maximum="1024" spirit:rangeType="long">1</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>C_S_AXI4_ARUSER_WIDTH</spirit:name>
-        <spirit:displayName>C S AXI4 ARUSER WIDTH</spirit:displayName>
-        <spirit:description>Width of optional user defined signal in read address channel</spirit:description>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_AXI4_ARUSER_WIDTH" spirit:dependency="((spirit:decode(id(&apos;PARAM_VALUE.C_S_AXI4_ARUSER_WIDTH&apos;)) &lt;= 0 ) + (spirit:decode(id(&apos;PARAM_VALUE.C_S_AXI4_ARUSER_WIDTH&apos;))))" spirit:order="21" spirit:minimum="0" spirit:maximum="1024" spirit:rangeType="long">1</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>C_S_AXI4_WUSER_WIDTH</spirit:name>
-        <spirit:displayName>C S AXI4 WUSER WIDTH</spirit:displayName>
-        <spirit:description>Width of optional user defined signal in write data channel</spirit:description>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_AXI4_WUSER_WIDTH" spirit:dependency="((spirit:decode(id(&apos;PARAM_VALUE.C_S_AXI4_WUSER_WIDTH&apos;)) &lt;= 0 ) + (spirit:decode(id(&apos;PARAM_VALUE.C_S_AXI4_WUSER_WIDTH&apos;))))" spirit:order="22" spirit:minimum="0" spirit:maximum="1024" spirit:rangeType="long">1</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>C_S_AXI4_RUSER_WIDTH</spirit:name>
-        <spirit:displayName>C S AXI4 RUSER WIDTH</spirit:displayName>
-        <spirit:description>Width of optional user defined signal in read data channel</spirit:description>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_AXI4_RUSER_WIDTH" spirit:dependency="((spirit:decode(id(&apos;PARAM_VALUE.C_S_AXI4_RUSER_WIDTH&apos;)) &lt;= 0 ) + (spirit:decode(id(&apos;PARAM_VALUE.C_S_AXI4_RUSER_WIDTH&apos;))))" spirit:order="23" spirit:minimum="0" spirit:maximum="1024" spirit:rangeType="long">1</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>C_S_AXI4_BUSER_WIDTH</spirit:name>
-        <spirit:displayName>C S AXI4 BUSER WIDTH</spirit:displayName>
-        <spirit:description>Width of optional user defined signal in write response channel</spirit:description>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_AXI4_BUSER_WIDTH" spirit:dependency="((spirit:decode(id(&apos;PARAM_VALUE.C_S_AXI4_BUSER_WIDTH&apos;)) &lt;= 0 ) + (spirit:decode(id(&apos;PARAM_VALUE.C_S_AXI4_BUSER_WIDTH&apos;))))" spirit:order="24" spirit:minimum="0" spirit:maximum="1024" spirit:rangeType="long">1</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="std_logic_vector">
-        <spirit:name>C_M_AXI4_LITE_START_DATA_VALUE</spirit:name>
-        <spirit:displayName>C M AXI4 LITE START DATA VALUE</spirit:displayName>
-        <spirit:description>The master will start generating data from the C_M_START_DATA_VALUE value</spirit:description>
-        <spirit:value spirit:format="bitString" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_LITE_START_DATA_VALUE" spirit:order="27" spirit:bitStringLength="32">0xAA000000</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="std_logic_vector">
-        <spirit:name>C_M_AXI4_LITE_TARGET_SLAVE_BASE_ADDR</spirit:name>
-        <spirit:displayName>C M AXI4 LITE TARGET SLAVE BASE ADDR</spirit:displayName>
-        <spirit:description>The master requires a target slave base address.
-    -- The master will initiate read and write transactions on the slave with base address specified here as a parameter.</spirit:description>
-        <spirit:value spirit:format="bitString" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_LITE_TARGET_SLAVE_BASE_ADDR" spirit:order="28" spirit:bitStringLength="32">0x40000000</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>C_M_AXI4_LITE_ADDR_WIDTH</spirit:name>
-        <spirit:displayName>C M AXI4 LITE ADDR WIDTH</spirit:displayName>
-        <spirit:description>Width of M_AXI address bus. 
-    -- The master generates the read and write addresses of width specified as C_M_AXI_ADDR_WIDTH.</spirit:description>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_LITE_ADDR_WIDTH" spirit:order="29" spirit:rangeType="long">32</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>C_M_AXI4_LITE_DATA_WIDTH</spirit:name>
-        <spirit:displayName>C M AXI4 LITE DATA WIDTH</spirit:displayName>
-        <spirit:description>Width of M_AXI data bus. 
-    -- The master issues write data and accept read data where the width of the data bus is C_M_AXI_DATA_WIDTH</spirit:description>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_LITE_DATA_WIDTH" spirit:order="30" spirit:rangeType="long">32</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>C_M_AXI4_LITE_TRANSACTIONS_NUM</spirit:name>
-        <spirit:displayName>C M AXI4 LITE TRANSACTIONS NUM</spirit:displayName>
-        <spirit:description>Transaction number is the number of write 
-    -- and read transactions the master will perform as a part of this example memory test.</spirit:description>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_LITE_TRANSACTIONS_NUM" spirit:order="31" spirit:minimum="1" spirit:rangeType="long">4</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>C_M_WB_ADR_WIDTH</spirit:name>
-        <spirit:displayName>C M Wb Adr Width</spirit:displayName>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_WB_ADR_WIDTH">32</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>C_M_WB_DATW_WIDTH</spirit:name>
-        <spirit:displayName>C M Wb Datw Width</spirit:displayName>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_WB_DATW_WIDTH">32</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>C_M_WB_DATR_WIDTH</spirit:name>
-        <spirit:displayName>C M Wb Datr Width</spirit:displayName>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_WB_DATR_WIDTH">32</spirit:value>
+      <spirit:modelParameter spirit:dataType="string">
+        <spirit:name>C_WB_MODE</spirit:name>
+        <spirit:displayName>C Wb Mode</spirit:displayName>
+        <spirit:value spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_WB_MODE">CLASSIC</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>C_S_WB_ADR_WIDTH</spirit:name>
@@ -4603,21 +4472,161 @@
         <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_WB_ADR_WIDTH">32</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>C_S_WB_DATW_WIDTH</spirit:name>
-        <spirit:displayName>C S Wb Datw Width</spirit:displayName>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_WB_DATW_WIDTH">32</spirit:value>
+        <spirit:name>C_S_WB_DAT_WIDTH</spirit:name>
+        <spirit:displayName>C S Wb Dat Width</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_WB_DAT_WIDTH">32</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>C_S_WB_DATR_WIDTH</spirit:name>
-        <spirit:displayName>C S Wb Datr Width</spirit:displayName>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_WB_DATR_WIDTH">32</spirit:value>
+        <spirit:name>C_M_WB_ADR_WIDTH</spirit:name>
+        <spirit:displayName>C M Wb Adr Width</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_WB_ADR_WIDTH">32</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_M_WB_DAT_WIDTH</spirit:name>
+        <spirit:displayName>C M Wb Dat Width</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_WB_DAT_WIDTH">32</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_S_AXI4_LITE_DATA_WIDTH</spirit:name>
+        <spirit:displayName>C S AXI4 LITE DATA WIDTH</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_AXI4_LITE_DATA_WIDTH">32</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_S_AXI4_LITE_ADDR_WIDTH</spirit:name>
+        <spirit:displayName>C S AXI4 LITE ADDR WIDTH</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_AXI4_LITE_ADDR_WIDTH">32</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_S_AXI4_ID_WIDTH</spirit:name>
+        <spirit:displayName>C S Axi4 Id Width</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_AXI4_ID_WIDTH">0</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_S_AXI4_DATA_WIDTH</spirit:name>
+        <spirit:displayName>C S AXI4 DATA WIDTH</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_AXI4_DATA_WIDTH">32</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_S_AXI4_ADDR_WIDTH</spirit:name>
+        <spirit:displayName>C S AXI4 ADDR WIDTH</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_AXI4_ADDR_WIDTH">6</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_S_AXI4_AWUSER_WIDTH</spirit:name>
+        <spirit:displayName>C S AXI4 AWUSER WIDTH</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_AXI4_AWUSER_WIDTH">0</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_S_AXI4_ARUSER_WIDTH</spirit:name>
+        <spirit:displayName>C S AXI4 ARUSER WIDTH</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_AXI4_ARUSER_WIDTH">0</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_S_AXI4_WUSER_WIDTH</spirit:name>
+        <spirit:displayName>C S AXI4 WUSER WIDTH</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_AXI4_WUSER_WIDTH">0</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_S_AXI4_RUSER_WIDTH</spirit:name>
+        <spirit:displayName>C S AXI4 RUSER WIDTH</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_AXI4_RUSER_WIDTH">0</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_S_AXI4_BUSER_WIDTH</spirit:name>
+        <spirit:displayName>C S AXI4 BUSER WIDTH</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_AXI4_BUSER_WIDTH">0</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="std_logic_vector">
+        <spirit:name>C_M_AXI4_LITE_START_DATA_VALUE</spirit:name>
+        <spirit:displayName>C M AXI4 LITE START DATA VALUE</spirit:displayName>
+        <spirit:value spirit:format="bitString" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_LITE_START_DATA_VALUE" spirit:bitStringLength="32">0xAA000000</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="std_logic_vector">
+        <spirit:name>C_M_AXI4_LITE_TARGET_SLAVE_BASE_ADDR</spirit:name>
+        <spirit:displayName>C M AXI4 LITE TARGET SLAVE BASE ADDR</spirit:displayName>
+        <spirit:value spirit:format="bitString" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_LITE_TARGET_SLAVE_BASE_ADDR" spirit:bitStringLength="32">0x40000000</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_M_AXI4_LITE_ADDR_WIDTH</spirit:name>
+        <spirit:displayName>C M AXI4 LITE ADDR WIDTH</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_LITE_ADDR_WIDTH">32</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_M_AXI4_LITE_DATA_WIDTH</spirit:name>
+        <spirit:displayName>C M AXI4 LITE DATA WIDTH</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_LITE_DATA_WIDTH">32</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_M_AXI4_LITE_TRANSACTIONS_NUM</spirit:name>
+        <spirit:displayName>C M AXI4 LITE TRANSACTIONS NUM</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_LITE_TRANSACTIONS_NUM">4</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="std_logic_vector">
+        <spirit:name>C_M_AXI4_TARGET_SLAVE_BASE_ADDR</spirit:name>
+        <spirit:displayName>C M AXI4 TARGET SLAVE BASE ADDR</spirit:displayName>
+        <spirit:value spirit:format="bitString" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_TARGET_SLAVE_BASE_ADDR" spirit:bitStringLength="32">0x40000000</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_M_AXI4_BURST_LEN</spirit:name>
+        <spirit:displayName>C M AXI4 BURST LEN</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_BURST_LEN">16</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_M_AXI4_ID_WIDTH</spirit:name>
+        <spirit:displayName>C M AXI4 ID WIDTH</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_ID_WIDTH">0</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_M_AXI4_ADDR_WIDTH</spirit:name>
+        <spirit:displayName>C M AXI4 ADDR WIDTH</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_ADDR_WIDTH">32</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_M_AXI4_DATA_WIDTH</spirit:name>
+        <spirit:displayName>C M AXI4 DATA WIDTH</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_DATA_WIDTH">32</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_M_AXI4_AWUSER_WIDTH</spirit:name>
+        <spirit:displayName>C M AXI4 AWUSER WIDTH</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_AWUSER_WIDTH">0</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_M_AXI4_ARUSER_WIDTH</spirit:name>
+        <spirit:displayName>C M AXI4 ARUSER WIDTH</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_ARUSER_WIDTH">0</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_M_AXI4_WUSER_WIDTH</spirit:name>
+        <spirit:displayName>C M AXI4 WUSER WIDTH</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_WUSER_WIDTH">0</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_M_AXI4_RUSER_WIDTH</spirit:name>
+        <spirit:displayName>C M AXI4 RUSER WIDTH</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_RUSER_WIDTH">0</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_M_AXI4_BUSER_WIDTH</spirit:name>
+        <spirit:displayName>C M AXI4 BUSER WIDTH</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXI4_BUSER_WIDTH">0</spirit:value>
       </spirit:modelParameter>
     </spirit:modelParameters>
   </spirit:model>
   <spirit:choices>
     <spirit:choice>
+      <spirit:name>choice_list_66fc50c5</spirit:name>
+      <spirit:enumeration>AXI->Wishbone</spirit:enumeration>
+      <spirit:enumeration>Wishbone->AXI</spirit:enumeration>
+    </spirit:choice>
+    <spirit:choice>
       <spirit:name>choice_list_6fc15197</spirit:name>
       <spirit:enumeration>32</spirit:enumeration>
+    </spirit:choice>
+    <spirit:choice>
+      <spirit:name>choice_list_71927780</spirit:name>
+      <spirit:enumeration>CLASSIC</spirit:enumeration>
+      <spirit:enumeration>PIPELINED</spirit:enumeration>
     </spirit:choice>
     <spirit:choice>
       <spirit:name>choice_list_85010fde</spirit:name>
@@ -4632,6 +4641,11 @@
       <spirit:enumeration>256</spirit:enumeration>
     </spirit:choice>
     <spirit:choice>
+      <spirit:name>choice_list_99ba8646</spirit:name>
+      <spirit:enumeration>32</spirit:enumeration>
+      <spirit:enumeration>64</spirit:enumeration>
+    </spirit:choice>
+    <spirit:choice>
       <spirit:name>choice_list_ac3b832e</spirit:name>
       <spirit:enumeration>64</spirit:enumeration>
       <spirit:enumeration>128</spirit:enumeration>
@@ -4642,9 +4656,8 @@
       <spirit:enumeration>4096</spirit:enumeration>
     </spirit:choice>
     <spirit:choice>
-      <spirit:name>choice_list_c5d918d0</spirit:name>
-      <spirit:enumeration>Wishbone</spirit:enumeration>
-      <spirit:enumeration>AXI4-Lite</spirit:enumeration>
+      <spirit:name>choice_list_d62f7aa8</spirit:name>
+      <spirit:enumeration>AXI4LITE</spirit:enumeration>
       <spirit:enumeration>AXI4</spirit:enumeration>
     </spirit:choice>
     <spirit:choice>
@@ -4656,6 +4669,37 @@
   <spirit:fileSets>
     <spirit:fileSet>
       <spirit:name>xilinx_vhdlsynthesis_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>hdl/general-cores/genrams/genram_pkg.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/general-cores/genrams/memory_loader_pkg.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/general-cores/genrams/xilinx/generic_dpram.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/general-cores/genrams/xilinx/generic_dpram_dualclock.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/general-cores/genrams/xilinx/generic_dpram_sameclock.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/general-cores/genrams/generic/inferred_sync_fifo.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_216a65c1</spirit:userFileType>
+        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
+      </spirit:file>
       <spirit:file>
         <spirit:name>hdl/WishboneAXI_v0_1_S_AXI4_LITE.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
@@ -4675,11 +4719,47 @@
       <spirit:file>
         <spirit:name>hdl/WishboneAXI_v0_1.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_8c8e7946</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_1cc99424</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
       <spirit:name>xilinx_vhdlbehavioralsimulation_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>hdl/general-cores/genrams/genram_pkg.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
+        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/general-cores/genrams/memory_loader_pkg.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
+        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/general-cores/genrams/xilinx/generic_dpram.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
+        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/general-cores/genrams/xilinx/generic_dpram_dualclock.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
+        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/general-cores/genrams/xilinx/generic_dpram_sameclock.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
+        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/general-cores/genrams/generic/inferred_sync_fifo.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
+        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
+      </spirit:file>
       <spirit:file>
         <spirit:name>hdl/WishboneAXI_v0_1_S_AXI4_LITE.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
@@ -4741,9 +4821,9 @@
     <spirit:fileSet>
       <spirit:name>xilinx_xpgui_view_fileset</spirit:name>
       <spirit:file>
-        <spirit:name>xgui/WishboneAXI_v0_1.tcl</spirit:name>
+        <spirit:name>xgui/WishboneAXI_v0_2.tcl</spirit:name>
         <spirit:fileType>tclSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_4290212b</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_55ad51cb</spirit:userFileType>
         <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
@@ -4752,6 +4832,20 @@
       <spirit:file>
         <spirit:name>bd/bd.tcl</spirit:name>
         <spirit:fileType>tclSource</spirit:fileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_vhdltestbench_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>sim/testbench/basic/tb_basic.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_utilityxitfiles_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>gui/WishboneAXI_v0_2.gtcl</spirit:name>
+        <spirit:userFileType>GTCL</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
   </spirit:fileSets>
@@ -4773,7 +4867,14 @@
       <spirit:name>C_M_AXI4_ID_WIDTH</spirit:name>
       <spirit:displayName>C M AXI4 ID WIDTH</spirit:displayName>
       <spirit:description>Thread ID Width</spirit:description>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_M_AXI4_ID_WIDTH" spirit:order="5" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">1</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_M_AXI4_ID_WIDTH" spirit:order="5" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">0</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_M_AXI4_ID_WIDTH">false</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>C_M_AXI4_ADDR_WIDTH</spirit:name>
@@ -4806,90 +4907,81 @@
       <spirit:displayName>C M AXI4 AWUSER WIDTH</spirit:displayName>
       <spirit:description>Width of User Write Address Bus</spirit:description>
       <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_M_AXI4_AWUSER_WIDTH" spirit:order="8" spirit:minimum="0" spirit:maximum="1024" spirit:rangeType="long">0</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_M_AXI4_AWUSER_WIDTH">false</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>C_M_AXI4_ARUSER_WIDTH</spirit:name>
       <spirit:displayName>C M AXI4 ARUSER WIDTH</spirit:displayName>
       <spirit:description>Width of User Read Address Bus</spirit:description>
       <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_M_AXI4_ARUSER_WIDTH" spirit:order="9" spirit:minimum="0" spirit:maximum="1024" spirit:rangeType="long">0</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_M_AXI4_ARUSER_WIDTH">false</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>C_M_AXI4_WUSER_WIDTH</spirit:name>
       <spirit:displayName>C M AXI4 WUSER WIDTH</spirit:displayName>
       <spirit:description>Width of User Write Data Bus</spirit:description>
       <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_M_AXI4_WUSER_WIDTH" spirit:order="10" spirit:minimum="0" spirit:maximum="1024" spirit:rangeType="long">0</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_M_AXI4_WUSER_WIDTH">false</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>C_M_AXI4_RUSER_WIDTH</spirit:name>
       <spirit:displayName>C M AXI4 RUSER WIDTH</spirit:displayName>
       <spirit:description>Width of User Read Data Bus</spirit:description>
       <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_M_AXI4_RUSER_WIDTH" spirit:order="11" spirit:minimum="0" spirit:maximum="1024" spirit:rangeType="long">0</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_M_AXI4_RUSER_WIDTH">false</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>C_M_AXI4_BUSER_WIDTH</spirit:name>
       <spirit:displayName>C M AXI4 BUSER WIDTH</spirit:displayName>
       <spirit:description>Width of User Response Bus</spirit:description>
       <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_M_AXI4_BUSER_WIDTH" spirit:order="12" spirit:minimum="0" spirit:maximum="1024" spirit:rangeType="long">0</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_M_AXI4_BUSER_WIDTH">false</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>C_S_AXI4_LITE_DATA_WIDTH</spirit:name>
-      <spirit:displayName>C S AXI4 LITE DATA WIDTH</spirit:displayName>
+      <spirit:displayName>AXI Lite Data Width</spirit:displayName>
       <spirit:description>Width of S_AXI data bus</spirit:description>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S_AXI4_LITE_DATA_WIDTH" spirit:choiceRef="choice_list_6fc15197" spirit:order="13">32</spirit:value>
-      <spirit:vendorExtensions>
-        <xilinx:parameterInfo>
-          <xilinx:enablement>
-            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_S_AXI4_LITE_DATA_WIDTH">false</xilinx:isEnabled>
-          </xilinx:enablement>
-        </xilinx:parameterInfo>
-      </spirit:vendorExtensions>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S_AXI4_LITE_DATA_WIDTH" spirit:choiceRef="choice_list_99ba8646" spirit:order="13">32</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>C_S_AXI4_LITE_ADDR_WIDTH</spirit:name>
-      <spirit:displayName>C S AXI4 LITE ADDR WIDTH</spirit:displayName>
+      <spirit:displayName>AXI Lite Address Width</spirit:displayName>
       <spirit:description>Width of S_AXI address bus</spirit:description>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S_AXI4_LITE_ADDR_WIDTH" spirit:order="14" spirit:rangeType="long">4</spirit:value>
-      <spirit:vendorExtensions>
-        <xilinx:parameterInfo>
-          <xilinx:enablement>
-            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_S_AXI4_LITE_ADDR_WIDTH">false</xilinx:isEnabled>
-          </xilinx:enablement>
-        </xilinx:parameterInfo>
-      </spirit:vendorExtensions>
-    </spirit:parameter>
-    <spirit:parameter>
-      <spirit:name>C_S_AXI4_LITE_BASEADDR</spirit:name>
-      <spirit:displayName>C S AXI4 LITE BASEADDR</spirit:displayName>
-      <spirit:value spirit:format="bitString" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S_AXI4_LITE_BASEADDR" spirit:order="15" spirit:bitStringLength="32">0xFFFFFFFF</spirit:value>
-      <spirit:vendorExtensions>
-        <xilinx:parameterInfo>
-          <xilinx:enablement>
-            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_S_AXI4_LITE_BASEADDR">false</xilinx:isEnabled>
-          </xilinx:enablement>
-        </xilinx:parameterInfo>
-      </spirit:vendorExtensions>
-    </spirit:parameter>
-    <spirit:parameter>
-      <spirit:name>C_S_AXI4_LITE_HIGHADDR</spirit:name>
-      <spirit:displayName>C S AXI4 LITE HIGHADDR</spirit:displayName>
-      <spirit:value spirit:format="bitString" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S_AXI4_LITE_HIGHADDR" spirit:order="16" spirit:bitStringLength="32">0x00000000</spirit:value>
-      <spirit:vendorExtensions>
-        <xilinx:parameterInfo>
-          <xilinx:enablement>
-            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_S_AXI4_LITE_HIGHADDR">false</xilinx:isEnabled>
-          </xilinx:enablement>
-        </xilinx:parameterInfo>
-      </spirit:vendorExtensions>
-    </spirit:parameter>
-    <spirit:parameter>
-      <spirit:name>C_S_AXI4_ID_WIDTH</spirit:name>
-      <spirit:displayName>C S AXI4 ID WIDTH</spirit:displayName>
-      <spirit:description>Width of ID for for write address, write data, read address and read data</spirit:description>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S_AXI4_ID_WIDTH" spirit:order="17" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">1</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S_AXI4_LITE_ADDR_WIDTH" spirit:order="14" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">32</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>C_S_AXI4_DATA_WIDTH</spirit:name>
-      <spirit:displayName>C S AXI4 DATA WIDTH</spirit:displayName>
+      <spirit:displayName>AXI Data Width</spirit:displayName>
       <spirit:description>Width of S_AXI data bus</spirit:description>
       <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S_AXI4_DATA_WIDTH" spirit:choiceRef="choice_list_6fc15197" spirit:order="18">32</spirit:value>
       <spirit:vendorExtensions>
@@ -4902,9 +4994,9 @@
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>C_S_AXI4_ADDR_WIDTH</spirit:name>
-      <spirit:displayName>C S AXI4 ADDR WIDTH</spirit:displayName>
+      <spirit:displayName>AXI Address Width</spirit:displayName>
       <spirit:description>Width of S_AXI address bus</spirit:description>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S_AXI4_ADDR_WIDTH" spirit:order="19" spirit:rangeType="long">6</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S_AXI4_ADDR_WIDTH" spirit:order="19" spirit:minimum="0" spirit:maximum="64" spirit:rangeType="long">6</spirit:value>
       <spirit:vendorExtensions>
         <xilinx:parameterInfo>
           <xilinx:enablement>
@@ -4918,30 +5010,65 @@
       <spirit:displayName>C S AXI4 AWUSER WIDTH</spirit:displayName>
       <spirit:description>Width of optional user defined signal in write address channel</spirit:description>
       <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S_AXI4_AWUSER_WIDTH" spirit:order="20" spirit:minimum="0" spirit:maximum="1024" spirit:rangeType="long">0</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_S_AXI4_AWUSER_WIDTH">false</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>C_S_AXI4_ARUSER_WIDTH</spirit:name>
       <spirit:displayName>C S AXI4 ARUSER WIDTH</spirit:displayName>
       <spirit:description>Width of optional user defined signal in read address channel</spirit:description>
       <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S_AXI4_ARUSER_WIDTH" spirit:order="21" spirit:minimum="0" spirit:maximum="1024" spirit:rangeType="long">0</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_S_AXI4_ARUSER_WIDTH">false</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>C_S_AXI4_WUSER_WIDTH</spirit:name>
       <spirit:displayName>C S AXI4 WUSER WIDTH</spirit:displayName>
       <spirit:description>Width of optional user defined signal in write data channel</spirit:description>
       <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S_AXI4_WUSER_WIDTH" spirit:order="22" spirit:minimum="0" spirit:maximum="1024" spirit:rangeType="long">0</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_S_AXI4_WUSER_WIDTH">false</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>C_S_AXI4_RUSER_WIDTH</spirit:name>
       <spirit:displayName>C S AXI4 RUSER WIDTH</spirit:displayName>
       <spirit:description>Width of optional user defined signal in read data channel</spirit:description>
       <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S_AXI4_RUSER_WIDTH" spirit:order="23" spirit:minimum="0" spirit:maximum="1024" spirit:rangeType="long">0</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_S_AXI4_RUSER_WIDTH">false</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>C_S_AXI4_BUSER_WIDTH</spirit:name>
       <spirit:displayName>C S AXI4 BUSER WIDTH</spirit:displayName>
       <spirit:description>Width of optional user defined signal in write response channel</spirit:description>
       <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S_AXI4_BUSER_WIDTH" spirit:order="24" spirit:minimum="0" spirit:maximum="1024" spirit:rangeType="long">0</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_S_AXI4_BUSER_WIDTH">false</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>C_S_AXI4_BASEADDR</spirit:name>
@@ -5020,44 +5147,72 @@
       <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.Component_Name" spirit:order="1">WishboneAXI_v0_1</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
-      <spirit:name>C_MASTER_TYPE</spirit:name>
-      <spirit:displayName>C Master Type</spirit:displayName>
-      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.C_MASTER_TYPE" spirit:choiceRef="choice_list_c5d918d0">Wishbone</spirit:value>
-    </spirit:parameter>
-    <spirit:parameter>
-      <spirit:name>C_SLAVE_TYPE</spirit:name>
-      <spirit:displayName>C Slave Type</spirit:displayName>
-      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.C_SLAVE_TYPE" spirit:choiceRef="choice_list_c5d918d0">AXI4-Lite</spirit:value>
-    </spirit:parameter>
-    <spirit:parameter>
       <spirit:name>C_M_WB_ADR_WIDTH</spirit:name>
-      <spirit:displayName>C M Wb Adr Width</spirit:displayName>
+      <spirit:displayName>Wishbone Master Address Width</spirit:displayName>
       <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_M_WB_ADR_WIDTH">32</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
-      <spirit:name>C_M_WB_DATW_WIDTH</spirit:name>
-      <spirit:displayName>C M Wb Datw Width</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_M_WB_DATW_WIDTH">32</spirit:value>
-    </spirit:parameter>
-    <spirit:parameter>
-      <spirit:name>C_M_WB_DATR_WIDTH</spirit:name>
-      <spirit:displayName>C M Wb Datr Width</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_M_WB_DATR_WIDTH">32</spirit:value>
-    </spirit:parameter>
-    <spirit:parameter>
       <spirit:name>C_S_WB_ADR_WIDTH</spirit:name>
-      <spirit:displayName>C S Wb Adr Width</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S_WB_ADR_WIDTH">32</spirit:value>
+      <spirit:displayName>Wishbone Slave Address Width</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S_WB_ADR_WIDTH" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">32</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
-      <spirit:name>C_S_WB_DATW_WIDTH</spirit:name>
-      <spirit:displayName>C S Wb Datw Width</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S_WB_DATW_WIDTH">32</spirit:value>
+      <spirit:name>C_AXI_MODE</spirit:name>
+      <spirit:displayName>AXI Mode</spirit:displayName>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.C_AXI_MODE" spirit:choiceRef="choice_list_d62f7aa8">AXI4LITE</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_AXI_MODE">false</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
     </spirit:parameter>
     <spirit:parameter>
-      <spirit:name>C_S_WB_DATR_WIDTH</spirit:name>
-      <spirit:displayName>C S Wb Datr Width</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S_WB_DATR_WIDTH">32</spirit:value>
+      <spirit:name>C_WB_MODE</spirit:name>
+      <spirit:displayName>Wishbone mode</spirit:displayName>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.C_WB_MODE" spirit:choiceRef="choice_list_71927780">CLASSIC</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>C_S_WB_DAT_WIDTH</spirit:name>
+      <spirit:displayName>Wishbone Slave Data Width</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S_WB_DAT_WIDTH" spirit:minimum="0" spirit:maximum="64" spirit:rangeType="long">32</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>C_M_WB_DAT_WIDTH</spirit:name>
+      <spirit:displayName>Wishbone Master Data Width</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_M_WB_DAT_WIDTH">32</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_M_WB_DAT_WIDTH">false</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>C_S_AXI4_ID_WIDTH</spirit:name>
+      <spirit:displayName>AXI4 Slave ID Width</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S_AXI4_ID_WIDTH">0</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_S_AXI4_ID_WIDTH">false</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>BRIDGE_TYPE</spirit:name>
+      <spirit:displayName>Bridge Type</spirit:displayName>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.BRIDGE_TYPE" spirit:choiceRef="choice_list_66fc50c5">AXI->Wishbone</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.BRIDGE_TYPE">false</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
     </spirit:parameter>
   </spirit:parameters>
   <spirit:vendorExtensions>
@@ -5088,21 +5243,26 @@
       </xilinx:taxonomies>
       <xilinx:displayName>Wishbone AXI bridge</xilinx:displayName>
       <xilinx:vendorURL>https://github.com/qermit/WishboneAXI</xilinx:vendorURL>
-      <xilinx:coreRevision>3</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2016-05-13T11:57:42Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>5</xilinx:coreRevision>
+      <xilinx:upgrades>
+        <xilinx:canUpgradeFrom>gsi.de:user:WishboneAXI:0.1</xilinx:canUpgradeFrom>
+      </xilinx:upgrades>
+      <xilinx:coreCreationDateTime>2016-06-28T15:14:52Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
-        <xilinx:tag xilinx:name="gsi.de:user:WishboneAXI:0.1_ARCHIVE_LOCATION">D:/Devel/xilinx/ip_repo/WishboneAXI/cores/Wishbone2AXI</xilinx:tag>
+        <xilinx:tag xilinx:name="gsi.de:user:WishboneAXI:0.1_ARCHIVE_LOCATION">/home/abyszuk/praca/github/WishboneAXI/cores/Wishbone2AXI</xilinx:tag>
+        <xilinx:tag xilinx:name="CTI:user:WishboneAXI:0.1_ARCHIVE_LOCATION">/home/abyszuk/praca/github/WishboneAXI/cores/Wishbone2AXI</xilinx:tag>
+        <xilinx:tag xilinx:name="CTI:user:WishboneAXI:0.2_ARCHIVE_LOCATION">/home/abyszuk/praca/github/WishboneAXI/cores/Wishbone2AXI</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2015.4</xilinx:xilinxVersion>
-      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="a8c9bf81"/>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="74be8f49"/>
       <xilinx:checksum xilinx:scope="addressSpaces" xilinx:value="d44a2edb"/>
       <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="e482b9a2"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="b9d2e531"/>
-      <xilinx:checksum xilinx:scope="ports" xilinx:value="c8e87bbd"/>
-      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="a3d50244"/>
-      <xilinx:checksum xilinx:scope="parameters" xilinx:value="1b602b71"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="f4c65408"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="2b6f7e1e"/>
+      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="110530e8"/>
+      <xilinx:checksum xilinx:scope="parameters" xilinx:value="cf8a9a8d"/>
     </xilinx:packagingInfo>
   </spirit:vendorExtensions>
 </spirit:component>

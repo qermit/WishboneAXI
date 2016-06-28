@@ -25,7 +25,7 @@
     </spirit:port>
     <spirit:port>
       <spirit:logicalName>dat_w</spirit:logicalName>
-      <spirit:description/>
+      <spirit:description>Write data</spirit:description>
       <spirit:wire>
         <spirit:qualifier>
           <spirit:isData>true</spirit:isData>
@@ -42,7 +42,7 @@
     </spirit:port>
     <spirit:port>
       <spirit:logicalName>dat_r</spirit:logicalName>
-      <spirit:description/>
+      <spirit:description>Read data</spirit:description>
       <spirit:wire>
         <spirit:qualifier>
           <spirit:isData>true</spirit:isData>
@@ -59,7 +59,7 @@
     </spirit:port>
     <spirit:port>
       <spirit:logicalName>cyc</spirit:logicalName>
-      <spirit:description/>
+      <spirit:description>Cycle valid</spirit:description>
       <spirit:wire>
         <spirit:onMaster>
           <spirit:presence>required</spirit:presence>
@@ -75,7 +75,7 @@
     </spirit:port>
     <spirit:port>
       <spirit:logicalName>stall</spirit:logicalName>
-      <spirit:description/>
+      <spirit:description>Stall pipeline</spirit:description>
       <spirit:wire>
         <spirit:onMaster>
           <spirit:presence>required</spirit:presence>
@@ -91,7 +91,7 @@
     </spirit:port>
     <spirit:port>
       <spirit:logicalName>err</spirit:logicalName>
-      <spirit:description/>
+      <spirit:description>Strobe error</spirit:description>
       <spirit:wire>
         <spirit:onMaster>
           <spirit:presence>required</spirit:presence>
@@ -110,11 +110,11 @@
       <spirit:description/>
       <spirit:wire>
         <spirit:onMaster>
-          <spirit:presence>required</spirit:presence>
+          <spirit:presence>optional</spirit:presence>
           <spirit:width>1</spirit:width>
         </spirit:onMaster>
         <spirit:onSlave>
-          <spirit:presence>required</spirit:presence>
+          <spirit:presence>optional</spirit:presence>
           <spirit:width>1</spirit:width>
           <spirit:direction>in</spirit:direction>
         </spirit:onSlave>
@@ -123,22 +123,22 @@
     </spirit:port>
     <spirit:port>
       <spirit:logicalName>rty</spirit:logicalName>
-      <spirit:description/>
+      <spirit:description>Strobe retry</spirit:description>
       <spirit:wire>
         <spirit:onMaster>
-          <spirit:presence>required</spirit:presence>
+          <spirit:presence>optional</spirit:presence>
           <spirit:width>1</spirit:width>
           <spirit:direction>in</spirit:direction>
         </spirit:onMaster>
         <spirit:onSlave>
-          <spirit:presence>required</spirit:presence>
+          <spirit:presence>optional</spirit:presence>
         </spirit:onSlave>
         <spirit:defaultValue>0</spirit:defaultValue>
       </spirit:wire>
     </spirit:port>
     <spirit:port>
       <spirit:logicalName>sel</spirit:logicalName>
-      <spirit:description/>
+      <spirit:description>Write data select</spirit:description>
       <spirit:wire>
         <spirit:onMaster>
           <spirit:presence>required</spirit:presence>
@@ -152,7 +152,7 @@
     </spirit:port>
     <spirit:port>
       <spirit:logicalName>stb</spirit:logicalName>
-      <spirit:description/>
+      <spirit:description>Cycle strobe</spirit:description>
       <spirit:wire>
         <spirit:onMaster>
           <spirit:presence>required</spirit:presence>
@@ -188,7 +188,7 @@
     </spirit:port>
     <spirit:port>
       <spirit:logicalName>we</spirit:logicalName>
-      <spirit:description/>
+      <spirit:description>Write enable</spirit:description>
       <spirit:wire>
         <spirit:onMaster>
           <spirit:presence>required</spirit:presence>
@@ -204,7 +204,7 @@
     </spirit:port>
     <spirit:port>
       <spirit:logicalName>ack</spirit:logicalName>
-      <spirit:description/>
+      <spirit:description>Strobe ACK</spirit:description>
       <spirit:wire>
         <spirit:onMaster>
           <spirit:presence>required</spirit:presence>
