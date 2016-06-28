@@ -435,6 +435,7 @@ begin
     s_axi4_lite_awaddr  <= x"00001234";
     s_axi4_lite_awvalid <= '1';
     wait until rising_edge(m_axi4_aclk);
+    wait until rising_edge(m_axi4_aclk);
     wait for 1 ns;
     s_axi4_lite_awvalid <= '0';
     s_axi4_lite_wdata   <= x"12345678";
@@ -458,6 +459,7 @@ begin
     s_axi4_lite_wstrb   <= "1110";
     s_axi4_lite_wvalid  <= '1';
     wait until rising_edge(m_axi4_aclk);
+    wait until rising_edge(m_axi4_aclk);
     wait for 1 ns;
     s_axi4_lite_wvalid  <= '0';
     s_axi4_lite_awaddr  <= x"00002345";
@@ -478,6 +480,7 @@ begin
     wait until rising_edge(m_axi4_aclk);
     wait for 1 ns;
     m_wb_err            <= '0';
+    wait until rising_edge(m_axi4_aclk);
     s_axi4_lite_awvalid <= '0';
     s_axi4_lite_wvalid  <= '0';
     if m_wb_stb = '0' then
@@ -485,10 +488,46 @@ begin
     end if;
     report "WB response: sync RTY" severity note;
     wait until rising_edge(m_axi4_aclk);
-    m_wb_rty <= '1' after 1 ns;
+    m_wb_rty            <= '1' after 1 ns;
     wait until rising_edge(m_axi4_aclk);
     wait for 1 ns;
-    m_wb_rty <= '0';
+    m_wb_rty            <= '0';
+    report "Write type 3: start from IDLE state, BREADY low, next transaction in line" severity note;
+    s_axi4_lite_awaddr  <= x"40000123";
+    s_axi4_lite_awvalid <= '1';
+    s_axi4_lite_wdata   <= x"19876543";
+    s_axi4_lite_wstrb   <= "1111";
+    s_axi4_lite_wvalid  <= '1';
+    s_axi4_lite_bready  <= '0';
+    wait until rising_edge(m_axi4_aclk);
+    wait for 1 ns;
+    report "WB response: async ACK" severity note;
+    m_wb_ack            <= '1';
+    s_axi4_lite_awaddr  <= x"50000234";
+    s_axi4_lite_wdata   <= x"19876555";
+    s_axi4_lite_wstrb   <= "0001";
+    wait until rising_edge(m_axi4_aclk);
+    wait for 1 ns;
+    m_wb_ack            <= '0';
+    wait until rising_edge(m_axi4_aclk);
+    wait for 1 ns;
+    report "AXI: assert BREADY" severity note;
+    s_axi4_lite_bready  <= '1';
+    wait until rising_edge(m_axi4_aclk);
+    wait for 1 ns;
+    report "AXI: deassert BREADY" severity note;
+    s_axi4_lite_bready  <= '0';
+    s_axi4_lite_awvalid <= '0';
+    s_axi4_lite_wvalid  <= '0';
+    wait until rising_edge(m_axi4_aclk);
+    wait for 1 ns;
+    report "WB response: sync ACK" severity note;
+    m_wb_ack            <= '1';
+    wait until rising_edge(m_axi4_aclk);
+    wait for 1 ns;
+    m_wb_ack            <= '0';
+    s_axi4_lite_bready  <= '1';
+
 
     report "Read: one read request" severity note;
     s_axi4_lite_araddr  <= x"10203040";
@@ -552,6 +591,7 @@ begin
     s_axi4_lite_araddr  <= x"10203045";
     s_axi4_lite_arvalid <= '1';
     wait until rising_edge(s_axi4_aclk);
+    wait until rising_edge(m_axi4_aclk);
     wait for 1 ns;
     report "Read: assert RREADY" severity note;
     s_axi4_lite_rready  <= '1';

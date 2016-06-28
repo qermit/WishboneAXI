@@ -263,6 +263,8 @@ begin
                 wb_stb       <= '0';  --only strobe, keep cycle high in hope of new data
                 if S_AXI_BREADY = '0' then
                   trans_state <= W_RESP;
+                -- according to AXI spec. *VALID signal, once asserted, *must* remain asserted until *READY is asserted
+                -- so we can latch data and set *ready in next cycle
                 elsif (S_AXI_AWVALID and S_AXI_WVALID) = '1' then
                   axi_awready <= '1';
                   axi_wready  <= '1';  --toogle ready signals to latch axi data
@@ -348,7 +350,7 @@ begin
                 end if;
               end if;
             end if;
-
+--coverage off
           when others =>
             axi_awready <= '0';
             axi_wready  <= '0';
@@ -357,7 +359,7 @@ begin
             wb_cyc      <= '0';
             wb_stb      <= '0';
             trans_state <= IDLE;
-
+--coverage on
         end case;
       end if;
     end if;
