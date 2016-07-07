@@ -1,0 +1,10 @@
+#GHDL stuff
+ghdl_output/
+*.o
+*.ghw
+*.vcd*
+tb_basic
+#Mentor stuff
+transcript
+vsim.wlf
+work/

@@ -1,0 +1,2 @@
+# This file is automatically written.  Do not modify.
+proc gen_USERPARAMETER_C_M_WB_DAT_WIDTH_VALUE {C_S_AXI4_LITE_DATA_WIDTH } {expr $C_S_AXI4_LITE_DATA_WIDTH}
