@@ -8,8 +8,15 @@ Both AXI and WB interfaces have to use the same clock and data width.
 If you want to do clock or DWIDTH conversion, please use dedicated CDC/DWIDTH circuits for
 AXI or WB interfaces.
 
-In final version bridge should support all conversion modes.
-Current version supports following conversions:
-AXI4 Lite -> Wishbone (classic, pipelined TBD)
+## Features:
+ * Pure VHDL
+ * Vivado Block Design
+ * Structured AXI/Wisbone ports
+
+## Conversion mode supported:
+  * AXI4Lite -> Wishbone Classic
+  * AXI4Lite -> Wishbone Pipelined
+  * Wishbone Pipelined -> AXI4Lite
+  * Wishbone Classic -> AXI4Lite
 
 Each conversion mode should have a suitable testbench, which would verify specs requirements.
