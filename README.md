@@ -1,7 +1,7 @@
 # WishboneAXI 
-This project is a universal, configurable Wishbone<=>AXI bridge together with Xilinx IP wrapper,
-which makes it suitable for Block Design projects.
-WishboneAXI tries to stay compliant to AXI4 and Wishbone B4 specifications, but is provided "as is",
+This project is a universal, configurable **Wishbone** <=> **AXI** bridge together with Xilinx IP wrapper,
+which makes it suitable for **Block Design** projects.
+WishboneAXI tries to stay compliant to **AXI4** and **Wishbone B4** specifications, but is provided "as is",
 with no guarantee of fitness for particular purpose.
 
 Both AXI and WB interfaces have to use the same clock and data width.
