@@ -240,10 +240,10 @@ end generate;
 
 GEN_CONVERT: if C_MASTER_MODE /= C_SLAVE_MODE  generate
 
-GEN_AXI4LITE_2_WB: if f_str_is_axi(C_MASTER_MODE) and f_str_is_wb(C_SLAVE_MODE) generate
+GEN_AXI4LITE_2_WB: if f_str_is_wb(C_MASTER_MODE) and f_str_is_axi(C_SLAVE_MODE) generate
   signal m_tmp_wb_s2m: t_wishbone_slave_out;
   signal m_tmp_wb_m2s: t_wishbone_master_out;
-  constant tmp_local_wb_mode: t_wishbone_interface_mode := f_str_to_wb_type(C_SLAVE_MODE);
+  constant tmp_local_wb_mode: t_wishbone_interface_mode := f_str_to_wb_type(C_MASTER_MODE);
 begin
 
 WishboneAXI_v0_2_S_AXI4_LITE_inst : WishboneAXI_v0_2_S_AXI4_LITE
@@ -287,7 +287,7 @@ WishboneAXI_v0_2_S_AXI4_LITE_inst : WishboneAXI_v0_2_S_AXI4_LITE
 end generate;
   
 
-GEN_WB_2_AXI4LITE: if f_str_is_axi(C_SLAVE_MODE) and f_str_is_wb(C_MASTER_MODE) generate
+GEN_WB_2_AXI4LITE: if f_str_is_wb(C_SLAVE_MODE) and f_str_is_axi(C_MASTER_MODE) generate
   signal tmp_wb_s2m: t_wishbone_slave_out;
   signal tmp_wb_m2s: t_wishbone_master_out;
   constant tmp_local_wb_mode: t_wishbone_interface_mode := f_str_to_wb_type(C_MASTER_MODE);
