@@ -52,15 +52,12 @@ proc init_gui { IPINST } {
   set C_S_AXI4_LITE_DATA_WIDTH [ipgui::add_param $IPINST -name "C_S_AXI4_LITE_DATA_WIDTH" -parent ${AXI_Lite_Slave} -widget comboBox]
   set_property tooltip {Width of S_AXI data bus} ${C_S_AXI4_LITE_DATA_WIDTH}
 
-  ipgui::add_static_text $IPINST -name "Notice" -text {This core supports only AXI Lite -> Wishbone translation for now. More to come.}
-  set BRIDGE_TYPE [ipgui::add_param $IPINST -name "BRIDGE_TYPE" -widget comboBox]
-  set_property tooltip {AXI->Wishbone or Wishbone->AXI} ${BRIDGE_TYPE}
-  set C_AXI_MODE [ipgui::add_param $IPINST -name "C_AXI_MODE" -widget comboBox]
-  set_property tooltip {AXI or AXI-Lite} ${C_AXI_MODE}
+  set C_MASTER_MODE [ipgui::add_param $IPINST -name "C_MASTER_MODE" -widget comboBox]
+  set_property tooltip {AXI or AXI-Lite} ${C_MASTER_MODE}
   #Adding Group
   set sadf [ipgui::add_group $IPINST -name "sadf" -display_name {Wishbone parameters}]
-  set C_WB_MODE [ipgui::add_param $IPINST -name "C_WB_MODE" -parent ${sadf} -widget comboBox]
-  set_property tooltip {CLASSIC or PIPELINED} ${C_WB_MODE}
+  set C_SLAVE_MODE [ipgui::add_param $IPINST -name "C_SLAVE_MODE" -parent ${sadf} -widget comboBox]
+  set_property tooltip {CLASSIC or PIPELINED} ${C_SLAVE_MODE}
   set C_S_WB_ADR_WIDTH [ipgui::add_param $IPINST -name "C_S_WB_ADR_WIDTH" -parent ${sadf}]
   set_property tooltip {Width of Wishbone address bus} ${C_S_WB_ADR_WIDTH}
   ipgui::add_param $IPINST -name "C_S_WB_DAT_WIDTH" -parent ${sadf}
@@ -85,21 +82,13 @@ proc validate_PARAM_VALUE.C_M_WB_DAT_WIDTH { PARAM_VALUE.C_M_WB_DAT_WIDTH } {
 	return true
 }
 
-proc update_PARAM_VALUE.BRIDGE_TYPE { PARAM_VALUE.BRIDGE_TYPE } {
-	# Procedure called to update BRIDGE_TYPE when any of the dependent parameters in the arguments change
+
+proc update_PARAM_VALUE.C_MASTER_MODE { PARAM_VALUE.C_MASTER_MODE } {
+	# Procedure called to update C_MASTER_MODE when any of the dependent parameters in the arguments change
 }
 
-proc validate_PARAM_VALUE.BRIDGE_TYPE { PARAM_VALUE.BRIDGE_TYPE } {
-	# Procedure called to validate BRIDGE_TYPE
-	return true
-}
-
-proc update_PARAM_VALUE.C_AXI_MODE { PARAM_VALUE.C_AXI_MODE } {
-	# Procedure called to update C_AXI_MODE when any of the dependent parameters in the arguments change
-}
-
-proc validate_PARAM_VALUE.C_AXI_MODE { PARAM_VALUE.C_AXI_MODE } {
-	# Procedure called to validate C_AXI_MODE
+proc validate_PARAM_VALUE.C_MASTER_MODE { PARAM_VALUE.C_MASTER_MODE } {
+	# Procedure called to validate C_MASTER_MODE
 	return true
 }
 
@@ -139,12 +128,12 @@ proc validate_PARAM_VALUE.C_S_WB_DAT_WIDTH { PARAM_VALUE.C_S_WB_DAT_WIDTH } {
 	return true
 }
 
-proc update_PARAM_VALUE.C_WB_MODE { PARAM_VALUE.C_WB_MODE } {
-	# Procedure called to update C_WB_MODE when any of the dependent parameters in the arguments change
+proc update_PARAM_VALUE.C_SLAVE_MODE { PARAM_VALUE.C_SLAVE_MODE } {
+	# Procedure called to update C_SLAVE_MODE when any of the dependent parameters in the arguments change
 }
 
-proc validate_PARAM_VALUE.C_WB_MODE { PARAM_VALUE.C_WB_MODE } {
-	# Procedure called to validate C_WB_MODE
+proc validate_PARAM_VALUE.C_SLAVE_MODE { PARAM_VALUE.C_SLAVE_MODE } {
+	# Procedure called to validate C_SLAVE_MODE
 	return true
 }
 
@@ -383,14 +372,14 @@ proc validate_PARAM_VALUE.C_M_AXI4_LITE_TRANSACTIONS_NUM { PARAM_VALUE.C_M_AXI4_
 }
 
 
-proc update_MODELPARAM_VALUE.C_AXI_MODE { MODELPARAM_VALUE.C_AXI_MODE PARAM_VALUE.C_AXI_MODE } {
+proc update_MODELPARAM_VALUE.C_MASTER_MODE { MODELPARAM_VALUE.C_MASTER_MODE PARAM_VALUE.C_MASTER_MODE } {
 	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
-	set_property value [get_property value ${PARAM_VALUE.C_AXI_MODE}] ${MODELPARAM_VALUE.C_AXI_MODE}
+	set_property value [get_property value ${PARAM_VALUE.C_MASTER_MODE}] ${MODELPARAM_VALUE.C_MASTER_MODE}
 }
 
-proc update_MODELPARAM_VALUE.C_WB_MODE { MODELPARAM_VALUE.C_WB_MODE PARAM_VALUE.C_WB_MODE } {
+proc update_MODELPARAM_VALUE.C_SLAVE_MODE { MODELPARAM_VALUE.C_SLAVE_MODE PARAM_VALUE.C_SLAVE_MODE } {
 	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
-	set_property value [get_property value ${PARAM_VALUE.C_WB_MODE}] ${MODELPARAM_VALUE.C_WB_MODE}
+	set_property value [get_property value ${PARAM_VALUE.C_SLAVE_MODE}] ${MODELPARAM_VALUE.C_SLAVE_MODE}
 }
 
 proc update_MODELPARAM_VALUE.C_S_WB_ADR_WIDTH { MODELPARAM_VALUE.C_S_WB_ADR_WIDTH PARAM_VALUE.C_S_WB_ADR_WIDTH } {

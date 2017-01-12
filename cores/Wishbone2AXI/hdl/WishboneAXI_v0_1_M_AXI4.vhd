@@ -174,6 +174,7 @@ end WishboneAXI_v0_1_M_AXI4;
 architecture implementation of WishboneAXI_v0_1_M_AXI4 is
 
 
+  
   -- function called clogb2 that returns an integer which has the
   --value of the ceiling of the log base 2
 

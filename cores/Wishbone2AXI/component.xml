@@ -183,7 +183,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_AXI4_LITE" xilinx:dependency="$C_AXI_MODE = &quot;AXI4LITE&quot;">true</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_AXI4_LITE" xilinx:dependency="$C_SLAVE_MODE = &quot;AXI4LITE&quot;">false</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -566,7 +566,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_AXI4" xilinx:dependency="$C_AXI_MODE = &quot;AXI4&quot;">false</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_AXI4" xilinx:dependency="$C_SLAVE_MODE = &quot;AXI4&quot;">false</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -746,7 +746,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_AXI4_LITE" xilinx:dependency="$C_AXI_MODE = &quot;AXI4LITE&quot; and $BRIDGE_TYPE = &quot;Wishbone->AXI&quot;">false</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_AXI4_LITE" xilinx:dependency="$C_MASTER_MODE = &quot;AXI4LITE&quot;">true</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1109,7 +1109,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_AXI4" xilinx:dependency="$C_AXI_MODE = &quot;AXI4&quot; and $BRIDGE_TYPE = &quot;Wishbone->AXI&quot;">false</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_AXI4" xilinx:dependency="$C_MASTER_MODE = &quot;AXI4&quot;">false</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1138,7 +1138,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_AXI4_RST" xilinx:dependency="$BRIDGE_TYPE = &quot;Wishbone->AXI&quot; and $C_AXI_MODE = &quot;AXI4&quot;">false</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_AXI4_RST" xilinx:dependency="$C_MASTER_MODE = &quot;AXI4&quot;">false</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1171,7 +1171,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_AXI4_CLK" xilinx:dependency="$BRIDGE_TYPE = &quot;Wishbone->AXI&quot; and $C_AXI_MODE = &quot;AXI4&quot;">false</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_AXI4_CLK" xilinx:dependency="$C_MASTER_MODE = &quot;AXI4&quot;">false</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1200,7 +1200,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_AXI4_LITE_RST" xilinx:dependency="$BRIDGE_TYPE = &quot;AXI->Wishbone&quot; and $C_AXI_MODE = &quot;AXI4LITE&quot;">true</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_AXI4_LITE_RST" xilinx:dependency="$C_SLAVE_MODE = &quot;AXI4LITE&quot;">false</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1233,7 +1233,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_AXI4_LITE_CLK" xilinx:dependency="$BRIDGE_TYPE = &quot;AXI->Wishbone&quot; and $C_AXI_MODE = &quot;AXI4LITE&quot;">true</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_AXI4_LITE_CLK" xilinx:dependency="$C_SLAVE_MODE = &quot;AXI4LITE&quot;">false</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1262,7 +1262,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_AXI4_RST" xilinx:dependency="$BRIDGE_TYPE = &quot;AXI->Wishbone&quot; and $C_AXI_MODE = &quot;AXI4&quot;">false</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_AXI4_RST" xilinx:dependency="$C_SLAVE_MODE = &quot;AXI4&quot;">false</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1295,7 +1295,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_AXI4_CLK" xilinx:dependency="$BRIDGE_TYPE = &quot;AXI->Wishbone&quot; and $C_AXI_MODE = &quot;AXI4&quot;">false</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_AXI4_CLK" xilinx:dependency="$C_SLAVE_MODE = &quot;AXI4&quot;">false</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1324,7 +1324,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_AXI4_LITE_RST" xilinx:dependency="$BRIDGE_TYPE = &quot;Wishbone->AXI&quot; and $C_AXI_MODE = &quot;AXI4LITE&quot;">false</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_AXI4_LITE_RST" xilinx:dependency="$C_MASTER_MODE = &quot;AXI4LITE&quot;">true</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1357,7 +1357,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_AXI4_LITE_CLK" xilinx:dependency="$BRIDGE_TYPE = &quot;Wishbone->AXI&quot; and $C_AXI_MODE = &quot;AXI4LITE&quot;">false</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_AXI4_LITE_CLK" xilinx:dependency="$C_MASTER_MODE = &quot;AXI4LITE&quot;">true</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1468,7 +1468,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_WB" xilinx:dependency="$BRIDGE_TYPE = &quot;AXI->Wishbone&quot;">true</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_WB" xilinx:dependency="$C_MASTER_MODE = &quot;CLASSIC&quot; or $C_MASTER_MODE = &quot;PIPELINED&quot;">false</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1579,7 +1579,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_WB" xilinx:dependency="$BRIDGE_TYPE = &quot;Wishbone->AXI&quot;">false</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_WB" xilinx:dependency="$C_SLAVE_MODE = &quot;CLASSIC&quot; or $C_SLAVE_MODE = &quot;PIPELINED&quot;">true</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1608,7 +1608,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_WB_CLK" xilinx:dependency="$BRIDGE_TYPE = &quot;AXI->Wishbone&quot;">true</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_WB_CLK" xilinx:dependency="$C_MASTER_MODE = &quot;CLASSIC&quot; or $C_MASTER_MODE = &quot;PIPELINED&quot;">false</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1638,7 +1638,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_WB_CLK" xilinx:dependency="$BRIDGE_TYPE = &quot;Wishbone->AXI&quot;">false</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_WB_CLK" xilinx:dependency="$C_SLAVE_MODE = &quot;CLASSIC&quot; or $C_SLAVE_MODE = &quot;PIPELINED&quot;">true</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1661,7 +1661,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_WB_RST" xilinx:dependency="$BRIDGE_TYPE = &quot;Wishbone->AXI&quot;">false</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.S_WB_RST" xilinx:dependency="$C_SLAVE_MODE = &quot;CLASSIC&quot; or $C_SLAVE_MODE = &quot;PIPELINED&quot;">true</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -1684,7 +1684,7 @@
       <spirit:vendorExtensions>
         <xilinx:busInterfaceInfo>
           <xilinx:enablement>
-            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_WB_RST" xilinx:dependency="$BRIDGE_TYPE = &quot;AXI->Wishbone&quot;">true</xilinx:isEnabled>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.M_WB_RST" xilinx:dependency="$C_MASTER_MODE = &quot;CLASSIC&quot; or $C_MASTER_MODE = &quot;PIPELINED&quot;">false</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
@@ -4457,14 +4457,14 @@
     </spirit:ports>
     <spirit:modelParameters>
       <spirit:modelParameter xsi:type="spirit:nameValueTypeType" spirit:dataType="string">
-        <spirit:name>C_AXI_MODE</spirit:name>
-        <spirit:displayName>C Axi Mode</spirit:displayName>
-        <spirit:value spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_AXI_MODE">AXI4LITE</spirit:value>
+        <spirit:name>C_MASTER_MODE</spirit:name>
+        <spirit:displayName>C Master Mode</spirit:displayName>
+        <spirit:value spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_MASTER_MODE">AXI4LITE</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="string">
-        <spirit:name>C_WB_MODE</spirit:name>
-        <spirit:displayName>C Wb Mode</spirit:displayName>
-        <spirit:value spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_WB_MODE">CLASSIC</spirit:value>
+        <spirit:name>C_SLAVE_MODE</spirit:name>
+        <spirit:displayName>C Slave Mode</spirit:displayName>
+        <spirit:value spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_SLAVE_MODE">CLASSIC</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>C_S_WB_ADR_WIDTH</spirit:name>
@@ -4615,16 +4615,13 @@
   </spirit:model>
   <spirit:choices>
     <spirit:choice>
-      <spirit:name>choice_list_66fc50c5</spirit:name>
-      <spirit:enumeration>AXI->Wishbone</spirit:enumeration>
-      <spirit:enumeration>Wishbone->AXI</spirit:enumeration>
-    </spirit:choice>
-    <spirit:choice>
       <spirit:name>choice_list_6fc15197</spirit:name>
       <spirit:enumeration>32</spirit:enumeration>
     </spirit:choice>
     <spirit:choice>
       <spirit:name>choice_list_71927780</spirit:name>
+	  <spirit:enumeration>AXI4</spirit:enumeration>
+      <spirit:enumeration>AXI4LITE</spirit:enumeration>
       <spirit:enumeration>CLASSIC</spirit:enumeration>
       <spirit:enumeration>PIPELINED</spirit:enumeration>
     </spirit:choice>
@@ -4657,8 +4654,10 @@
     </spirit:choice>
     <spirit:choice>
       <spirit:name>choice_list_d62f7aa8</spirit:name>
-      <spirit:enumeration>AXI4LITE</spirit:enumeration>
       <spirit:enumeration>AXI4</spirit:enumeration>
+      <spirit:enumeration>AXI4LITE</spirit:enumeration>
+	  <spirit:enumeration>CLASSIC</spirit:enumeration>
+      <spirit:enumeration>PIPELINED</spirit:enumeration>
     </spirit:choice>
     <spirit:choice>
       <spirit:name>choice_pairs_ce1226b1</spirit:name>
@@ -4697,7 +4696,26 @@
       <spirit:file>
         <spirit:name>hdl/general-cores/genrams/generic/inferred_sync_fifo.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_216a65c1</spirit:userFileType>
+        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/general-cores/wishbone/wishbone_pkg.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/general-cores/wishbone/wb_slave_adapter/wb_slave_adapter.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/helpers/wb_helpers_pkg.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/helpers/axi_helpers_pkg.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:logicalName>xil_defaultlib</spirit:logicalName>
       </spirit:file>
       <spirit:file>
@@ -4719,7 +4737,18 @@
       <spirit:file>
         <spirit:name>hdl/WishboneAXI_v0_1.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_1cc99424</spirit:userFileType>
+      </spirit:file>
+	  <spirit:file>
+        <spirit:name>hdl/WishboneAXI_v0_2_M_AX_MUX.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+      </spirit:file>
+	  <spirit:file>
+        <spirit:name>hdl/WishboneAXI_v0_2_S_AXI_MUX.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+      </spirit:file>
+	  <spirit:file>
+        <spirit:name>hdl/XwbXaxi.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -4761,6 +4790,26 @@
         <spirit:logicalName>xil_defaultlib</spirit:logicalName>
       </spirit:file>
       <spirit:file>
+        <spirit:name>hdl/general-cores/wishbone/wishbone_pkg.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/general-cores/wishbone/wb_slave_adapter/wb_slave_adapter.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/helpers/wb_helpers_pkg.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/helpers/axi_helpers_pkg.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:logicalName>xil_defaultlib</spirit:logicalName>
+      </spirit:file>
+      <spirit:file>
         <spirit:name>hdl/WishboneAXI_v0_1_S_AXI4_LITE.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
@@ -4784,6 +4833,21 @@
         <spirit:name>hdl/WishboneAXI_v0_1.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
+      </spirit:file>
+	  <spirit:file>
+        <spirit:name>hdl/WishboneAXI_v0_2_M_AX_MUX.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+		<spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
+      </spirit:file>
+	  <spirit:file>
+        <spirit:name>hdl/WishboneAXI_v0_2_S_AXI_MUX.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+		<spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
+      </spirit:file>
+	  <spirit:file>
+        <spirit:name>hdl/XwbXaxi.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+		<spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -5157,21 +5221,14 @@
       <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S_WB_ADR_WIDTH" spirit:minimum="0" spirit:maximum="32" spirit:rangeType="long">32</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
-      <spirit:name>C_AXI_MODE</spirit:name>
-      <spirit:displayName>AXI Mode</spirit:displayName>
-      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.C_AXI_MODE" spirit:choiceRef="choice_list_d62f7aa8">AXI4LITE</spirit:value>
-      <spirit:vendorExtensions>
-        <xilinx:parameterInfo>
-          <xilinx:enablement>
-            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_AXI_MODE">false</xilinx:isEnabled>
-          </xilinx:enablement>
-        </xilinx:parameterInfo>
-      </spirit:vendorExtensions>
+      <spirit:name>C_MASTER_MODE</spirit:name>
+      <spirit:displayName>C_MASTER_MODE</spirit:displayName>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.C_MASTER_MODE" spirit:choiceRef="choice_list_d62f7aa8">AXI4LITE</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
-      <spirit:name>C_WB_MODE</spirit:name>
-      <spirit:displayName>Wishbone mode</spirit:displayName>
-      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.C_WB_MODE" spirit:choiceRef="choice_list_71927780">CLASSIC</spirit:value>
+      <spirit:name>C_SLAVE_MODE</spirit:name>
+      <spirit:displayName>Slave mode</spirit:displayName>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.C_SLAVE_MODE" spirit:choiceRef="choice_list_71927780">CLASSIC</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>C_S_WB_DAT_WIDTH</spirit:name>
@@ -5198,18 +5255,6 @@
         <xilinx:parameterInfo>
           <xilinx:enablement>
             <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_S_AXI4_ID_WIDTH">false</xilinx:isEnabled>
-          </xilinx:enablement>
-        </xilinx:parameterInfo>
-      </spirit:vendorExtensions>
-    </spirit:parameter>
-    <spirit:parameter>
-      <spirit:name>BRIDGE_TYPE</spirit:name>
-      <spirit:displayName>Bridge Type</spirit:displayName>
-      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.BRIDGE_TYPE" spirit:choiceRef="choice_list_66fc50c5">AXI->Wishbone</spirit:value>
-      <spirit:vendorExtensions>
-        <xilinx:parameterInfo>
-          <xilinx:enablement>
-            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.BRIDGE_TYPE">false</xilinx:isEnabled>
           </xilinx:enablement>
         </xilinx:parameterInfo>
       </spirit:vendorExtensions>
@@ -5243,7 +5288,7 @@
       </xilinx:taxonomies>
       <xilinx:displayName>Wishbone AXI bridge</xilinx:displayName>
       <xilinx:vendorURL>https://github.com/qermit/WishboneAXI</xilinx:vendorURL>
-      <xilinx:coreRevision>5</xilinx:coreRevision>
+      <xilinx:coreRevision>7</xilinx:coreRevision>
       <xilinx:upgrades>
         <xilinx:canUpgradeFrom>gsi.de:user:WishboneAXI:0.1</xilinx:canUpgradeFrom>
       </xilinx:upgrades>
