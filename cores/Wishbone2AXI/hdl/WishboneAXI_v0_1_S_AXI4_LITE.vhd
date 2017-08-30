@@ -348,6 +348,7 @@ begin
   end process;
 
   --used to drive some specific signals which need to change state in the same clock cycle
+  -- TODO: this is just a quick fix, Wishbone PIPELINED need to be improved
   translate_comb : process(trans_state, s_axi_m2s.RREADY, axi_araddr_empty, m_wb_s2m.ack, m_wb_s2m.err, m_wb_s2m.rty)
   begin
     case trans_state is
@@ -359,7 +360,7 @@ begin
 
       when R_SEND =>
         axi_araddr_read <= '0';
-        if C_WB_MODE = CLASSIC then
+        if C_WB_MODE = CLASSIC or C_WB_MODE = PIPELINED then
           if (m_wb_s2m.ack or m_wb_s2m.err or m_wb_s2m.rty) = '1' then
             if axi_araddr_empty = '0' and s_axi_m2s.RREADY = '1' then  --start next read asap to support b2b reads
               axi_araddr_read <= '1';
@@ -368,7 +369,7 @@ begin
         end if;
       when R_RESP =>
         axi_araddr_read <= '0';
-        if C_WB_MODE = CLASSIC then
+        if C_WB_MODE = CLASSIC or C_WB_MODE = PIPELINED  then
           if s_axi_m2s.RREADY = '1' then
             if axi_araddr_empty = '0' then
               axi_araddr_read <= '1';
