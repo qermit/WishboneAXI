@@ -7,6 +7,7 @@
 --            : Adrian Byszuk <adrian.byszuk@gmail.com>
 -- Company    :
 -- Created    : 2017-01-10
+-- Last update: 2017-08-31
 -- License    : This is a PUBLIC DOMAIN code, published under
 --              Creative Commons CC0 license
 -- Platform   :
@@ -32,12 +33,7 @@
 -------------------------------------------------------------------------------
 -- Implementation details
 -------------------------------------------------------------------------------
--- In the AXI bus the read and write accesses may be handled independently
--- but in Wishbone they can't, therefore we must provide an arbitration scheme.
--- We assume "Write before read"
--- To ease bridging, converter uses internally Wishbone Pipelined mode with
--- BYTE address granularity as AXI always uses it.
--- wb_slave_adapters are used to interface with any wishbone module.
+--
 -------------------------------------------------------------------------------
 
 library IEEE;
@@ -244,6 +240,8 @@ GEN_AXI4LITE_2_WB: if f_str_is_wb(C_MASTER_MODE) and f_str_is_axi(C_SLAVE_MODE) 
   signal m_tmp_wb_s2m: t_wishbone_slave_out;
   signal m_tmp_wb_m2s: t_wishbone_master_out;
   constant tmp_local_wb_mode: t_wishbone_interface_mode := f_str_to_wb_type(C_MASTER_MODE);
+  -- internal axi 2 wishbone implemented as PIPELINED
+  constant tmp_intarnal_wb_mode: t_wishbone_interface_mode := PIPELINED;
 begin
 
 WishboneAXI_v0_2_S_AXI4_LITE_inst : WishboneAXI_v0_2_S_AXI4_LITE
@@ -252,7 +250,7 @@ WishboneAXI_v0_2_S_AXI4_LITE_inst : WishboneAXI_v0_2_S_AXI4_LITE
         C_S_AXI_ADDR_WIDTH => C_S_AXI4_LITE_ADDR_WIDTH,
         C_WB_ADR_WIDTH     => C_M_WB_ADR_WIDTH,
         C_WB_DAT_WIDTH     => C_M_WB_DAT_WIDTH,
-        C_WB_MODE          => PIPELINED
+        C_WB_MODE          => tmp_intarnal_wb_mode
         )
       port map (
         ACLK    => aclk,
@@ -272,7 +270,7 @@ WishboneAXI_v0_2_S_AXI4_LITE_inst : WishboneAXI_v0_2_S_AXI4_LITE
       g_master_mode        => tmp_local_wb_mode,
       g_master_granularity => f_str_to_wb_granularity(C_WB_ADDRESS_GRANULARITY),
       g_slave_use_struct   => true,
-      g_slave_mode         => PIPELINED,
+      g_slave_mode         => tmp_intarnal_wb_mode,
       g_slave_granularity  => BYTE
     )
     port map (
@@ -290,7 +288,9 @@ end generate;
 GEN_WB_2_AXI4LITE: if f_str_is_wb(C_SLAVE_MODE) and f_str_is_axi(C_MASTER_MODE) generate
   signal tmp_wb_s2m: t_wishbone_slave_out;
   signal tmp_wb_m2s: t_wishbone_master_out;
-  constant tmp_local_wb_mode: t_wishbone_interface_mode := f_str_to_wb_type(C_MASTER_MODE);
+  constant tmp_local_wb_mode: t_wishbone_interface_mode := f_str_to_wb_type(C_SLAVE_MODE);
+  -- wishbone 2 axi always pipelined
+  constant tmp_intarnal_wb_mode: t_wishbone_interface_mode := PIPELINED;
 begin
 
 WishboneAXI_v0_2_S_AXI4_LITE_inst : WishboneAXI_v0_2_M_AXI4_LITE
@@ -317,6 +317,7 @@ WishboneAXI_v0_2_S_AXI4_LITE_inst : WishboneAXI_v0_2_M_AXI4_LITE
       g_master_use_struct  => true,
       g_master_mode        => PIPELINED,
       g_master_granularity => BYTE,
+      
       g_slave_use_struct   => true,
       g_slave_mode         => tmp_local_wb_mode,
       g_slave_granularity  => f_str_to_wb_granularity(C_WB_ADDRESS_GRANULARITY)
