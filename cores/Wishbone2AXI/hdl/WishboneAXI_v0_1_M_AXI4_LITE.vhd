@@ -210,13 +210,18 @@ begin
   
   process(m_axi_s2m.rvalid, m_axi_s2m.rresp) is
   begin
-    if m_axi_s2m.rvalid = '1' and m_axi_s2m.rresp = "00" then
+    -- xRESP
+    --  0b00 OKAY (see OKAY, normal access success in AXI specification for more information)
+    --  0b01 EXOKAY
+    --  0b10 SLVERR
+    --  0b11 DECERR
+    if m_axi_s2m.rvalid = '1' and m_axi_s2m.rresp(1) = '0' then
       wb_r.ack <= '1';
     else     
       wb_r.ack <= '0';
     end if;
     
-    if m_axi_s2m.rvalid = '1' and m_axi_s2m.rresp = "10" then
+    if m_axi_s2m.rvalid = '1' and m_axi_s2m.rresp(1) = '1' then
       wb_r.err <= '1';
     else     
       wb_r.err <= '0';
@@ -230,13 +235,18 @@ begin
   wb_w.rty <= '0';
   process(m_axi_s2m.bvalid, m_axi_s2m.bresp) is
   begin
-    if m_axi_s2m.bvalid = '1' and m_axi_s2m.bresp = "00" then
+    -- xRESP
+    --  0b00 OKAY (see OKAY, normal access success in AXI specification for more information)
+    --  0b01 EXOKAY
+    --  0b10 SLVERR
+    --  0b11 DECERR
+    if m_axi_s2m.bvalid = '1' and m_axi_s2m.bresp(1) = '0' then
       wb_w.ack <= '1';
     else     
       wb_w.ack <= '0';
     end if;
     
-    if m_axi_s2m.bvalid = '1' and m_axi_s2m.bresp = "10" then
+    if m_axi_s2m.bvalid = '1' and m_axi_s2m.bresp(1) = '1' then
       wb_w.err <= '1';
     else     
       wb_w.err <= '0';
